@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "uni-stack-with-nativewind",
-    "slug": "uni-stack-with-nativewind",
-    "scheme": "com.uni.nativewind",
+    "name": "swardify",
+    "slug": "swardify",
+    "scheme": "swardify",
     "userInterfaceStyle": "automatic",
     "orientation": "portrait",
     "version": "0.0.1",

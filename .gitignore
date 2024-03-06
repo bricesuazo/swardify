@@ -13,3 +13,7 @@ web-build/
 # macOS
 .DS_Store
 .idea
+
+.env
+
+expo-env.d.ts
