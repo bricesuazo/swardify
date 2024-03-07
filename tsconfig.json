@@ -3,12 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
+    ".eslintrc.cjs",
     "global.d.ts",
     "**/*.ts",
     "**/*.tsx",

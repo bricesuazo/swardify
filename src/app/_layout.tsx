@@ -1,6 +1,6 @@
 import "../global.css";
 import { Slot } from "expo-router";
-import Providers from "@/providers";
+import Providers from "~/providers";
 
 export default function Layout() {
   return (

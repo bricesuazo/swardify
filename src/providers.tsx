@@ -1,4 +1,4 @@
-import { api } from "@/utils/trpc";
+import { api } from "~/utils/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import React, { useState } from "react";
@@ -13,7 +13,7 @@ function Providers({ children }: { children: React.ReactNode }) {
           url: `${process.env.EXPO_PUBLIC_APP_URL}/api/trpc`,
         }),
       ],
-    })
+    }),
   );
 
   return (
