@@ -33,13 +33,13 @@
     "react-native-safe-area-context": "4.9.0",
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
-    "tailwindcss": "^3.4.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
     "prisma": "^5.9.1",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.3.0"
   },
   "private": true

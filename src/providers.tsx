@@ -1,25 +1,25 @@
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import React, { useState } from "react";
-import { Button, ScrollView, Text, TextInput, View } from "react-native";
 
 function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
-    trpc.createClient({
+    api.createClient({
+      transformer: undefined,
       links: [
         httpBatchLink({
-          url: "http://localhost:8081/api/trpc",
+          url: `${process.env.EXPO_PUBLIC_APP_URL}/api/trpc`,
         }),
       ],
     })
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    </api.Provider>
   );
 }
 
