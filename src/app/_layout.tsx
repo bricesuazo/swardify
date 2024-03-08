@@ -1,11 +1,25 @@
-import "../global.css";
-import { Slot } from "expo-router";
-import Providers from "~/providers";
+import { Slot } from 'expo-router';
+import { AppState } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Providers from '~/providers';
+import { supabase } from '~/trpc/supabase';
 
-export default function Layout() {
+import '../global.css';
+
+AppState.addEventListener('change', (state) => {
+  if (state === 'active') {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
+
+export default function RootLayout() {
   return (
     <Providers>
-      <Slot />
+      <SafeAreaProvider>
+        <Slot />
+      </SafeAreaProvider>
     </Providers>
   );
 }
