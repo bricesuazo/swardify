@@ -7,7 +7,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "db:generate": "npx supabase gen types typescript --linked --schema public > src/types/supabase.ts"
+    "db:cli": "pnpm db:generate && pnpm db:dump",
+    "db:generate": "supabase gen types typescript --linked --schema public > src/types/supabase.ts",
+    "db:reset": "supabase db reset",
+    "db:dump": "pnpx supabase@beta db dump -f supabase/schema.sql",
+    "db:seed": "pnpx supabase@beta db dump --data-only -f supabase/seed.sql"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",

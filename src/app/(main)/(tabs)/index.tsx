@@ -5,7 +5,6 @@ import { Database } from '~/types/supabase';
 import { api } from '~/utils/trpc';
 
 export default function Home() {
-  const utils = api.useUtils();
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
   const firstPost = api.firstPost.useQuery();
 
@@ -35,15 +34,6 @@ export default function Home() {
         }}
       >
         <Text className="text-white">Revalidate</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className="rounded-lg bg-blue-500 p-4"
-        onPress={async () => {
-          await supabase.auth.signOut();
-          await utils.auth.isLoggedIn.refetch();
-        }}
-      >
-        <Text className="text-white">Logout</Text>
       </TouchableOpacity>
     </View>
   );

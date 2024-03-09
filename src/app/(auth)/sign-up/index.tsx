@@ -16,7 +16,7 @@ import {
 import { supabase } from '~/trpc/supabase';
 import { api } from '~/utils/trpc';
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const utils = api.useUtils();
   const ref_password = createRef<TextInput>();
   const [loadings, setLoadings] = useState({
@@ -33,7 +33,7 @@ export default function SignInPage() {
 
   async function onSubmit() {
     setLoadings({ ...loadings, email: true });
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
