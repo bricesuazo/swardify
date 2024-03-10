@@ -1,5 +1,6 @@
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { authRouter } from './auth';
+import { wordsRouter } from './words';
 
 export const appRouter = router({
   auth: authRouter,
@@ -7,6 +8,7 @@ export const appRouter = router({
     const users = await ctx.supabase.from('users').select();
     return users;
   }),
+  words: wordsRouter,
 });
 
 export type AppRouter = typeof appRouter;

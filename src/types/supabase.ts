@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       users: {
@@ -41,18 +41,24 @@ export type Database = {
       words: {
         Row: {
           created_at: string
-          id: number
-          word: string
+          id: string
+          swardspeak_words: string[]
+          translated_words: string[]
+          updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: number
-          word: string
+          id?: string
+          swardspeak_words: string[]
+          translated_words: string[]
+          updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: number
-          word?: string
+          id?: string
+          swardspeak_words?: string[]
+          translated_words?: string[]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -151,3 +157,4 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
   ? Database["public"]["Enums"][PublicEnumNameOrOptions]
   : never
+

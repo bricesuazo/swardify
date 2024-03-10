@@ -6,7 +6,7 @@ export default function TabLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
-        name="(stack)"
+        name="search"
         options={{
           title: 'Search',
           tabBarIcon: ({ color, size }) => (
