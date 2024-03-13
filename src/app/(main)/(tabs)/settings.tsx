@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from 'react-native-ui-lib';
 import { supabase } from '~/trpc/supabase';
 import { api } from '~/utils/trpc';
 
@@ -8,15 +8,13 @@ export default function SettingsPage() {
 
   return (
     <SafeAreaView>
-      <TouchableOpacity
-        className="rounded-lg bg-blue-500 p-4"
+      <Button
+        label="Logout"
         onPress={async () => {
           await supabase.auth.signOut();
           await utils.auth.isLoggedIn.refetch();
         }}
-      >
-        <Text className="text-white">Logout</Text>
-      </TouchableOpacity>
+      />
     </SafeAreaView>
   );
 }

@@ -20,7 +20,7 @@ export default function SearchPage() {
   const getAllWordsQuery = api.words.getAll.useQuery();
   const insets = useSafeAreaInsets();
   return (
-    <>
+    <SafeAreaView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="p-5 gap-y-8"
@@ -31,7 +31,11 @@ export default function SearchPage() {
             className="p-5 border-2 rounded-full border-primary text-lg"
           />
         </View>
-
+        <Button
+          label={getAllWordsQuery.isRefetching ? 'Refreshing...' : 'Refresh'}
+          onPress={() => getAllWordsQuery.refetch()}
+          disabled={getAllWordsQuery.isRefetching}
+        />
         {getAllWordsQuery.isLoading || !getAllWordsQuery.data ? (
           <ActivityIndicator />
         ) : (
@@ -39,12 +43,12 @@ export default function SearchPage() {
             <View className="gap-y-2" style={{ paddingBottom: insets.bottom }}>
               {getAllWordsQuery.data.map((word) => (
                 <Link key={word.id} href={`/(main)/${word.id}`} asChild>
-                  <Pressable className="px-5 py-8 bg-primary rounded-xl">
+                  <Pressable className="px-5 py-6 bg-primary rounded-xl">
                     <Text className="text-white text-lg">
                       {word.swardspeak_words.join(' - ')}
                     </Text>
-                    <Text className="text-white text-lg">
-                      {word.tagalog_words.join(' - ')}
+                    <Text className="text-muted">
+                      {word.translated_words.join(' - ')}
                     </Text>
                   </Pressable>
                 </Link>
@@ -52,12 +56,7 @@ export default function SearchPage() {
             </View>
           </ScrollView>
         )}
-        <Button
-          label={getAllWordsQuery.isRefetching ? 'Refreshing...' : 'Refresh'}
-          onPress={() => getAllWordsQuery.refetch()}
-          disabled={getAllWordsQuery.isRefetching}
-        />
       </KeyboardAvoidingView>
-    </>
+    </SafeAreaView>
   );
 }

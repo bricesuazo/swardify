@@ -129,7 +129,7 @@ export default function AuthPage() {
             value={password}
             onChangeText={setPassword}
             enableErrors
-            validate={['required', (value) => value.length > 8]}
+            validate={['required', (value) => value.length > 6]}
             validationMessage={[
               'Password is required',
               'Password is too short',
