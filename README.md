@@ -1,6 +1,20 @@
+## Installation
+
+```bash
+copy .env.example .env
+
+pnpm install
+
+pnpm start
+```
+
+## Migration
+
 ```bash
 # Changes from local to remote
-supabase db diff -f <title_or_description>
+pnpm db:diff <title_or_description>
+
+pnpm db:cli
 
 supabase db push
 ```

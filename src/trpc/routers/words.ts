@@ -4,20 +4,40 @@ import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 
 export const wordsRouter = router({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const { data: words, error: words_error } = await ctx.supabase
-      .from('words')
-      .select()
-      .order('created_at', { ascending: true });
+  getAll: publicProcedure
+    .input(
+      z.object({
+        search_word: z.string().optional(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { data: words, error: words_error } = await ctx.supabase
+        .from('words')
+        .select()
+        .order('created_at', { ascending: true });
 
-    if (words_error)
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: words_error.message,
-      });
+      if (words_error)
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: words_error.message,
+        });
 
-    return words;
-  }),
+      return words.filter((word) =>
+        input.search_word
+          ? word.swardspeak_words.find(
+              (swardspeak_word) =>
+                swardspeak_word
+                  .toLowerCase()
+                  .includes(input.search_word!.toLowerCase()) ||
+                word.translated_words.find((translated_word) =>
+                  translated_word
+                    .toLowerCase()
+                    .includes(input.search_word!.toLowerCase()),
+                ),
+            )
+          : true,
+      );
+    }),
   get: publicProcedure
     .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input, ctx }) => {

@@ -1,6 +1,7 @@
 import { Slot } from 'expo-router';
 import { AppState } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Colors } from 'react-native-ui-lib';
 import Providers from '~/providers';
 import { supabase } from '~/trpc/supabase';
 
@@ -13,6 +14,8 @@ AppState.addEventListener('change', (state) => {
     supabase.auth.stopAutoRefresh();
   }
 });
+
+Colors.loadDesignTokens({ primaryColor: '#D300CB' });
 
 export default function RootLayout() {
   return (

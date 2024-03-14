@@ -1,10 +1,16 @@
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { Colors } from 'react-native-ui-lib';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors.$iconPrimary,
+      }}
+    >
       <Tabs.Screen
         name="search"
         options={{

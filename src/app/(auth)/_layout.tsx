@@ -1,7 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Redirect, Stack } from 'expo-router';
-import { ActivityIndicator, StatusBar, Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LoaderScreen } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
 export default function AuthLayout() {
@@ -9,7 +10,7 @@ export default function AuthLayout() {
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
 
   if (isLoggedInQuery.isLoading || isLoggedInQuery.data === undefined)
-    return <ActivityIndicator />;
+    return <LoaderScreen />;
 
   if (isLoggedInQuery.data) return <Redirect href="/(main)/(tabs)/" />;
 
