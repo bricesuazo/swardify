@@ -21,6 +21,20 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://n"
+      },
+      "eas": {
+        "projectId": "ea7d1bbc-f1d8-4595-bb54-d7fb618bb5c2"
+      }
+    },
+    "android": {
+      "package": "com.bricesuazo.swardify"
+    },
+    "ios": {
+      "bundleIdentifier": "com.bricesuazo.swardify"
     }
   }
 }
