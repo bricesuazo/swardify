@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
   ScrollView,
   TextInput,
 } from 'react-native';
@@ -18,13 +19,15 @@ export default function SearchPage() {
   const [search_word, setSearchWord] = useState('');
   const getAllWordsQuery = api.words.getAll.useQuery({ search_word });
   const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="p-5 gap-y-8"
+        className="gap-y-8"
+        style={{ flex: 1 }}
       >
-        <View>
+        <View paddingH-20>
           <TextInput
             placeholder="Search word"
             style={{
@@ -42,8 +45,21 @@ export default function SearchPage() {
         {getAllWordsQuery.isLoading || !getAllWordsQuery.data ? (
           <ActivityIndicator />
         ) : (
-          <ScrollView keyboardDismissMode="interactive">
-            <View className="gap-y-2" style={{ paddingBottom: insets.bottom }}>
+          <ScrollView
+            keyboardDismissMode="interactive"
+            refreshControl={
+              <RefreshControl
+                refreshing={getAllWordsQuery.isRefetching}
+                onRefresh={() => getAllWordsQuery.refetch()}
+              />
+            }
+            style={{ flex: 1 }}
+          >
+            <View
+              paddingH-20
+              className="gap-y-2"
+              style={{ paddingBottom: insets.bottom }}
+            >
               {getAllWordsQuery.data.length === 0 ? (
                 <Text center>No words found</Text>
               ) : (

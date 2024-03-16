@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Redirect, Stack } from 'expo-router';
-import { StatusBar, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LoaderScreen } from 'react-native-ui-lib';
+import { LoaderScreen, Text, View } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
 export default function AuthLayout() {
@@ -19,12 +19,20 @@ export default function AuthLayout() {
       <StatusBar animated barStyle="light-content" />
       <>
         <View
-          className="bg-primary items-center rounded-b-3xl p-10"
-          style={{ paddingTop: insets.top + 40 }}
+          bg-$iconPrimary
+          padding-40
+          center
+          style={{
+            paddingTop: insets.top + 40,
+            borderBottomStartRadius: 24,
+            borderBottomEndRadius: 24,
+          }}
         >
           <MaterialIcons name="translate" size={60} color="white" />
-          <Text className="text-2xl font-semibold text-white">SWARDify</Text>
-          <Text className="text-center text-muted text-balance">
+          <Text className="font-semibold" white text50>
+            SWARDify
+          </Text>
+          <Text className="text-balance" white>
             A Bidirectional Swardspeak and Tagalog Translator
           </Text>
         </View>

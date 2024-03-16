@@ -1,7 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { Colors } from 'react-native-ui-lib';
+import { Colors, View } from 'react-native-ui-lib';
 
 export default function TabLayout() {
   return (
