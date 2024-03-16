@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, Text, View } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
@@ -18,7 +18,7 @@ export default function WordPage() {
     <>
       <Button
         style={{
-          zIndex: 1,
+          zIndex: 2,
           position: 'absolute',
           top: insets.top + 8,
           left: 12,
@@ -46,9 +46,16 @@ export default function WordPage() {
         </Text>
       </View>
 
-      <ScrollView>
-        <View style={{ padding: 20 }}>
-          <Text text70BO>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={getWordQuery.isRefetching}
+            onRefresh={() => getWordQuery.refetch()}
+          />
+        }
+      >
+        <View padding-20>
+          <Text text70>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. At dolorum
             alias nesciunt. Accusamus blanditiis vitae laborum nisi unde iure
             dolores fugit, veritatis voluptas delectus excepturi quis alias

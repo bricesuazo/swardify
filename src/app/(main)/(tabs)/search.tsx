@@ -13,11 +13,18 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib';
+import { useDebounceValue } from '~/lib/useDebounceValue';
 import { api } from '~/utils/trpc';
 
 export default function SearchPage() {
   const [search_word, setSearchWord] = useState('');
-  const getAllWordsQuery = api.words.getAll.useQuery({ search_word });
+  const [debouncedValue, setDebouncedValue] = useDebounceValue(
+    search_word,
+    500,
+  );
+  const getAllWordsQuery = api.words.getAll.useQuery({
+    search_word: debouncedValue,
+  });
   const insets = useSafeAreaInsets();
 
   return (
@@ -37,7 +44,11 @@ export default function SearchPage() {
               borderRadius: 999,
               fontSize: 16,
             }}
-            onChangeText={setSearchWord}
+            placeholderTextColor={Colors.$iconPrimaryLight}
+            onChangeText={(text) => {
+              setSearchWord(text);
+              setDebouncedValue(text);
+            }}
             value={search_word}
           />
         </View>
