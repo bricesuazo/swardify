@@ -1,4 +1,5 @@
-import { Redirect, Stack } from 'expo-router';
+import { Redirect } from 'expo-router';
+import { Stack } from 'expo-router';
 import { LoaderScreen } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
@@ -10,5 +11,14 @@ export default function MainLayout() {
 
   if (!isLoggedInQuery.data) return <Redirect href="/(auth)/auth" />;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="info"
+        options={{
+          presentation: 'modal',
+        }}
+      />
+    </Stack>
+  );
 }

@@ -4,6 +4,7 @@ import { AppState, StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Colors } from 'react-native-ui-lib';
 import Providers from '~/providers';
+import { useStore } from '~/store';
 import { supabase } from '~/trpc/supabase';
 
 import '../global.css';
@@ -21,6 +22,8 @@ Colors.loadDesignTokens({ primaryColor: '#D300CB' });
 export default function RootLayout() {
   const pathname = usePathname();
   const segments = useSegments();
+  const setTopbarStyle = useStore((state) => state.setTopbarStyle);
+
   useEffect(() => {
     if (
       pathname === '/' ||
@@ -28,8 +31,10 @@ export default function RootLayout() {
       segments.find((segment) => segment === '[word_id]')
     ) {
       StatusBar.setBarStyle('light-content');
+      setTopbarStyle('light');
     } else {
       StatusBar.setBarStyle('dark-content');
+      setTopbarStyle('dark');
     }
   }, [pathname]);
   return (

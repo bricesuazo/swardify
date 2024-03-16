@@ -14,14 +14,14 @@ export const authRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      // await ctx.user.
-      // const { data, error } = await ctx.supabase.auth.updateUser({
-      //   password: input.new_password,
-      // });
-      // if (error)
-      //   throw new TRPCError({
-      //     code: 'INTERNAL_SERVER_ERROR',
-      //     message: error.message,
-      //   });
+      const { data, error } = await ctx.supabase.auth.updateUser({
+        password: input.new_password,
+      });
+
+      if (error)
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: error.message,
+        });
     }),
 });

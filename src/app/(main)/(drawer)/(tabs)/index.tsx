@@ -25,7 +25,7 @@ export default function Home() {
     <View flex-1>
       <View
         bg-$iconPrimary
-        style={{ position: 'relative', paddingTop: inset.top }}
+        style={{ position: 'relative', paddingTop: inset.top + 20 }}
       >
         <View paddingH-20 paddingV-40>
           <View
@@ -90,7 +90,7 @@ export default function Home() {
             borderColor: Colors.$iconPrimary,
             top: '50%',
             left: '50%',
-            transform: [{ translateX: -28 }, { translateY: 16 }],
+            transform: [{ translateX: -24 }, { translateY: 32 }],
           }}
         />
       </View>
