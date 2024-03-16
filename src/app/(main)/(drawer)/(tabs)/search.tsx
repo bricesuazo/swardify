@@ -75,7 +75,9 @@ export default function SearchPage() {
               style={{ paddingBottom: insets.bottom }}
             >
               {getAllWordsQuery.data.length === 0 ? (
-                <Text center>No words found</Text>
+                <Text center style={{ fontFamily: 'Jua-Regular' }}>
+                  No words found
+                </Text>
               ) : (
                 getAllWordsQuery.data.map((word) => (
                   <Link key={word.id} href={`/(main)/${word.id}`} asChild>
@@ -86,11 +88,20 @@ export default function SearchPage() {
                       paddingV-24
                       br40
                     >
-                      <Text $textDefaultLight text70>
-                        {word.swardspeak_words.join(' - ')}
+                      <Text
+                        $textDefaultLight
+                        text50L
+                        style={{ fontFamily: 'Jua-Regular' }}
+                      >
+                        {word.swardspeak_words.join(' / ')}
                       </Text>
-                      <Text $textDefaultLight text>
-                        {word.translated_words.join(' - ')}
+                      <Text
+                        $textDefaultLight
+                        text
+                        text60L
+                        style={{ fontFamily: 'Jua-Regular' }}
+                      >
+                        {word.translated_words.join(' / ')}
                       </Text>
                     </TouchableOpacity>
                   </Link>

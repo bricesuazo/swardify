@@ -2,7 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, Colors, Text, TextField, View } from 'react-native-ui-lib';
+import {
+  Button,
+  Colors,
+  Dash,
+  Text,
+  TextField,
+  View,
+} from 'react-native-ui-lib';
 import { useInterval } from '~/lib/useInterval';
 import { api } from '~/utils/trpc';
 
@@ -33,7 +40,9 @@ export default function Home() {
             style={{ borderColor: 'white', borderWidth: 2, overflow: 'hidden' }}
           >
             <View paddingH-16 paddingV-20>
-              <Text white>Swardspeak</Text>
+              <Text white style={{ fontFamily: 'Jua-Regular' }}>
+                Swardspeak
+              </Text>
               <TextField
                 white
                 text50
@@ -50,13 +59,13 @@ export default function Home() {
               bg-white
               style={{ position: 'relative' }}
             >
-              <Text>Tagalog</Text>
+              <Text style={{ fontFamily: 'Jua-Regular' }}>Tagalog</Text>
 
               <TextField
                 text50
                 readOnly
                 placeholder="Tagalog translation"
-                placeholderTextColor={Colors.$iconPrimaryLight}
+                placeholderTextColor={Colors.$iconDisabled}
                 fieldStyle={{ height: 60 }}
                 value={tagalog}
                 onChangeText={setTagalog}
@@ -90,7 +99,7 @@ export default function Home() {
             borderColor: Colors.$iconPrimary,
             top: '50%',
             left: '50%',
-            transform: [{ translateX: -24 }, { translateY: 32 }],
+            transform: [{ translateX: -24 }, { translateY: 40 }],
           }}
         />
       </View>
@@ -105,9 +114,31 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
       >
         <View padding-20>
-          <Text center text60 $textNeutralHeavy marginB-20>
+          <Text
+            center
+            text60L
+            $textNeutralHeavy
+            marginB-20
+            style={{ fontFamily: 'Jua-Regular' }}
+          >
             History
           </Text>
+
+          <View
+            marginB-16
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              // backgroundColor: 'red',
+            }}
+          >
+            <Text text70L style={{ fontFamily: 'Jua-Regular' }}>
+              Swardspeak
+            </Text>
+            <Text text70L style={{ fontFamily: 'Jua-Regular' }}>
+              Tagalog
+            </Text>
+          </View>
 
           {getAllTranslationHistoriesQuery.isLoading ||
           !getAllTranslationHistoriesQuery.data ? (
@@ -125,12 +156,24 @@ export default function Home() {
                 br40
                 marginB-12
                 style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                   borderWidth: 2,
+                  columnGap: 8,
                   borderColor: Colors.$textNeutralLight,
                 }}
               >
-                <Text text70>{translationHistory.swardspeak}</Text>
-                <Text text>{translationHistory.tagalog}</Text>
+                <Text text60L flex-1 style={{ fontFamily: 'Jua-Regular' }}>
+                  {translationHistory.swardspeak}
+                </Text>
+                <Dash vertical length={40} />
+                <Text
+                  text60L
+                  flex-1
+                  style={{ textAlign: 'right', fontFamily: 'Jua-Regular' }}
+                >
+                  {translationHistory.tagalog}
+                </Text>
               </View>
             ))
           )}

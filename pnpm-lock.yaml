@@ -53,6 +53,9 @@ dependencies:
   expo-constants:
     specifier: ~15.4.2
     version: 15.4.5(expo@50.0.11)
+  expo-font:
+    specifier: ~11.10.3
+    version: 11.10.3(expo@50.0.11)
   expo-linking:
     specifier: ~6.2.1
     version: 6.2.2(expo@50.0.11)

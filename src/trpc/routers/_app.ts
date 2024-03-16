@@ -1,4 +1,4 @@
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { router } from '../trpc';
 import { authRouter } from './auth';
 import { wordsRouter } from './words';
 

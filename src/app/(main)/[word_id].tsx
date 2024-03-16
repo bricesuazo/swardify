@@ -1,18 +1,24 @@
 import { Feather } from '@expo/vector-icons';
-import { router, useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
+import { router, useGlobalSearchParams } from 'expo-router';
+import { RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, Text, View } from 'react-native-ui-lib';
+import { Button, LoaderScreen, Text, View } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
 export default function WordPage() {
   const insets = useSafeAreaInsets();
-  const { word_id } = useLocalSearchParams();
+  const { word_id } = useGlobalSearchParams();
 
-  const getWordQuery = api.words.get.useQuery({ id: word_id!.toString() });
+  const getWordQuery = api.words.get.useQuery(
+    { id: word_id?.toString() || '' },
+    {
+      queryKey: ['words.get', { id: word_id?.toString() || '' }],
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  if (getWordQuery.isLoading || !getWordQuery.data)
-    return <ActivityIndicator />;
+  if (getWordQuery.isLoading || !getWordQuery.data) return <LoaderScreen />;
 
   return (
     <>
@@ -38,10 +44,10 @@ export default function WordPage() {
         bg-$textPrimary
         style={{ paddingTop: insets.top + 60, paddingBottom: 40 }}
       >
-        <Text white text50 center>
+        <Text white text40L center style={{ fontFamily: 'Jua-Regular' }}>
           {getWordQuery.data.swardspeak_words.join(' / ')}
         </Text>
-        <Text white text70 center>
+        <Text white text60L center style={{ fontFamily: 'Jua-Regular' }}>
           {getWordQuery.data.translated_words.join(' / ')}
         </Text>
       </View>

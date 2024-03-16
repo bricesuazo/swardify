@@ -1,3 +1,4 @@
+import { useFonts } from 'expo-font';
 import { Slot, usePathname, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { AppState, StatusBar } from 'react-native';
@@ -24,19 +25,24 @@ export default function RootLayout() {
   const segments = useSegments();
   const setTopbarStyle = useStore((state) => state.setTopbarStyle);
 
+  useFonts({
+    'Jua-Regular': require('../../assets/fonts/Jua-Regular.ttf'),
+  });
+
   useEffect(() => {
     if (
       pathname === '/' ||
       pathname === '/auth' ||
       segments.find((segment) => segment === '[word_id]')
     ) {
-      StatusBar.setBarStyle('light-content');
+      StatusBar.setBarStyle('light-content', true);
       setTopbarStyle('light');
     } else {
-      StatusBar.setBarStyle('dark-content');
+      StatusBar.setBarStyle('dark-content', true);
       setTopbarStyle('dark');
     }
-  }, [pathname]);
+  }, [pathname, segments]);
+
   return (
     <Providers>
       <SafeAreaProvider>
