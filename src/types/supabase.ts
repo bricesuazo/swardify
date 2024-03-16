@@ -9,6 +9,38 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      translation_histories: {
+        Row: {
+          created_at: string
+          id: string
+          swardspeak: string | null
+          tagalog: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          swardspeak?: string | null
+          tagalog?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          swardspeak?: string | null
+          tagalog?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "translation_histories_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -30,9 +62,9 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "public_users_id_fkey"
+            foreignKeyName: "users_id_fkey"
             columns: ["id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { publicProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const wordsRouter = router({
   getAll: publicProcedure
@@ -56,4 +56,19 @@ export const wordsRouter = router({
 
       return word;
     }),
+  getAllTranslationHistories: protectedProcedure.query(async ({ ctx }) => {
+    const { data: translation_histories, error: translation_histories_error } =
+      await ctx.supabase
+        .from('translation_histories')
+        .select()
+        .eq('user_id', ctx.user.id);
+
+    if (translation_histories_error)
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: translation_histories_error.message,
+      });
+
+    return translation_histories;
+  }),
 });

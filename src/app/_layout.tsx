@@ -24,6 +24,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (
       pathname === '/' ||
+      pathname === '/auth' ||
       segments.find((segment) => segment === '[word_id]')
     ) {
       StatusBar.setBarStyle('light-content');

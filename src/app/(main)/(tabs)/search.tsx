@@ -18,6 +18,7 @@ import { api } from '~/utils/trpc';
 
 export default function SearchPage() {
   const [search_word, setSearchWord] = useState('');
+
   const [debouncedValue, setDebouncedValue] = useDebounceValue(
     search_word,
     500,
@@ -65,6 +66,8 @@ export default function SearchPage() {
               />
             }
             style={{ flex: 1 }}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           >
             <View
               paddingH-20

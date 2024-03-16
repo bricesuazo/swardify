@@ -1,10 +1,25 @@
 import { Ionicons } from '@expo/vector-icons';
-import { RefreshControl, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, Colors, Text, TextField, View } from 'react-native-ui-lib';
+import { useInterval } from '~/lib/useInterval';
+import { api } from '~/utils/trpc';
 
 export default function Home() {
   const inset = useSafeAreaInsets();
+  const [copied, setCopied] = useState(false);
+  const [tagalog, setTagalog] = useState('');
+  const [swardspeak, setSwardspeak] = useState('');
+  const getAllTranslationHistoriesQuery =
+    api.words.getAllTranslationHistories.useQuery();
+
+  useInterval(
+    () => {
+      setCopied(false);
+    },
+    copied ? 2000 : null,
+  );
 
   return (
     <View flex-1>
@@ -24,7 +39,9 @@ export default function Home() {
                 text50
                 placeholder="Type swardspeak sentence"
                 placeholderTextColor={Colors.$iconPrimaryLight}
-                fieldStyle={{ paddingVertical: 16 }}
+                fieldStyle={{ height: 60 }}
+                value={swardspeak}
+                onChangeText={setSwardspeak}
               />
             </View>
             <View
@@ -40,12 +57,16 @@ export default function Home() {
                 readOnly
                 placeholder="Tagalog translation"
                 placeholderTextColor={Colors.$iconPrimaryLight}
-                fieldStyle={{ paddingVertical: 16 }}
+                fieldStyle={{ height: 60 }}
+                value={tagalog}
+                onChangeText={setTagalog}
               />
 
               <Button
-                label="Copy"
+                label={copied ? 'Copied!' : 'Copy'}
+                onPress={() => setCopied(true)}
                 size={Button.sizes.xSmall}
+                disabled={copied}
                 style={{ position: 'absolute', top: 16, right: 12 }}
               />
             </View>
@@ -75,13 +96,44 @@ export default function Home() {
       </View>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={false} onRefresh={() => {}} />
+          <RefreshControl
+            refreshing={getAllTranslationHistoriesQuery.isRefetching}
+            onRefresh={getAllTranslationHistoriesQuery.refetch}
+          />
         }
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         <View padding-20>
-          <Text center text60>
+          <Text center text60 $textNeutralHeavy marginB-20>
             History
           </Text>
+
+          {getAllTranslationHistoriesQuery.isLoading ||
+          !getAllTranslationHistoriesQuery.data ? (
+            <View center>
+              <ActivityIndicator />
+            </View>
+          ) : getAllTranslationHistoriesQuery.data.length === 0 ? (
+            <Text center>No translation history found</Text>
+          ) : (
+            getAllTranslationHistoriesQuery.data.map((translationHistory) => (
+              <View
+                key={translationHistory.id}
+                paddingH-20
+                paddingV-24
+                br40
+                marginB-12
+                style={{
+                  borderWidth: 2,
+                  borderColor: Colors.$textNeutralLight,
+                }}
+              >
+                <Text text70>{translationHistory.swardspeak}</Text>
+                <Text text>{translationHistory.tagalog}</Text>
+              </View>
+            ))
+          )}
         </View>
       </ScrollView>
     </View>

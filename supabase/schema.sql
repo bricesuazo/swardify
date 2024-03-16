@@ -49,6 +49,16 @@ SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
 
+CREATE TABLE IF NOT EXISTS "public"."translation_histories" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "user_id" "uuid" NOT NULL,
+    "tagalog" "text",
+    "swardspeak" "text"
+);
+
+ALTER TABLE "public"."translation_histories" OWNER TO "postgres";
+
 CREATE TABLE IF NOT EXISTS "public"."users" (
     "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -68,17 +78,27 @@ CREATE TABLE IF NOT EXISTS "public"."words" (
 
 ALTER TABLE "public"."words" OWNER TO "postgres";
 
+ALTER TABLE ONLY "public"."translation_histories"
+    ADD CONSTRAINT "translation_history_pkey" PRIMARY KEY ("id");
+
 ALTER TABLE ONLY "public"."users"
     ADD CONSTRAINT "users_email_key" UNIQUE ("email");
 
 ALTER TABLE ONLY "public"."users"
-    ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id", "email");
+    ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE ONLY "public"."words"
     ADD CONSTRAINT "words_pkey" PRIMARY KEY ("id");
 
+CREATE INDEX "users_email_idx" ON "public"."users" USING "btree" ("email");
+
+ALTER TABLE ONLY "public"."translation_histories"
+    ADD CONSTRAINT "translation_histories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE ONLY "public"."users"
-    ADD CONSTRAINT "public_users_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT "users_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "public"."translation_histories" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."users" ENABLE ROW LEVEL SECURITY;
 
@@ -92,6 +112,10 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+
+GRANT ALL ON TABLE "public"."translation_histories" TO "anon";
+GRANT ALL ON TABLE "public"."translation_histories" TO "authenticated";
+GRANT ALL ON TABLE "public"."translation_histories" TO "service_role";
 
 GRANT ALL ON TABLE "public"."users" TO "anon";
 GRANT ALL ON TABLE "public"."users" TO "authenticated";

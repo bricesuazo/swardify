@@ -53,6 +53,8 @@ export default function WordPage() {
             onRefresh={() => getWordQuery.refetch()}
           />
         }
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         <View padding-20>
           <Text text70>
