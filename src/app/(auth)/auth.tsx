@@ -62,7 +62,12 @@ export default function AuthPage() {
         return Alert.alert('An error occurred');
       }
 
-      router.push(`/(auth)/verify/${data.user.email}`);
+      // data.session?.access_token is working or data.session
+      if (!data.session) {
+        router.push(`/(auth)/verify/${data.user.email}`);
+      } else {
+        await utils.auth.isLoggedIn.refetch();
+      }
     }
     setLoadings({ ...loadings, email: false });
   }

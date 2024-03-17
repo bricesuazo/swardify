@@ -82,7 +82,7 @@ export default function TabLayout() {
             size={32}
             color={topbarStyle === 'light' ? 'white' : Colors.$iconPrimary}
           />
-          <Link href="/(main)/info" asChild>
+          <Link href="/(main)/info" asChild push>
             <Button
               iconSource={() => (
                 <Feather

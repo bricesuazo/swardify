@@ -1,7 +1,7 @@
 import { useFonts } from 'expo-font';
 import { Slot, usePathname, useSegments } from 'expo-router';
 import { useEffect } from 'react';
-import { AppState, StatusBar } from 'react-native';
+import { AppState, Platform, StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Colors } from 'react-native-ui-lib';
 import Providers from '~/providers';
@@ -30,6 +30,22 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    const theme = Colors.getScheme();
+
+    if (pathname === '/info') {
+      if (Platform.OS === 'ios') {
+        StatusBar.setBarStyle('light-content', true);
+        return;
+      }
+
+      if (theme === 'dark') {
+        StatusBar.setBarStyle('light-content', true);
+      } else {
+        StatusBar.setBarStyle('dark-content', true);
+      }
+      return;
+    }
+
     if (
       pathname === '/' ||
       pathname === '/auth' ||

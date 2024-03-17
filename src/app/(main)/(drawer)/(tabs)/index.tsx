@@ -149,34 +149,41 @@ export default function Home() {
           ) : getAllTranslationHistoriesQuery.data.length === 0 ? (
             <Text center>No translation history found</Text>
           ) : (
-            getAllTranslationHistoriesQuery.data.map((translationHistory) => (
-              <View
-                key={translationHistory.id}
-                paddingH-20
-                paddingV-24
-                br40
-                marginB-12
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  borderWidth: 2,
-                  columnGap: 8,
-                  borderColor: Colors.$textNeutralLight,
-                }}
-              >
-                <Text text60L flex-1 style={{ fontFamily: 'Jua-Regular' }}>
-                  {translationHistory.swardspeak}
-                </Text>
-                <Dash vertical length={40} />
-                <Text
-                  text60L
-                  flex-1
-                  style={{ textAlign: 'right', fontFamily: 'Jua-Regular' }}
-                >
-                  {translationHistory.tagalog}
-                </Text>
-              </View>
-            ))
+            <View flex-1>
+              {getAllTranslationHistoriesQuery.data.map(
+                (translationHistory) => (
+                  <View
+                    key={translationHistory.id}
+                    paddingH-20
+                    paddingV-24
+                    br40
+                    marginB-12
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      borderWidth: 2,
+                      columnGap: 8,
+                      borderColor: Colors.$textNeutralLight,
+                    }}
+                  >
+                    <Text text60L flex-1 style={{ fontFamily: 'Jua-Regular' }}>
+                      {translationHistory.swardspeak}
+                    </Text>
+                    <Dash vertical length={40} />
+                    <Text
+                      text60L
+                      flex-1
+                      style={{
+                        textAlign: 'right',
+                        fontFamily: 'Jua-Regular',
+                      }}
+                    >
+                      {translationHistory.tagalog}
+                    </Text>
+                  </View>
+                ),
+              )}
+            </View>
           )}
         </View>
       </ScrollView>
