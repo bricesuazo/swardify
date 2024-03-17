@@ -1,4 +1,5 @@
 import { AntDesign } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { cssInterop } from 'nativewind';
 import { createRef, useState } from 'react';
 import {
@@ -13,6 +14,7 @@ import { supabase } from '~/trpc/supabase';
 import { api } from '~/utils/trpc';
 
 export default function AuthPage() {
+  const router = useRouter();
   const utils = api.useUtils();
   const [type, setType] = useState<'sign-in' | 'sign-up'>('sign-up');
   const ref_password = createRef<TextFieldRef>();
@@ -34,8 +36,8 @@ export default function AuthPage() {
     setLoadings({ ...loadings, email: true });
     if (type === 'sign-in') {
       const { error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
       if (error) {
@@ -49,16 +51,18 @@ export default function AuthPage() {
         return Alert.alert('Passwords do not match');
       }
 
-      const { error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
+      const { data, error } = await supabase.auth.signUp({ email, password });
 
       if (error) {
         setLoadings({ ...loadings, email: false });
         return Alert.alert(error.message);
       }
-      await utils.auth.isLoggedIn.refetch();
+      if (!data.user?.email) {
+        setLoadings({ ...loadings, email: false });
+        return Alert.alert('An error occurred');
+      }
+
+      router.push(`/(auth)/verify/${data.user.email}`);
     }
     setLoadings({ ...loadings, email: false });
   }
@@ -69,7 +73,7 @@ export default function AuthPage() {
       className="flex-1"
     >
       <ScrollView className="flex-1" keyboardDismissMode="interactive">
-        <View className="p-5">
+        <View padding-20>
           <Button
             iconSource={() =>
               loadings.google ? (
@@ -107,11 +111,10 @@ export default function AuthPage() {
             value={email}
             onChangeText={setEmail}
             enableErrors
-            validate={['required', 'email', (value) => value.length > 6]}
+            validate={['required', 'email']}
             validationMessage={[
               'Email address is required',
               'Email is invalid',
-              'Password is too short',
             ]}
             validateOnBlur
             validateOnChange
@@ -129,7 +132,7 @@ export default function AuthPage() {
             value={password}
             onChangeText={setPassword}
             enableErrors
-            validate={['required', (value) => value.length > 6]}
+            validate={['required', (value) => value.length >= 6]}
             validationMessage={[
               'Password is required',
               'Password is too short',
@@ -160,7 +163,7 @@ export default function AuthPage() {
               enableErrors
               validate={[
                 'required',
-                (value) => value.length > 8,
+                (value) => value.length >= 6,
                 (value) => value === password,
               ]}
               validationMessage={[

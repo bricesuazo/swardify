@@ -104,6 +104,7 @@ export default function Home() {
         />
       </View>
       <ScrollView
+        keyboardDismissMode="interactive"
         refreshControl={
           <RefreshControl
             refreshing={getAllTranslationHistoriesQuery.isRefetching}

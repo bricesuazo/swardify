@@ -33,7 +33,9 @@ export default function RootLayout() {
     if (
       pathname === '/' ||
       pathname === '/auth' ||
-      segments.find((segment) => segment === '[word_id]')
+      segments.find(
+        (segment) => segment === '[word_id]' || segment === '[email]',
+      )
     ) {
       StatusBar.setBarStyle('light-content', true);
       setTopbarStyle('light');

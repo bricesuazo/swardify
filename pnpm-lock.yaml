@@ -92,6 +92,9 @@ dependencies:
   react-native-get-random-values:
     specifier: ^1.11.0
     version: 1.11.0(react-native@0.73.5)
+  react-native-otp-entry:
+    specifier: ^1.5.0
+    version: 1.5.0
   react-native-reanimated:
     specifier: ~3.6.2
     version: 3.6.3(@babel/core@7.24.0)(@babel/plugin-proposal-nullish-coalescing-operator@7.18.6)(@babel/plugin-proposal-optional-chaining@7.21.0)(@babel/plugin-transform-arrow-functions@7.23.3)(@babel/plugin-transform-shorthand-properties@7.23.3)(@babel/plugin-transform-template-literals@7.23.3)(react-native@0.73.5)(react@18.2.0)
@@ -7573,6 +7576,10 @@ packages:
     dependencies:
       fast-base64-decode: 1.0.0
       react-native: 0.73.5(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(react@18.2.0)
+    dev: false
+
+  /react-native-otp-entry@1.5.0:
+    resolution: {integrity: sha512-6S5vnxQvPVWcxnZT6ytlTo2G7Uvg9eNBhnIRsCOyLN9TjmAdQLJlD69ChnUnvZwIEvFiaMoOgrBzPyxEQFv6Sg==}
     dev: false
 
   /react-native-reanimated@3.6.3(@babel/core@7.24.0)(@babel/plugin-proposal-nullish-coalescing-operator@7.18.6)(@babel/plugin-proposal-optional-chaining@7.21.0)(@babel/plugin-transform-arrow-functions@7.23.3)(@babel/plugin-transform-shorthand-properties@7.23.3)(@babel/plugin-transform-template-literals@7.23.3)(react-native@0.73.5)(react@18.2.0):

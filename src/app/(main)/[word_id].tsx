@@ -53,6 +53,7 @@ export default function WordPage() {
       </View>
 
       <ScrollView
+        keyboardDismissMode="interactive"
         refreshControl={
           <RefreshControl
             refreshing={getWordQuery.isRefetching}
