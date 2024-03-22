@@ -8,8 +8,6 @@ export default function AppLayout() {
   if (isLoggedInQuery.isLoading || isLoggedInQuery.data === undefined)
     return <LoaderScreen />;
 
-  if (!isLoggedInQuery.data) return <Redirect href="/(auth)/auth" />;
-
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -19,7 +17,7 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
-        name="(auth)/auth"
+        name="auth"
         options={{
           presentation: 'modal',
         }}

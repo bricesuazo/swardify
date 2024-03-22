@@ -56,7 +56,9 @@ export const wordsRouter = router({
 
       return word;
     }),
-  getAllTranslationHistories: protectedProcedure.query(async ({ ctx }) => {
+  getAllTranslationHistories: publicProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) return [];
+
     const { data: translation_histories, error: translation_histories_error } =
       await ctx.supabase
         .from('translation_histories')

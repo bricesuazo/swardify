@@ -64,7 +64,7 @@ export default function AuthPage() {
 
       // data.session?.access_token is working or data.session
       if (!data.session) {
-        router.push(`/(app)/(auth)/verify/${data.user.email}`);
+        router.push(`/(app)/auth/verify/${data.user.email}`);
       } else {
         await utils.auth.isLoggedIn.refetch();
       }
