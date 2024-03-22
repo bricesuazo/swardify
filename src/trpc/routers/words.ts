@@ -73,4 +73,51 @@ export const wordsRouter = router({
 
     return translation_histories;
   }),
+  toggleFavorite: protectedProcedure
+    .input(z.object({ id: z.string().uuid() }))
+    .mutation(async ({ input, ctx }) => {
+      const { data: favorite, error: favorite_error } = await ctx.supabase
+        .from('favorites')
+        .select()
+        .eq('user_id', ctx.user.id)
+        .eq('word_id', input.id)
+        .single();
+
+      if (favorite_error)
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: favorite_error.message,
+        });
+
+      if (favorite) {
+        await ctx.supabase.from('favorites').delete().eq('id', input.id);
+
+        return false;
+      }
+
+      await ctx.supabase.from('favorites').insert({
+        user_id: ctx.user.id,
+        word_id: input.id,
+      });
+
+      return true;
+    }),
+  getFavoriteState: protectedProcedure
+    .input(z.object({ id: z.string().uuid() }))
+    .query(async ({ input, ctx }) => {
+      const { data: favorite, error: favorite_error } = await ctx.supabase
+        .from('favorites')
+        .select()
+        .eq('user_id', ctx.user!.id)
+        .eq('word_id', input.id)
+        .single();
+
+      if (favorite_error)
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: favorite_error.message,
+        });
+
+      return !!favorite;
+    }),
 });

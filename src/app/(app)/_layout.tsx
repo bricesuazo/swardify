@@ -1,4 +1,4 @@
-import { Redirect, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { LoaderScreen } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
@@ -10,8 +10,9 @@ export default function AppLayout() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="[word_id]" />
       <Stack.Screen
-        name="info"
+        name="favorites"
         options={{
           presentation: 'modal',
         }}

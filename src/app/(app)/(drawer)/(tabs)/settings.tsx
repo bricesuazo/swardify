@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -18,21 +18,16 @@ export default function SettingsPage() {
     >
       {isLoggedInQuery.data ? (
         <Button
-          label="Logout"
+          label="Log out"
           onPress={async () => {
             await supabase.auth.signOut();
             await utils.auth.isLoggedIn.refetch();
+            router.navigate('/(app)/(drawer)/(tabs)/');
           }}
         />
       ) : (
         <Link asChild href="/(app)/auth">
-          <Button
-            label="Sign in"
-            onPress={async () => {
-              await supabase.auth.signOut();
-              await utils.auth.isLoggedIn.refetch();
-            }}
-          />
+          <Button label="Sign in" />
         </Link>
       )}
     </SafeAreaView>

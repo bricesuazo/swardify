@@ -1,22 +1,43 @@
 import { Feather } from '@expo/vector-icons';
 import { router, useGlobalSearchParams } from 'expo-router';
-import { RefreshControl, ScrollView } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, LoaderScreen, Text, View } from 'react-native-ui-lib';
+import {
+  Button,
+  FloatingButton,
+  LoaderScreen,
+  Text,
+  View,
+} from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
 export default function WordPage() {
   const insets = useSafeAreaInsets();
-  const { word_id } = useGlobalSearchParams();
+  const { word_id } = useGlobalSearchParams<{ word_id: string }>();
+  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
+  const getFavoriteStateQuery = api.words.getFavoriteState.useQuery(
+    {
+      id: word_id,
+    },
+    {
+      enabled: !!isLoggedInQuery.data,
+      queryKey: ['words.getFavoriteState', { id: word_id?.toString() || '' }],
+    },
+  );
+  // const toggleFavoriteMutation = api.words.toggleFavorite.useMutation();
 
   const getWordQuery = api.words.get.useQuery(
-    { id: word_id?.toString() || '' },
+    { id: word_id },
     {
       queryKey: ['words.get', { id: word_id?.toString() || '' }],
       refetchOnMount: false,
       refetchOnWindowFocus: false,
     },
   );
+
+  const isLoading =
+    isLoggedInQuery.isLoading || getFavoriteStateQuery.isLoading;
+  // toggleFavoriteMutation.isPending;
 
   if (getWordQuery.isLoading || !getWordQuery.data) return <LoaderScreen />;
 
@@ -186,6 +207,20 @@ export default function WordPage() {
           </Text>
         </View>
       </ScrollView>
+      <FloatingButton
+        visible
+        bottomMargin={40}
+        button={{
+          disabled: isLoading,
+          iconSource: isLoading
+            ? () => <ActivityIndicator size={24} />
+            : undefined,
+          label: isLoading ? undefined : 'Add to favorite',
+          onPress: () =>
+            !isLoggedInQuery.data ? router.push('/(app)/auth') : undefined,
+          // : toggleFavoriteMutation.mutate({ id: word_id }),
+        }}
+      />
     </>
   );
 }

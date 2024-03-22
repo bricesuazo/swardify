@@ -32,7 +32,7 @@ export default function RootLayout() {
   useEffect(() => {
     const theme = Colors.getScheme();
 
-    if (pathname === '/info') {
+    if (pathname === '/favorites') {
       if (Platform.OS === 'ios') {
         StatusBar.setBarStyle('light-content', true);
         return;
@@ -48,7 +48,6 @@ export default function RootLayout() {
 
     if (
       pathname === '/' ||
-      pathname === '/auth' ||
       segments.find(
         (segment) => segment === '[word_id]' || segment === '[email]',
       )

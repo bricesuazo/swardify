@@ -14,6 +14,12 @@ CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
 
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
 
+CREATE SCHEMA IF NOT EXISTS "public";
+
+ALTER SCHEMA "public" OWNER TO "pg_database_owner";
+
+COMMENT ON SCHEMA "public" IS 'standard public schema';
+
 CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
 
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
@@ -49,6 +55,15 @@ SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
 
+CREATE TABLE IF NOT EXISTS "public"."favorites" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "user_id" "uuid" NOT NULL,
+    "word_id" "uuid" NOT NULL
+);
+
+ALTER TABLE "public"."favorites" OWNER TO "postgres";
+
 CREATE TABLE IF NOT EXISTS "public"."translation_histories" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -78,6 +93,9 @@ CREATE TABLE IF NOT EXISTS "public"."words" (
 
 ALTER TABLE "public"."words" OWNER TO "postgres";
 
+ALTER TABLE ONLY "public"."favorites"
+    ADD CONSTRAINT "favorites_pkey" PRIMARY KEY ("id");
+
 ALTER TABLE ONLY "public"."translation_histories"
     ADD CONSTRAINT "translation_history_pkey" PRIMARY KEY ("id");
 
@@ -92,11 +110,19 @@ ALTER TABLE ONLY "public"."words"
 
 CREATE INDEX "users_email_idx" ON "public"."users" USING "btree" ("email");
 
+ALTER TABLE ONLY "public"."favorites"
+    ADD CONSTRAINT "favorites_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."favorites"
+    ADD CONSTRAINT "favorites_word_id_fkey" FOREIGN KEY ("word_id") REFERENCES "public"."words"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE ONLY "public"."translation_histories"
     ADD CONSTRAINT "translation_histories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."users"
     ADD CONSTRAINT "users_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "public"."favorites" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."translation_histories" ENABLE ROW LEVEL SECURITY;
 
@@ -112,6 +138,10 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+
+GRANT ALL ON TABLE "public"."favorites" TO "anon";
+GRANT ALL ON TABLE "public"."favorites" TO "authenticated";
+GRANT ALL ON TABLE "public"."favorites" TO "service_role";
 
 GRANT ALL ON TABLE "public"."translation_histories" TO "anon";
 GRANT ALL ON TABLE "public"."translation_histories" TO "authenticated";
