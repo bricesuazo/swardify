@@ -14,7 +14,7 @@ export default function AuthLayout() {
   if (isLoggedInQuery.isLoading || isLoggedInQuery.data === undefined)
     return <LoaderScreen />;
 
-  if (isLoggedInQuery.data) return <Redirect href="/(main)/(drawer)/(tabs)/" />;
+  if (isLoggedInQuery.data) return <Redirect href="/(app)/(drawer)/(tabs)/" />;
 
   return (
     <>

@@ -1,9 +1,8 @@
-import { Redirect } from 'expo-router';
-import { Stack } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { LoaderScreen } from 'react-native-ui-lib';
 import { api } from '~/utils/trpc';
 
-export default function MainLayout() {
+export default function AppLayout() {
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
 
   if (isLoggedInQuery.isLoading || isLoggedInQuery.data === undefined)
@@ -15,6 +14,12 @@ export default function MainLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="info"
+        options={{
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name="(auth)/auth"
         options={{
           presentation: 'modal',
         }}

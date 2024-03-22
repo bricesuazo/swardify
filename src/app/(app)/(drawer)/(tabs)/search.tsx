@@ -80,7 +80,7 @@ export default function SearchPage() {
                 </Text>
               ) : (
                 getAllWordsQuery.data.map((word) => (
-                  <Link key={word.id} href={`/(main)/${word.id}`} asChild>
+                  <Link key={word.id} href={`/${word.id}`} asChild>
                     <TouchableOpacity
                       activeOpacity={0.5}
                       bg-$iconPrimary

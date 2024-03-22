@@ -21,7 +21,7 @@ export default function VerifyCode() {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState('');
 
-  if (!email) return router.push('/(auth)/auth');
+  if (!email) return router.push('/(app)/(auth)/auth');
 
   async function onSubmit(code: string) {
     if (typeof email !== 'string') return;
