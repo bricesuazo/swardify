@@ -9,7 +9,6 @@ function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer: undefined,
       links: [
         httpBatchLink({
           url: `${process.env.EXPO_PUBLIC_APP_URL}/api/trpc`,

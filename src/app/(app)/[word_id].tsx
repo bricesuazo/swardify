@@ -21,23 +21,24 @@ export default function WordPage() {
     },
     {
       enabled: !!isLoggedInQuery.data,
-      queryKey: ['words.getFavoriteState', { id: word_id?.toString() || '' }],
     },
   );
-  // const toggleFavoriteMutation = api.words.toggleFavorite.useMutation();
+  const toggleFavoriteMutation = api.words.toggleFavorite.useMutation({
+    onSuccess: () => getFavoriteStateQuery.refetch(),
+  });
 
   const getWordQuery = api.words.get.useQuery(
     { id: word_id },
     {
-      queryKey: ['words.get', { id: word_id?.toString() || '' }],
       refetchOnMount: false,
       refetchOnWindowFocus: false,
     },
   );
 
   const isLoading =
-    isLoggedInQuery.isLoading || getFavoriteStateQuery.isLoading;
-  // toggleFavoriteMutation.isPending;
+    isLoggedInQuery.isLoading ||
+    getFavoriteStateQuery.isLoading ||
+    toggleFavoriteMutation.isPending;
 
   if (getWordQuery.isLoading || !getWordQuery.data) return <LoaderScreen />;
 
@@ -215,10 +216,15 @@ export default function WordPage() {
           iconSource: isLoading
             ? () => <ActivityIndicator size={24} />
             : undefined,
-          label: isLoading ? undefined : 'Add to favorite',
+          label: isLoading
+            ? undefined
+            : !getFavoriteStateQuery.data
+              ? 'Add to favorite'
+              : 'Remove from favorite',
           onPress: () =>
-            !isLoggedInQuery.data ? router.push('/(app)/auth') : undefined,
-          // : toggleFavoriteMutation.mutate({ id: word_id }),
+            !isLoggedInQuery.data
+              ? router.push('/(app)/auth')
+              : toggleFavoriteMutation.mutate({ id: word_id }),
         }}
       />
     </>

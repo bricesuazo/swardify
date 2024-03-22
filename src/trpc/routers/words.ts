@@ -76,21 +76,24 @@ export const wordsRouter = router({
   toggleFavorite: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input, ctx }) => {
-      const { data: favorite, error: favorite_error } = await ctx.supabase
+      const { data: favorites, error: favorites_error } = await ctx.supabase
         .from('favorites')
         .select()
         .eq('user_id', ctx.user.id)
-        .eq('word_id', input.id)
-        .single();
+        .eq('word_id', input.id);
 
-      if (favorite_error)
+      if (favorites_error)
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: favorite_error.message,
+          message: favorites_error.message,
         });
 
-      if (favorite) {
-        await ctx.supabase.from('favorites').delete().eq('id', input.id);
+      if (favorites.length > 0) {
+        await ctx.supabase
+          .from('favorites')
+          .delete()
+          .eq('word_id', input.id)
+          .eq('user_id', ctx.user.id);
 
         return false;
       }
@@ -105,19 +108,18 @@ export const wordsRouter = router({
   getFavoriteState: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input, ctx }) => {
-      const { data: favorite, error: favorite_error } = await ctx.supabase
+      const { data: favorites, error: favorites_error } = await ctx.supabase
         .from('favorites')
         .select()
-        .eq('user_id', ctx.user!.id)
-        .eq('word_id', input.id)
-        .single();
+        .eq('user_id', ctx.user.id)
+        .eq('word_id', input.id);
 
-      if (favorite_error)
+      if (favorites_error)
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: favorite_error.message,
+          message: favorites_error.message,
         });
 
-      return !!favorite;
+      return favorites.length > 0;
     }),
 });
