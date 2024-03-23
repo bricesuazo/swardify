@@ -44,6 +44,9 @@ export default function AuthPage() {
         setLoadings({ ...loadings, email: false });
         return Alert.alert(error.message);
       }
+
+      if (router.canGoBack()) router.back();
+
       await utils.auth.isLoggedIn.refetch();
     } else if (type === 'sign-up') {
       if (password !== repeatPassword) {
@@ -64,9 +67,13 @@ export default function AuthPage() {
 
       // data.session?.access_token is working or data.session
       if (!data.session) {
-        router.push(`/(app)/auth/verify/${data.user.email}`);
+        router.push(`/auth/verify/${data.user.email}`);
       } else {
-        await utils.auth.isLoggedIn.refetch();
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          await utils.auth.isLoggedIn.refetch();
+        }
       }
     }
     setLoadings({ ...loadings, email: false });
@@ -137,7 +144,7 @@ export default function AuthPage() {
             value={password}
             onChangeText={setPassword}
             enableErrors
-            validate={['required', (value) => value.length >= 6]}
+            validate={['required', (value: string) => value.length >= 6]}
             validationMessage={[
               'Password is required',
               'Password is too short',
@@ -168,8 +175,8 @@ export default function AuthPage() {
               enableErrors
               validate={[
                 'required',
-                (value) => value.length >= 6,
-                (value) => value === password,
+                (value: string) => value.length >= 6,
+                (value: string) => value === password,
               ]}
               validationMessage={[
                 'Password is required',

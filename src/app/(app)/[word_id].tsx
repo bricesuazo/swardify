@@ -12,6 +12,7 @@ import {
 import { api } from '~/utils/trpc';
 
 export default function WordPage() {
+  const utils = api.useUtils();
   const insets = useSafeAreaInsets();
   const { word_id } = useGlobalSearchParams<{ word_id: string }>();
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
@@ -24,7 +25,11 @@ export default function WordPage() {
     },
   );
   const toggleFavoriteMutation = api.words.toggleFavorite.useMutation({
-    onSuccess: () => getFavoriteStateQuery.refetch(),
+    onSuccess: () =>
+      Promise.all([
+        getFavoriteStateQuery.refetch(),
+        utils.words.getAllFavorites.refetch(),
+      ]),
   });
 
   const getWordQuery = api.words.get.useQuery(
@@ -78,8 +83,18 @@ export default function WordPage() {
         keyboardDismissMode="interactive"
         refreshControl={
           <RefreshControl
-            refreshing={getWordQuery.isRefetching}
-            onRefresh={() => getWordQuery.refetch()}
+            refreshing={
+              getWordQuery.isRefetching ||
+              isLoggedInQuery.isRefetching ||
+              getFavoriteStateQuery.isRefetching
+            }
+            onRefresh={async () =>
+              await Promise.all([
+                getWordQuery.refetch(),
+                isLoggedInQuery.refetch(),
+                getFavoriteStateQuery.refetch(),
+              ])
+            }
           />
         }
         showsHorizontalScrollIndicator={false}
@@ -218,7 +233,7 @@ export default function WordPage() {
             : undefined,
           label: isLoading
             ? undefined
-            : !getFavoriteStateQuery.data
+            : !getFavoriteStateQuery.data || !isLoggedInQuery.data
               ? 'Add to favorite'
               : 'Remove from favorite',
           onPress: () =>

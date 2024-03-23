@@ -122,4 +122,18 @@ export const wordsRouter = router({
 
       return favorites.length > 0;
     }),
+  getAllFavorites: protectedProcedure.query(async ({ ctx }) => {
+    const { data: favorites, error: favorites_error } = await ctx.supabase
+      .from('favorites')
+      .select('id, word_id, word:words(swardspeak_words, translated_words)')
+      .eq('user_id', ctx.user.id);
+
+    if (favorites_error)
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: favorites_error.message,
+      });
+
+    return favorites;
+  }),
 });

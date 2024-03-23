@@ -21,7 +21,10 @@ export default function SettingsPage() {
           label="Log out"
           onPress={async () => {
             await supabase.auth.signOut();
-            await utils.auth.isLoggedIn.refetch();
+            await Promise.all([
+              utils.auth.isLoggedIn.refetch(),
+              utils.invalidate(),
+            ]);
             router.navigate('/(app)/(drawer)/(tabs)/');
           }}
         />
