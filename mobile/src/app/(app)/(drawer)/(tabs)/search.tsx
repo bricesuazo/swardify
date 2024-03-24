@@ -2,6 +2,7 @@ import { Link } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
@@ -59,7 +60,7 @@ export default function SearchPage() {
         {getAllWordsQuery.isLoading || !getAllWordsQuery.data ? (
           <ActivityIndicator />
         ) : (
-          <ScrollView
+          <FlatList
             keyboardDismissMode="interactive"
             refreshControl={
               <RefreshControl
@@ -70,43 +71,42 @@ export default function SearchPage() {
             style={{ flex: 1 }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-          >
-            <View paddingH-20 style={{ paddingBottom: insets.bottom }}>
-              {getAllWordsQuery.data.length === 0 ? (
-                <Text center style={{ fontFamily: 'Jua-Regular' }}>
-                  No words found
-                </Text>
-              ) : (
-                getAllWordsQuery.data.map((word) => (
-                  <Link key={word.id} href={`/${word.id}`} asChild>
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      bg-$iconPrimary
-                      paddingH-20
-                      paddingV-24
-                      br40
-                    >
-                      <Text
-                        $textDefaultLight
-                        text50L
-                        style={{ fontFamily: 'Jua-Regular' }}
-                      >
-                        {word.swardspeak_words.join(' / ')}
-                      </Text>
-                      <Text
-                        $textDefaultLight
-                        text
-                        text60L
-                        style={{ fontFamily: 'Jua-Regular' }}
-                      >
-                        {word.translated_words.join(' / ')}
-                      </Text>
-                    </TouchableOpacity>
-                  </Link>
-                ))
-              )}
-            </View>
-          </ScrollView>
+            contentContainerStyle={{ padding: 20 }}
+            ListEmptyComponent={() => (
+              <Text center style={{ fontFamily: 'Jua-Regular' }}>
+                No words found
+              </Text>
+            )}
+            data={getAllWordsQuery.data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Link key={item.id} href={`/${item.id}`} asChild>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  bg-$iconPrimary
+                  paddingH-20
+                  paddingV-24
+                  br40
+                >
+                  <Text
+                    $textDefaultLight
+                    text50L
+                    style={{ fontFamily: 'Jua-Regular' }}
+                  >
+                    {item.swardspeak_words.join(' / ')}
+                  </Text>
+                  <Text
+                    $textDefaultLight
+                    text
+                    text60L
+                    style={{ fontFamily: 'Jua-Regular' }}
+                  >
+                    {item.translated_words.join(' / ')}
+                  </Text>
+                </TouchableOpacity>
+              </Link>
+            )}
+          />
         )}
       </KeyboardAvoidingView>
     </SafeAreaView>

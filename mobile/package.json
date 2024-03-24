@@ -14,7 +14,7 @@
     "db:dump": "supabase db dump --local -f supabase/schema.sql",
     "db:diff": "supabase db diff -f",
     "db:reset": "supabase db reset",
-    "db:seed": "pnpx supabase@beta db dump --data-only -f supabase/seed.sql",
+    "db:seed": "npx supabase@beta db dump --data-only -f supabase/seed.sql",
     "vercel-build": "expo export -p web",
     "build:android:preview": "eas build -platform android --profile preview",
     "build:android": "eas build --platform android",
