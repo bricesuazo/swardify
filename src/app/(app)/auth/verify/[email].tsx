@@ -6,7 +6,6 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  View as RNView,
   ScrollView,
 } from 'react-native';
 import { OtpInput } from 'react-native-otp-entry';

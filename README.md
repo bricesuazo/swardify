@@ -3,18 +3,18 @@
 ```bash
 copy .env.example .env
 
-pnpm install
+npm
 
-pnpm start
+npm run start
 ```
 
 ## Migration
 
 ```bash
 # Changes from local to remote
-pnpm db:diff <title_or_description>
+npm run db:diff <title_or_description>
 
-pnpm db:cli
+npm run db:cli
 
 supabase db push
 ```

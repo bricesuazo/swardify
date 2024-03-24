@@ -27,8 +27,6 @@ export default function RootLayout() {
     'Jua-Regular': require('../../assets/fonts/Jua-Regular.ttf'),
   });
 
-  console.log('🚀 ~ useEffect ~ segments:', segments);
-
   useEffect(() => {
     const theme = Colors.getScheme();
 

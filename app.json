@@ -14,20 +14,26 @@
       "bundler": "metro",
       "output": "server"
     },
-    "plugins": ["expo-router","expo-secure-store",
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
       [
         "expo-font",
         {
           "fonts": ["./assets/fonts/Jua-Regular.ttf"]
         }
-      ]],
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
-     "extra": {
+    "extra": {
       "eas": {
         "projectId": "ea7d1bbc-f1d8-4595-bb54-d7fb618bb5c2"
       }
+    },
+    "android": {
+      "package": "com.bricesuazo.swardify"
     }
   }
 }
