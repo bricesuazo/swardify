@@ -25,7 +25,7 @@ const signInSchema = z.object({
   }),
 });
 
-export default function SignInForm() {
+export default function SignIn() {
   const router = useRouter();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
