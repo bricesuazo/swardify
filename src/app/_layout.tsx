@@ -8,8 +8,6 @@ import Providers from '~/providers';
 import { useStore } from '~/store';
 import { supabase } from '~/trpc/supabase';
 
-import '../global.css';
-
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
     supabase.auth.startAutoRefresh();
@@ -28,6 +26,8 @@ export default function RootLayout() {
   useFonts({
     'Jua-Regular': require('../../assets/fonts/Jua-Regular.ttf'),
   });
+
+  console.log('🚀 ~ useEffect ~ segments:', segments);
 
   useEffect(() => {
     const theme = Colors.getScheme();

@@ -40,19 +40,17 @@ export default function AuthLayout() {
                   name="chevron-left"
                   size={24}
                   color="white"
-                  style={{ transform: 'translateX(-2px)' }}
+                  // style={{ transform: 'translateX(-2px)' }}
                 />
               )}
               style={{ position: 'absolute', top: insets.top + 8, left: 12 }}
             />
           )}
           <MaterialIcons name="translate" size={60} color="white" />
-          <Text className="font-semibold" white text50>
+          <Text white text50>
             SWARDify
           </Text>
-          <Text className="text-balance" white>
-            A Bidirectional Swardspeak and Tagalog Translator
-          </Text>
+          <Text white>A Bidirectional Swardspeak and Tagalog Translator</Text>
         </View>
         <Stack
           screenOptions={{

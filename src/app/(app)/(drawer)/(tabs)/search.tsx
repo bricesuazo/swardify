@@ -32,8 +32,10 @@ export default function SearchPage() {
     <SafeAreaView style={{ flex: 1, paddingTop: insets.top + 20 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="gap-y-8"
-        style={{ flex: 1 }}
+        style={{
+          flex: 1,
+          rowGap: 32,
+        }}
       >
         <View paddingH-20>
           <TextInput
@@ -69,11 +71,7 @@ export default function SearchPage() {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
           >
-            <View
-              paddingH-20
-              className="gap-y-2"
-              style={{ paddingBottom: insets.bottom }}
-            >
+            <View paddingH-20 style={{ paddingBottom: insets.bottom }}>
               {getAllWordsQuery.data.length === 0 ? (
                 <Text center style={{ fontFamily: 'Jua-Regular' }}>
                   No words found

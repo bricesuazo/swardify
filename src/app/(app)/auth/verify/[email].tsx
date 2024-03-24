@@ -21,7 +21,7 @@ export default function VerifyCode() {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState('');
 
-  if (!email) return router.push('/(app)/(auth)/auth');
+  if (!email) return router.push('/(app)/auth');
 
   async function onSubmit(code: string) {
     if (typeof email !== 'string') return;
@@ -47,7 +47,6 @@ export default function VerifyCode() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1"
     >
       <View flex-1>
         <ScrollView keyboardDismissMode="interactive">

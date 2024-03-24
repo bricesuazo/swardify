@@ -62,7 +62,7 @@ export default function WordPage() {
             name="chevron-left"
             size={24}
             color="white"
-            style={{ transform: 'translateX(-2px)' }}
+            // style={{ transform: 'translateX(-2px)' }}
           />
         )}
         round

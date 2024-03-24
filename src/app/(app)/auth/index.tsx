@@ -1,6 +1,5 @@
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { cssInterop } from 'nativewind';
 import { createRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -26,11 +25,6 @@ export default function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  cssInterop(AntDesign, {
-    className: {
-      target: 'style',
-    },
-  });
 
   async function onSubmit() {
     setLoadings({ ...loadings, email: true });
@@ -82,9 +76,9 @@ export default function AuthPage() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
-      <ScrollView className="flex-1" keyboardDismissMode="interactive">
+      <ScrollView keyboardDismissMode="interactive">
         <View padding-20>
           <Button
             iconSource={() =>
@@ -93,8 +87,8 @@ export default function AuthPage() {
               ) : (
                 <AntDesign
                   name="google"
+                  color="white"
                   size={24}
-                  className="group-disabled:text-muted group-active:text-primary text-white"
                   style={{ marginRight: 8 }}
                 />
               )
@@ -213,7 +207,7 @@ export default function AuthPage() {
           </View>
         </View>
       </ScrollView>
-      <View className="p-5">
+      <View padding-20>
         <Button
           iconSource={
             loadings.email
