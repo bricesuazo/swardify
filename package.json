@@ -4,8 +4,8 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "run:android": "expo run:android",
     "run:ios": "expo run:ios",
     "web": "expo start --web",
@@ -34,6 +34,7 @@
     "@trpc/react-query": "^11.0.0-next-beta.318",
     "@trpc/server": "^11.0.0-next-beta.318",
     "aes-js": "^3.1.2",
+    "babel-preset-expo": "^10.0.1",
     "expo": "^50.0.8",
     "expo-constants": "~15.4.2",
     "expo-font": "~11.10.3",
