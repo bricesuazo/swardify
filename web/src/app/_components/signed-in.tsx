@@ -22,6 +22,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 const FormSchema = z
   .object({
@@ -78,78 +79,114 @@ export default function SignedIn() {
 
   return (
     <div className="flex h-full flex-col gap-4 p-4 md:flex-row">
-      <div className="flex flex-1 rounded border p-4">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((values) => {
-              if (values.type === "create") {
-                createWordsMutation.mutate({
-                  swardspeak_words:
-                    values.swardspeak_word.length > 0
-                      ? [...values.swardspeak_words, values.swardspeak_word]
-                      : values.swardspeak_words,
-                  translated_words:
-                    values.translated_word.length > 0
-                      ? [...values.translated_words, values.translated_word]
-                      : values.translated_words,
-                });
-              }
+      <Form {...form}>
+        <form
+          className="flex max-h-[50%] flex-1 flex-col space-y-5 rounded border md:max-h-none"
+          onSubmit={form.handleSubmit((values) => {
+            if (values.type === "create") {
+              createWordsMutation.mutate({
+                swardspeak_words:
+                  values.swardspeak_word.length > 0
+                    ? [...values.swardspeak_words, values.swardspeak_word]
+                    : values.swardspeak_words,
+                translated_words:
+                  values.translated_word.length > 0
+                    ? [...values.translated_words, values.translated_word]
+                    : values.translated_words,
+              });
+            }
 
-              if (values.type === "update") {
-                updateWordsMutation.mutate({
-                  id: values.id,
-                  swardspeak_words: values.swardspeak_words,
-                  translated_words: values.translated_words,
-                });
-              }
-            })}
-            className="h-full flex-1 space-y-5"
-          >
-            <h1
-              className="
-              text-primary-900 text-2xl
-              font-bold
-            "
-            >
-              {form.getValues("type") === "create"
-                ? "Create Words"
-                : "Update Words"}
-            </h1>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <div className="flex-1 space-y-2">
-                <FormField
-                  control={form.control}
-                  name="swardspeak_word"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Swardspeak Words</FormLabel>
-                      <div className="flex gap-x-2">
-                        <FormControl>
-                          <Input placeholder="Swardspeak Word" {...field} />
-                        </FormControl>
-                        {field.value.length > 0 && (
-                          <div>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={() => {
-                                form.setValue("swardspeak_words", [
-                                  ...form.getValues("swardspeak_words"),
-                                  field.value,
-                                ]);
-                                form.setValue("swardspeak_word", "");
-                              }}
-                            >
-                              <Plus />
-                            </Button>
-                          </div>
-                        )}
+            if (values.type === "update") {
+              updateWordsMutation.mutate({
+                id: values.id,
+                swardspeak_words: values.swardspeak_words,
+                translated_words: values.translated_words,
+              });
+            }
+          })}
+        >
+          <h2 className="text-primary-900 p-4 pb-0 text-lg font-bold">
+            {form.getValues("type") === "create"
+              ? "Create Words"
+              : "Update Words"}
+          </h2>
+
+          <div className="flex flex-row gap-x-4 gap-y-2 px-4">
+            <FormField
+              control={form.control}
+              name="swardspeak_word"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>
+                    Swardspeak
+                    <span className="xs:contents hidden"> Words</span>
+                  </FormLabel>
+                  <div className="flex gap-x-2">
+                    <FormControl>
+                      <Input placeholder="Swardspeak Word" {...field} />
+                    </FormControl>
+                    {field.value.length > 0 && (
+                      <div>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => {
+                            form.setValue("swardspeak_words", [
+                              ...form.getValues("swardspeak_words"),
+                              field.value,
+                            ]);
+                            form.setValue("swardspeak_word", "");
+                          }}
+                        >
+                          <Plus />
+                        </Button>
                       </div>
+                    )}
+                  </div>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="translated_word"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>
+                    Translated
+                    <span className="xs:contents hidden"> Words</span>
+                  </FormLabel>
+                  <div className="flex gap-x-2">
+                    <FormControl>
+                      <Input placeholder="Translated Word" {...field} />
+                    </FormControl>
+                    {field.value.length > 0 && (
+                      <div>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => {
+                            form.setValue("translated_words", [
+                              ...form.getValues("translated_words"),
+                              field.value,
+                            ]);
+                            form.setValue("translated_word", "");
+                          }}
+                        >
+                          <Plus />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <ScrollArea>
+            <div className="flex flex-1 gap-4 p-4 pt-0">
+              <div className="flex-1 space-y-2">
                 {form.watch("swardspeak_words").map((_, index) => (
                   <FormField
                     key={index}
@@ -157,27 +194,46 @@ export default function SignedIn() {
                     name={`swardspeak_words.${index}`}
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex gap-x-2">
+                        <div className="xs:flex-row flex flex-col gap-x-2 gap-y-1">
                           <FormControl>
                             <Input placeholder="Swardspeak Word" {...field} />
                           </FormControl>
                           <div>
                             <Button
+                              type="button"
                               variant="outline"
                               size="icon"
-                              onClick={() => {
+                              className="xs:flex hidden"
+                              onClick={() =>
                                 form.setValue(
                                   "swardspeak_words",
                                   form
-                                    .getValues("swardspeak_words")
+                                    .watch("swardspeak_words")
                                     .filter((_, i) => i !== index),
-                                );
-                              }}
+                                )
+                              }
                             >
                               <Trash2
                                 size="1.25rem"
                                 className="text-destructive"
                               />
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="xs:hidden h-7 w-full text-destructive"
+                              onClick={() =>
+                                form.setValue(
+                                  "swardspeak_words",
+                                  form
+                                    .watch("swardspeak_words")
+                                    .filter((_, i) => i !== index),
+                                )
+                              }
+                            >
+                              <Trash2 size="1rem" className="mr-2" />
+                              Delete
                             </Button>
                           </div>
                         </div>
@@ -188,38 +244,6 @@ export default function SignedIn() {
                 ))}
               </div>
               <div className="flex-1 space-y-2">
-                <FormField
-                  control={form.control}
-                  name="translated_word"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Translated Words</FormLabel>
-                      <div className="flex gap-x-2">
-                        <FormControl>
-                          <Input placeholder="Translated Word" {...field} />
-                        </FormControl>
-                        {field.value.length > 0 && (
-                          <div>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={() => {
-                                form.setValue("translated_words", [
-                                  ...form.getValues("translated_words"),
-                                  field.value,
-                                ]);
-                                form.setValue("translated_word", "");
-                              }}
-                            >
-                              <Plus />
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 {form.watch("translated_words").map((_, index) => (
                   <FormField
                     key={index}
@@ -227,27 +251,46 @@ export default function SignedIn() {
                     name={`translated_words.${index}`}
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex gap-x-2">
+                        <div className="xs:flex-row flex flex-col gap-x-2 gap-y-1">
                           <FormControl>
                             <Input placeholder="Translated Word" {...field} />
                           </FormControl>
                           <div>
                             <Button
+                              type="button"
                               variant="outline"
                               size="icon"
-                              onClick={() => {
+                              className="xs:flex hidden"
+                              onClick={() =>
                                 form.setValue(
                                   "translated_words",
                                   form
-                                    .getValues("translated_words")
+                                    .watch("translated_words")
                                     .filter((_, i) => i !== index),
-                                );
-                              }}
+                                )
+                              }
                             >
                               <Trash2
                                 size="1.25rem"
                                 className="text-destructive"
                               />
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="xs:hidden h-7 w-full text-destructive"
+                              onClick={() =>
+                                form.setValue(
+                                  "translated_words",
+                                  form
+                                    .watch("translated_words")
+                                    .filter((_, i) => i !== index),
+                                )
+                              }
+                            >
+                              <Trash2 size="1rem" className="mr-2" />
+                              Delete
                             </Button>
                           </div>
                         </div>
@@ -258,54 +301,56 @@ export default function SignedIn() {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-x-2">
-              <Button
-                type="submit"
-                disabled={
-                  createWordsMutation.isPending ||
-                  updateWordsMutation.isPending ||
-                  !form.formState.isValid
-                }
-              >
-                {createWordsMutation.isPending ||
-                updateWordsMutation.isPending ? (
-                  <Loader2 size="1rem" className="animate-spin" />
-                ) : form.getValues("type") === "create" ? (
-                  "Create"
-                ) : (
-                  "Update"
-                )}
-              </Button>
-              <Button
-                type="button"
-                disabled={!form.formState.isDirty}
-                variant="link"
-                onClick={() => form.reset()}
-              >
-                Clear
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </div>
-      <div className="flex flex-1 rounded border p-4">
-        <div className="flex flex-1 flex-col gap-y-4">
-          <div className="flex items-center gap-x-2">
-            <Input
-              placeholder="Search word"
-              value={search}
-              disabled={!getAllWordsQuery.data || getAllWordsQuery.isLoading}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Button variant="secondary" className="rounded-full">
-              {getAllWordsQuery.data ? (
-                getAllWordsQuery.data.length.toLocaleString()
-              ) : (
+          </ScrollArea>
+          <div className="flex items-center gap-x-2 p-4 pt-0">
+            <Button
+              type="submit"
+              size="sm"
+              disabled={
+                createWordsMutation.isPending ||
+                updateWordsMutation.isPending ||
+                !form.formState.isValid
+              }
+            >
+              {createWordsMutation.isPending ||
+              updateWordsMutation.isPending ? (
                 <Loader2 size="1rem" className="animate-spin" />
+              ) : form.getValues("type") === "create" ? (
+                "Create"
+              ) : (
+                "Update"
               )}
             </Button>
+            <Button
+              type="button"
+              size="sm"
+              disabled={!form.formState.isDirty}
+              variant="link"
+              onClick={() => form.reset()}
+            >
+              Clear
+            </Button>
           </div>
-          <div className="h-full space-y-2">
+        </form>
+      </Form>
+      <div className="flex max-h-[50%] flex-1 flex-col gap-y-4 rounded border md:max-h-none">
+        <div className="flex items-center gap-x-2 p-4 pb-0">
+          <Input
+            placeholder="Search word"
+            value={search}
+            disabled={!getAllWordsQuery.data || getAllWordsQuery.isLoading}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant="secondary" className="rounded-full">
+            {getAllWordsQuery.data ? (
+              getAllWordsQuery.data.length.toLocaleString()
+            ) : (
+              <Loader2 size="1rem" className="animate-spin" />
+            )}
+          </Button>
+        </div>
+        <ScrollArea>
+          <div className="flex flex-col gap-y-2 p-4">
             {!getAllWordsQuery.data || getAllWordsQuery.isLoading ? (
               <div className="grid h-full place-items-center">
                 <Loader2 className="animate-spin" />
@@ -354,7 +399,7 @@ export default function SignedIn() {
               })()
             )}
           </div>
-        </div>
+        </ScrollArea>
       </div>
     </div>
   );
@@ -377,17 +422,21 @@ function WordItem({
   });
   return (
     <div className="space-y-2 rounded border p-4">
-      <div className="flex justify-between">
+      <div className="xs:flex-row flex flex-col justify-between gap-4">
         <div className="flex-1">
           <p className="text-sm font-medium">Swardspeak Word</p>
           {word.swardspeak_words.map((swardspeak_word, index) => (
-            <p key={index}>- {swardspeak_word}</p>
+            <p key={index} className="break-words">
+              - {swardspeak_word}
+            </p>
           ))}
         </div>
         <div className="flex-1">
           <p className="text-sm font-medium">Translated Word</p>
           {word.translated_words.map((translated_word, index) => (
-            <p key={index}>- {translated_word}</p>
+            <p key={index} className="break-words">
+              - {translated_word}
+            </p>
           ))}
         </div>
       </div>
