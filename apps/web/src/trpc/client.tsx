@@ -1,11 +1,14 @@
 "use client";
 
-import type { AppRouter } from "@swardify/api";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import SuperJSON from "superjson";
+
+import type { AppRouter } from "@swardify/api";
+
+import { createClient } from "~/supabase/client";
 
 const createQueryClient = () =>
   new QueryClient({
@@ -45,9 +48,15 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
           url: getBaseUrl() + "/api/trpc",
-          headers() {
+          async headers() {
             const headers = new Headers();
             headers.set("x-trpc-source", "nextjs-react");
+
+            const supabase = createClient();
+            const { data } = await supabase.auth.getSession();
+            const token = data.session?.access_token;
+            if (token) headers.set("authorization", token);
+
             return headers;
           },
         }),

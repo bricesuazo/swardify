@@ -1,6 +1,7 @@
 {
   "extends": ["@swardify/tsconfig/base.json"],
   "compilerOptions": {
+    "lib": ["dom"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]

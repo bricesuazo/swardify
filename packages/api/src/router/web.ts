@@ -1,4 +1,5 @@
-import { TRPCError, TRPCRouterRecord } from "@trpc/server";
+import type { TRPCRouterRecord } from "@trpc/server";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { protectedProcedure } from "../trpc";

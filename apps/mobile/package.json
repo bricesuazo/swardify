@@ -59,6 +59,7 @@
     "@swardify/tsconfig": "workspace:*",
     "@types/aes-js": "^3.1.4",
     "@types/babel__core": "^7.20.5",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^18.2.74",
     "eslint": "^9.0.0",
     "prettier": "^3.2.5",

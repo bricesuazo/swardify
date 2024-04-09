@@ -23,17 +23,19 @@ export const mobileRouter = {
           message: words_error.message,
         });
 
+      const search_word = input.search_word;
+
       return words.filter((word) =>
-        input.search_word
+        search_word
           ? word.swardspeak_words.find(
               (swardspeak_word) =>
                 swardspeak_word
                   .toLowerCase()
-                  .includes(input.search_word!.toLowerCase()) ||
+                  .includes(search_word.toLowerCase()) ||
                 word.translated_words.find((translated_word) =>
                   translated_word
                     .toLowerCase()
-                    .includes(input.search_word!.toLowerCase()),
+                    .includes(search_word.toLowerCase()),
                 ),
             )
           : true,

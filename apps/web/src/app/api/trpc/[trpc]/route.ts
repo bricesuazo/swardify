@@ -1,8 +1,8 @@
-import { appRouter, createTRPCContext } from "@swardify/api";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { createClient as createClientAdmin } from "~/supabase/admin";
-import { createClient as createClientServer } from "~/supabase/server";
+import { appRouter, createTRPCContext } from "@swardify/api";
+
+import { createClient } from "~/supabase/admin";
 
 export const runtime = "edge";
 
@@ -30,16 +30,10 @@ const handler = async (req: Request) => {
     endpoint: "/api/trpc",
     router: appRouter,
     req,
-    createContext: async () => {
-      const supabaseServer = createClientServer();
-      const {
-        data: { user },
-      } = await supabaseServer.auth.getUser();
-
+    createContext: () => {
       return createTRPCContext({
         headers: req.headers,
-        user,
-        supabase: createClientAdmin(),
+        supabase: createClient(),
       });
     },
     onError({ error, path }) {

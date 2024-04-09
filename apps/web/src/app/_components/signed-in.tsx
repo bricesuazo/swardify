@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RouterOutputs } from "@swardify/api";
+import { Loader2, Plus, Trash2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import type { RouterOutputs } from "@swardify/api";
 import { Button } from "@swardify/ui/button";
 import {
   Form,
@@ -15,9 +19,6 @@ import {
 import { Input } from "@swardify/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@swardify/ui/popover";
 import { ScrollArea } from "@swardify/ui/scroll-area";
-import { Loader2, Plus, Trash2 } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { api } from "~/trpc/client";
 
@@ -348,7 +349,7 @@ export default function SignedIn() {
         </div>
         <ScrollArea>
           <div className="flex flex-col gap-y-2 p-4">
-            {!getAllWordsQuery.data || getAllWordsQuery.isLoading ? (
+            {!getAllWordsQuery.data ? (
               <div className="grid h-full place-items-center">
                 <Loader2 className="animate-spin" />
               </div>

@@ -1,9 +1,9 @@
-import type { SupabaseClient, User } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { Database } from "./../../../supabase/types";
+import type { Database } from "./../../../supabase/types";
 
 export const createTRPCContext = async (opts: {
   headers: Headers;
