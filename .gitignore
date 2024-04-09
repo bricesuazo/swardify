@@ -6,15 +6,24 @@ node_modules
 .pnp.js
 
 # testing
-/coverage
+coverage
 
 # next.js
-.next
-/out/
+.next/
+out/
 next-env.d.ts
 
+# nitro
+.nitro/
+.output/
+
+# expo
+.expo/
+expo-env.d.ts
+apps/expo/.gitignore
+
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -26,33 +35,16 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# local env files
+.env
+.env*.local
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-
-
-.expo/
 dist/
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
 
-# macOS
-.DS_Store
-.idea
-
-.env*
-env*
-
-expo-env.d.ts
-
-android
-ios
-.vercel
+# turbo
+.turbo
