@@ -2,17 +2,17 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "swardify",
+  name: "Swardify",
   slug: "swardify",
   scheme: "com.bricesuazo.swardify",
   version: "0.1.0",
   orientation: "portrait",
-  // icon: "./assets/icon.png",
+  primaryColor: "#D300CB",
   userInterfaceStyle: "automatic",
   splash: {
-    // image: "./assets/icon.png",
+    image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#1F104A",
+    backgroundColor: "#D300CB",
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -20,9 +20,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
+    icon: "./assets/icon.png",
   },
   android: {
     package: "com.bricesuazo.swardify",
+    adaptiveIcon: {
+      backgroundColor: "#D300CB",
+      foregroundImage: "./assets/icon-foreground.png",
+      monochromeImage: "./assets/icon-foreground.png",
+    },
   },
   extra: {
     eas: {

@@ -5,11 +5,13 @@ import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import { DrawerActions } from "@react-navigation/native";
 
 import { useStore } from "~/store";
+import { api } from "~/utils/api";
 
 export default function TabLayout() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const topbarStyle = useStore((state) => state.topbarStyle);
+  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
 
   return (
     <>
@@ -82,7 +84,11 @@ export default function TabLayout() {
             color={topbarStyle === "light" ? "white" : Colors.$iconPrimary}
           />
 
-          <Link href="/favorites" asChild push>
+          <Link
+            href={isLoggedInQuery.data ? "/favorites" : "/(app)/auth"}
+            asChild
+            push
+          >
             <Button
               iconSource={() => (
                 <Feather

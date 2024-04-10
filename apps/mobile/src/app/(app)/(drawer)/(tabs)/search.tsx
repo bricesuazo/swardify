@@ -1,11 +1,9 @@
 import { useState } from "react";
 import {
   ActivityIndicator,
-  FlatList,
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
-  ScrollView,
   TextInput,
 } from "react-native";
 import {
@@ -14,6 +12,7 @@ import {
 } from "react-native-safe-area-context";
 import { Colors, Text, TouchableOpacity, View } from "react-native-ui-lib";
 import { Link } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
 
 import { useDebounceValue } from "~/lib/useDebounceValue";
 import { api } from "~/utils/api";
@@ -36,7 +35,7 @@ export default function SearchPage() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
           flex: 1,
-          rowGap: 32,
+          rowGap: 20,
         }}
       >
         <View paddingH-20>
@@ -61,7 +60,7 @@ export default function SearchPage() {
         {getAllWordsQuery.isLoading || !getAllWordsQuery.data ? (
           <ActivityIndicator />
         ) : (
-          <FlatList
+          <FlashList
             keyboardDismissMode="interactive"
             refreshControl={
               <RefreshControl
@@ -69,10 +68,10 @@ export default function SearchPage() {
                 onRefresh={() => getAllWordsQuery.refetch()}
               />
             }
-            style={{ flex: 1 }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ padding: 20 }}
+            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
+            estimatedItemSize={100}
             ListEmptyComponent={() => (
               <Text center style={{ fontFamily: "Jua-Regular" }}>
                 No words found
@@ -88,6 +87,7 @@ export default function SearchPage() {
                   paddingH-20
                   paddingV-24
                   br40
+                  marginV-4
                 >
                   <Text
                     $textDefaultLight
