@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+
 import { cn } from "@swardify/ui";
 
 import { TRPCReactProvider } from "~/trpc/client";

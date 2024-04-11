@@ -1,10 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { AppState, Platform, StatusBar } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Colors, LoaderScreen } from "react-native-ui-lib";
+import {
+  Colors,
+  ConnectionStatusBar,
+  FloatingButton,
+  LoaderScreen,
+  Text,
+} from "react-native-ui-lib";
 import * as Font from "expo-font";
 import { Slot, usePathname, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { Feather } from "@expo/vector-icons";
 
 import { useStore } from "~/store";
 import { TRPCProvider } from "~/utils/api";
@@ -26,6 +34,8 @@ export default function RootLayout() {
   const pathname = usePathname();
   const segments = useSegments();
   const setTopbarStyle = useStore((state) => state.setTopbarStyle);
+  const setIsConnected = useStore((state) => state.setIsConnected);
+  const isConnected = useStore((state) => state.isConnected);
 
   const [fontLoaded] = Font.useFonts({
     "Jua-Regular": require("../../assets/fonts/Jua-Regular.ttf"),
@@ -71,10 +81,35 @@ export default function RootLayout() {
 
   if (!fontLoaded) return <LoaderScreen />;
   return (
-    <TRPCProvider>
-      <SafeAreaProvider onLayout={onLayoutRootView}>
-        <Slot />
-      </SafeAreaProvider>
-    </TRPCProvider>
+    <>
+      <ConnectionStatusBar
+        onConnectionChange={(isConnected) => setIsConnected(isConnected)}
+      />
+      <TRPCProvider>
+        <SafeAreaProvider onLayout={onLayoutRootView}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <Slot />
+            <FloatingButton
+              visible={!isConnected}
+              button={{
+                label: "No connection",
+                iconSource: () => (
+                  <Feather
+                    name="wifi-off"
+                    size={20}
+                    color={Colors.$iconPrimary}
+                    style={{ marginRight: 12 }}
+                  />
+                ),
+                outline: true,
+                activeOpacity: 1,
+              }}
+              hideBackgroundOverlay
+              bottomMargin={80}
+            />
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </TRPCProvider>
+    </>
   );
 }

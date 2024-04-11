@@ -109,6 +109,7 @@ export default function SearchPage() {
                 paddingV-24
                 br40
                 marginV-4
+                center
               >
                 <Text
                   $textDefaultLight
@@ -119,36 +120,37 @@ export default function SearchPage() {
                   {item.swardspeak_words.join(" / ")}
                 </Text>
 
-                {isLoggedInQuery.data ? (
-                  <Button
-                    iconSource={() => (
-                      <AntDesign
-                        name={item.is_favorite ? "heart" : "hearto"}
-                        size={20}
-                        color="white"
-                      />
-                    )}
-                    onPress={() =>
-                      toggleFavoriteMutation.mutate({ id: item.id })
-                    }
-                    round
-                  />
-                ) : (
-                  <Link href="/(app)/auth" asChild>
+                <View>
+                  {isLoggedInQuery.data ? (
                     <Button
                       iconSource={() => (
-                        <AntDesign name="heart" size={24} color="white" />
+                        <AntDesign
+                          name={item.is_favorite ? "heart" : "hearto"}
+                          size={20}
+                          color="white"
+                        />
                       )}
+                      onPress={() =>
+                        toggleFavoriteMutation.mutate({ id: item.id })
+                      }
                       round
                     />
-                  </Link>
-                )}
+                  ) : (
+                    <Link href="/(app)/auth" asChild>
+                      <Button
+                        iconSource={() => (
+                          <AntDesign name="hearto" size={20} color="white" />
+                        )}
+                        round
+                      />
+                    </Link>
+                  )}
+                </View>
 
                 <Text
                   $textDefaultLight
                   text50L
                   flex-1
-                  text60L
                   style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
                 >
                   {item.translated_words.join(" / ")}

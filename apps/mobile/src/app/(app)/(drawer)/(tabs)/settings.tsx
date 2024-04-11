@@ -3,8 +3,8 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Button, Text, TextField, View } from "react-native-ui-lib";
-import { Link } from "expo-router";
+import { Button, Card, Text, TextField, View } from "react-native-ui-lib";
+import { router } from "expo-router";
 
 import { api } from "~/utils/api";
 
@@ -28,10 +28,14 @@ export default function SettingsPage() {
     <SafeAreaView
       style={{ paddingTop: insets.top + 20, paddingHorizontal: 20 }}
     >
-      <Text>Authentication</Text>
+      <Text center text60>
+        Authentication
+      </Text>
       {isLoggedInQuery.data ? (
         <View>
-          <Text>Change password</Text>
+          <Text center text-70>
+            Change password
+          </Text>
           <TextField
             placeholder="Old password"
             textContentType="password"
@@ -78,7 +82,9 @@ export default function SettingsPage() {
 
           <Button
             label="Change password"
-            disabled={changePasswordMutation.isPending}
+            disabled={
+              changePasswordMutation.isPending || !oldPassword || !newPassword
+            }
             onPress={() => {
               changePasswordMutation.mutate({
                 old_password: oldPassword,
@@ -88,9 +94,18 @@ export default function SettingsPage() {
           />
         </View>
       ) : (
-        <Link asChild href="/(app)/auth">
-          <Button label="Sign in" />
-        </Link>
+        <Card
+          activeOpacity={1}
+          activeScale={0.96}
+          onPress={() => router.push("/(app)/auth")}
+        >
+          <Card.Section
+            bg-$backgroundElevated
+            padding-20
+            content={[{ text: "Sign In", text70: true, $textDefault: true }]}
+            contentStyle={{ alignItems: "center", margin: 0, padding: 0 }}
+          />
+        </Card>
       )}
     </SafeAreaView>
   );

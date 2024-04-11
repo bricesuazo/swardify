@@ -1,5 +1,4 @@
-import { SafeAreaView, ScrollView } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, View } from "react-native-ui-lib";
 import { router, useNavigation } from "expo-router";
@@ -16,35 +15,33 @@ export default function DrawerLayout() {
   const insets = useSafeAreaInsets();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        screenOptions={{
-          headerShown: false,
-          swipeMinDistance: 10,
-          swipeEdgeWidth: 1000,
-        }}
-        drawerContent={() => (
-          <ScrollView style={{ paddingTop: insets.top + 20 }}>
-            <View paddingH-16>
-              {isLoggedInQuery.data ? (
-                <Button
-                  label="Log out"
-                  onPress={async () => {
-                    await supabase.auth.signOut();
-                    await utils.auth.isLoggedIn.refetch();
-                    navigation.dispatch(DrawerActions.closeDrawer());
-                  }}
-                />
-              ) : (
-                <Button
-                  label="Sign in"
-                  onPress={() => router.push("/(app)/auth")}
-                />
-              )}
-            </View>
-          </ScrollView>
-        )}
-      />
-    </GestureHandlerRootView>
+    <Drawer
+      screenOptions={{
+        headerShown: false,
+        swipeMinDistance: 10,
+        swipeEdgeWidth: 1000,
+      }}
+      drawerContent={() => (
+        <ScrollView style={{ paddingTop: insets.top + 20 }}>
+          <View paddingH-16>
+            {isLoggedInQuery.data ? (
+              <Button
+                label="Log out"
+                onPress={async () => {
+                  await supabase.auth.signOut();
+                  await utils.auth.isLoggedIn.refetch();
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                }}
+              />
+            ) : (
+              <Button
+                label="Sign in"
+                onPress={() => router.push("/(app)/auth")}
+              />
+            )}
+          </View>
+        </ScrollView>
+      )}
+    />
   );
 }
