@@ -81,7 +81,7 @@ export default function AuthPage() {
     >
       <ScrollView keyboardDismissMode="interactive">
         <View padding-20>
-          <Button
+          {/* <Button
             iconSource={() =>
               loadings.google ? (
                 <ActivityIndicator size={24} style={{ marginRight: 8 }} />
@@ -108,7 +108,7 @@ export default function AuthPage() {
             }
             disabled={loadings.google}
             style={{ marginBottom: 20 }}
-          />
+          /> */}
 
           <TextField
             placeholder="Email address"

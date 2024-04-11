@@ -5,14 +5,8 @@ import {
   RefreshControl,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Button,
-  Colors,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native-ui-lib";
-import { Link, useRouter } from "expo-router";
+import { Button, Colors, Text, View } from "react-native-ui-lib";
+import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { api } from "~/utils/api";
@@ -72,36 +66,23 @@ export default function FavoritesPage() {
             if (!item.word) return null;
 
             return (
-              <Link
-                key={item.id}
-                href={`/${item.word_id}`}
-                asChild
-                onPress={() => (router.canGoBack() ? router.back() : undefined)}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  bg-$iconPrimary
-                  paddingH-20
-                  paddingV-24
-                  br40
+              <View bg-$iconPrimary paddingH-20 paddingV-24 br40 marginV-4>
+                <Text
+                  $textDefaultLight
+                  text50L
+                  style={{ fontFamily: "Jua-Regular" }}
                 >
-                  <Text
-                    $textDefaultLight
-                    text50L
-                    style={{ fontFamily: "Jua-Regular" }}
-                  >
-                    {item.word.swardspeak_words.join(" / ")}
-                  </Text>
-                  <Text
-                    $textDefaultLight
-                    text
-                    text60L
-                    style={{ fontFamily: "Jua-Regular" }}
-                  >
-                    {item.word.translated_words.join(" / ")}
-                  </Text>
-                </TouchableOpacity>
-              </Link>
+                  {item.word.swardspeak_words.join(" / ")}
+                </Text>
+                <Text
+                  $textDefaultLight
+                  text
+                  text60L
+                  style={{ fontFamily: "Jua-Regular" }}
+                >
+                  {item.word.translated_words.join(" / ")}
+                </Text>
+              </View>
             );
           }}
           refreshControl={

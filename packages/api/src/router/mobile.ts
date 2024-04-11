@@ -2,6 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { Database } from "../../../../supabase/types";
 import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const mobileRouter = {
@@ -23,23 +24,47 @@ export const mobileRouter = {
           message: words_error.message,
         });
 
+      let favorites: Database["public"]["Tables"]["favorites"]["Row"][] = [];
+
+      if (ctx.user) {
+        const { data, error } = await ctx.supabase
+          .from("favorites")
+          .select()
+          .eq("user_id", ctx.user?.id ?? "");
+
+        if (error)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: error.message,
+          });
+
+        favorites = data;
+      }
+
       const search_word = input.search_word;
 
-      return words.filter((word) =>
-        search_word
-          ? word.swardspeak_words.find(
-              (swardspeak_word) =>
-                swardspeak_word
-                  .toLowerCase()
-                  .includes(search_word.toLowerCase()) ||
-                word.translated_words.find((translated_word) =>
-                  translated_word
+      return words
+        .map((word) => ({
+          ...word,
+          is_favorite: favorites.some(
+            (favorite) => favorite.word_id === word.id,
+          ),
+        }))
+        .filter((word) =>
+          search_word
+            ? word.swardspeak_words.find(
+                (swardspeak_word) =>
+                  swardspeak_word
                     .toLowerCase()
-                    .includes(search_word.toLowerCase()),
-                ),
-            )
-          : true,
-      );
+                    .includes(search_word.toLowerCase()) ||
+                  word.translated_words.find((translated_word) =>
+                    translated_word
+                      .toLowerCase()
+                      .includes(search_word.toLowerCase()),
+                  ),
+              )
+            : true,
+        );
     }),
   get: publicProcedure
     .input(z.object({ id: z.string().uuid() }))

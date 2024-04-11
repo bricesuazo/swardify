@@ -50,7 +50,9 @@ export default function AuthLayout() {
           <Text white text50>
             SWARDify
           </Text>
-          <Text white>A Bidirectional Swardspeak and Tagalog Translator</Text>
+          <Text white center>
+            A Bidirectional Swardspeak and Tagalog Translator
+          </Text>
         </View>
         <Stack
           screenOptions={{

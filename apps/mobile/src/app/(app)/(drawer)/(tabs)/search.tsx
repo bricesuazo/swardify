@@ -10,8 +10,9 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Colors, Text, TouchableOpacity, View } from "react-native-ui-lib";
+import { Button, Colors, Text, View } from "react-native-ui-lib";
 import { Link } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
 import { useDebounceValue } from "~/lib/useDebounceValue";
@@ -19,6 +20,7 @@ import { api } from "~/utils/api";
 
 export default function SearchPage() {
   const [search_word, setSearchWord] = useState("");
+  const utils = api.useUtils();
 
   const [debouncedValue, setDebouncedValue] = useDebounceValue(
     search_word,
@@ -28,6 +30,26 @@ export default function SearchPage() {
     search_word: debouncedValue,
   });
   const insets = useSafeAreaInsets();
+  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
+
+  const toggleFavoriteMutation = api.mobile.toggleFavorite.useMutation({
+    onMutate: ({ id }) => {
+      utils.mobile.getAll.setData({ search_word: debouncedValue }, (words) => {
+        if (!words) return;
+
+        return words.map((word) => {
+          if (word.id === id) {
+            return {
+              ...word,
+              is_favorite: !word.is_favorite,
+            };
+          }
+          return word;
+        });
+      });
+    },
+    onSuccess: () => Promise.all([utils.mobile.getAllFavorites.refetch()]),
+  });
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: insets.top + 20 }}>
@@ -64,7 +86,7 @@ export default function SearchPage() {
             keyboardDismissMode="interactive"
             refreshControl={
               <RefreshControl
-                refreshing={getAllWordsQuery.isRefetching}
+                refreshing={getAllWordsQuery.isLoading}
                 onRefresh={() => getAllWordsQuery.refetch()}
               />
             }
@@ -80,32 +102,58 @@ export default function SearchPage() {
             data={getAllWordsQuery.data}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <Link key={item.id} href={`/${item.id}`} asChild>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  bg-$iconPrimary
-                  paddingH-20
-                  paddingV-24
-                  br40
-                  marginV-4
+              <View
+                style={{ flexDirection: "row" }}
+                bg-$iconPrimary
+                paddingH-20
+                paddingV-24
+                br40
+                marginV-4
+              >
+                <Text
+                  $textDefaultLight
+                  text50L
+                  flex-1
+                  style={{ fontFamily: "Jua-Regular" }}
                 >
-                  <Text
-                    $textDefaultLight
-                    text50L
-                    style={{ fontFamily: "Jua-Regular" }}
-                  >
-                    {item.swardspeak_words.join(" / ")}
-                  </Text>
-                  <Text
-                    $textDefaultLight
-                    text
-                    text60L
-                    style={{ fontFamily: "Jua-Regular" }}
-                  >
-                    {item.translated_words.join(" / ")}
-                  </Text>
-                </TouchableOpacity>
-              </Link>
+                  {item.swardspeak_words.join(" / ")}
+                </Text>
+
+                {isLoggedInQuery.data ? (
+                  <Button
+                    iconSource={() => (
+                      <AntDesign
+                        name={item.is_favorite ? "heart" : "hearto"}
+                        size={20}
+                        color="white"
+                      />
+                    )}
+                    onPress={() =>
+                      toggleFavoriteMutation.mutate({ id: item.id })
+                    }
+                    round
+                  />
+                ) : (
+                  <Link href="/(app)/auth" asChild>
+                    <Button
+                      iconSource={() => (
+                        <AntDesign name="heart" size={24} color="white" />
+                      )}
+                      round
+                    />
+                  </Link>
+                )}
+
+                <Text
+                  $textDefaultLight
+                  text50L
+                  flex-1
+                  text60L
+                  style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
+                >
+                  {item.translated_words.join(" / ")}
+                </Text>
+              </View>
             )}
           />
         )}

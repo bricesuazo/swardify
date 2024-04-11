@@ -8,9 +8,6 @@ import type { Database } from "./../../../../supabase/types";
 import "react-native-get-random-values";
 import "react-native-url-polyfill/auto";
 
-// As Expo's SecureStore does not support values larger than 2048
-// bytes, an AES-256 key is generated and stored in SecureStore, while
-// it is used to encrypt/decrypt values stored in AsyncStorage.
 class LargeSecureStore {
   private async _encrypt(key: string, value: string) {
     const encryptionKey = crypto.getRandomValues(new Uint8Array(256 / 8));
@@ -65,27 +62,3 @@ export const supabase = createClient<Database>(
     },
   },
 );
-// import { createClient } from '@supabase/supabase-js';
-// import * as SecureStore from 'expo-secure-store';
-// import 'react-native-url-polyfill/auto';
-// import { Database } from '~/types/supabase';
-
-// const ExpoSecureStoreAdapter = {
-//   getItem: (key: string) => SecureStore.getItemAsync(key),
-//   setItem: (key: string, value: string) => SecureStore.setItemAsync(key, value),
-//   removeItem: (key: string) => SecureStore.deleteItemAsync(key),
-// };
-
-// export const supabase = createClient<Database>(
-//   process.env.EXPO_PUBLIC_SUPABASE_URL!,
-//   process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
-//   {
-//     auth: {
-//       storage: ExpoSecureStoreAdapter,
-//       autoRefreshToken: true,
-//       persistSession: true,
-//       detectSessionInUrl: true,
-//       flowType: 'pkce',
-//     },
-//   },
-// );

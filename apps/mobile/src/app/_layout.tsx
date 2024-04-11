@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppState, Platform, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Colors } from "react-native-ui-lib";
-import { useFonts } from "expo-font";
+import { Colors, LoaderScreen } from "react-native-ui-lib";
+import * as Font from "expo-font";
 import { Slot, usePathname, useSegments } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 
 import { useStore } from "~/store";
 import { TRPCProvider } from "~/utils/api";
 import { supabase } from "~/utils/supabase";
+
+SplashScreen.preventAutoHideAsync();
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -24,7 +27,7 @@ export default function RootLayout() {
   const segments = useSegments();
   const setTopbarStyle = useStore((state) => state.setTopbarStyle);
 
-  useFonts({
+  const [fontLoaded] = Font.useFonts({
     "Jua-Regular": require("../../assets/fonts/Jua-Regular.ttf"),
   });
 
@@ -60,9 +63,16 @@ export default function RootLayout() {
     }
   }, [pathname, segments]);
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontLoaded]);
+
+  if (!fontLoaded) return <LoaderScreen />;
   return (
     <TRPCProvider>
-      <SafeAreaProvider>
+      <SafeAreaProvider onLayout={onLayoutRootView}>
         <Slot />
       </SafeAreaProvider>
     </TRPCProvider>
