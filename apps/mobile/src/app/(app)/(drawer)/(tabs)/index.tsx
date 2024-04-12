@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ActivityIndicator, RefreshControl, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Button,
@@ -10,22 +10,27 @@ import {
   View,
 } from "react-native-ui-lib";
 import { Ionicons } from "@expo/vector-icons";
+import { FlashList } from "@shopify/flash-list";
 
 import { useDebounceValue } from "~/lib/useDebounceValue";
 import { useInterval } from "~/lib/useInterval";
-import { api } from "~/utils/api";
+import { api, RouterInputs } from "~/utils/api";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [debouncedValue] = useDebounceValue(input, 1000);
+  const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 1000);
+  const [output, setOutput] = useState("");
+
   const inset = useSafeAreaInsets();
-  const [type, setType] = useState<
-    "swardspeak-to-tagalog" | "tagalog-to-swardspeak"
-  >("swardspeak-to-tagalog");
+  const [type, setType] = useState<RouterInputs["mobile"]["translate"]["type"]>(
+    "swardspeak-to-tagalog",
+  );
   const [copied, setCopied] = useState(false);
-  const [tagalog, setTagalog] = useState("");
   const getAllTranslationHistoriesQuery =
     api.mobile.getAllTranslationHistories.useQuery();
+  const translateMutation = api.mobile.translate.useMutation({
+    onSuccess: () => getAllTranslationHistoriesQuery.refetch(),
+  });
 
   useInterval(
     () => {
@@ -33,6 +38,15 @@ export default function Home() {
     },
     copied ? 2000 : null,
   );
+
+  useEffect(() => {
+    if (!debouncedInput || debouncedInput.length === 0) return;
+    translateMutation.mutate({ type, input: debouncedInput });
+  }, [debouncedInput]);
+
+  useEffect(() => {
+    setDebouncedInput(input);
+  }, [input]);
 
   return (
     <View flex-1>
@@ -74,6 +88,7 @@ export default function Home() {
               <TextField
                 text50
                 readOnly
+                value={output}
                 placeholder={
                   type === "swardspeak-to-tagalog"
                     ? "Tagalog translation"
@@ -81,17 +96,23 @@ export default function Home() {
                 }
                 placeholderTextColor={Colors.$iconDisabled}
                 fieldStyle={{ height: 60 }}
-                value={tagalog}
-                onChangeText={setTagalog}
+                onChangeText={setOutput}
               />
 
-              <Button
-                label={copied ? "Copied!" : "Copy"}
-                onPress={() => setCopied(true)}
-                size={Button.sizes.xSmall}
-                disabled={copied}
-                style={{ position: "absolute", top: 16, right: 12 }}
-              />
+              <View style={{ position: "absolute", top: 16, right: 12 }}>
+                {translateMutation.isPending ? (
+                  <View paddingH-20 paddingV-4>
+                    <ActivityIndicator />
+                  </View>
+                ) : (
+                  <Button
+                    label={copied ? "Copied!" : "Copy"}
+                    onPress={() => setCopied(true)}
+                    size={Button.sizes.xSmall}
+                    disabled={copied}
+                  />
+                )}
+              </View>
             </View>
           </View>
         </View>
@@ -115,99 +136,101 @@ export default function Home() {
             left: "50%",
             transform: [{ translateX: -24 }, { translateY: 32 }],
           }}
-          onPress={() =>
+          onPress={() => {
+            setInput("");
+            setOutput("");
             setType(
               type === "swardspeak-to-tagalog"
                 ? "tagalog-to-swardspeak"
                 : "swardspeak-to-tagalog",
-            )
-          }
+            );
+          }}
         />
       </View>
-      <ScrollView
-        keyboardDismissMode="interactive"
-        refreshControl={
-          <RefreshControl
-            refreshing={getAllTranslationHistoriesQuery.isRefetching}
-            onRefresh={getAllTranslationHistoriesQuery.refetch}
-          />
-        }
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
-        <View padding-20>
-          <Text
-            center
-            text60L
-            $textNeutralHeavy
-            marginB-20
-            style={{ fontFamily: "Jua-Regular" }}
-          >
-            History
-          </Text>
 
-          <View
-            marginB-16
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              // backgroundColor: 'red',
-            }}
-          >
-            <Text text70L style={{ fontFamily: "Jua-Regular" }}>
-              Swardspeak
-            </Text>
-            <Text text70L style={{ fontFamily: "Jua-Regular" }}>
-              Tagalog
-            </Text>
-          </View>
+      {getAllTranslationHistoriesQuery.isLoading ||
+      !getAllTranslationHistoriesQuery.data ? (
+        <View center padding-20>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <FlashList
+          data={getAllTranslationHistoriesQuery.data}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => (
+            <>
+              <Text
+                center
+                text60L
+                $textNeutralHeavy
+                marginB-20
+                style={{ fontFamily: "Jua-Regular" }}
+              >
+                History
+              </Text>
 
-          {getAllTranslationHistoriesQuery.isLoading ||
-          !getAllTranslationHistoriesQuery.data ? (
-            <View center>
-              <ActivityIndicator />
-            </View>
-          ) : getAllTranslationHistoriesQuery.data.length === 0 ? (
-            <Text center>No translation history found</Text>
-          ) : (
-            <View flex-1>
-              {getAllTranslationHistoriesQuery.data.map(
-                (translationHistory) => (
-                  <View
-                    key={translationHistory.id}
-                    paddingH-20
-                    paddingV-24
-                    br40
-                    marginB-12
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      borderWidth: 2,
-                      columnGap: 8,
-                      borderColor: Colors.$textNeutralLight,
-                    }}
-                  >
-                    <Text text60L flex-1 style={{ fontFamily: "Jua-Regular" }}>
-                      {translationHistory.swardspeak}
-                    </Text>
-                    <Dash vertical length={40} />
-                    <Text
-                      text60L
-                      flex-1
-                      style={{
-                        textAlign: "right",
-                        fontFamily: "Jua-Regular",
-                      }}
-                    >
-                      {translationHistory.tagalog}
-                    </Text>
-                  </View>
-                ),
-              )}
+              <View
+                marginB-16
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text text70L style={{ fontFamily: "Jua-Regular" }}>
+                  Swardspeak
+                </Text>
+                <Text text70L style={{ fontFamily: "Jua-Regular" }}>
+                  Tagalog
+                </Text>
+              </View>
+            </>
+          )}
+          renderItem={({ item }) => (
+            <View
+              paddingH-20
+              paddingV-24
+              br40
+              marginB-12
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderWidth: 2,
+                columnGap: 8,
+                borderColor: Colors.$textNeutralLight,
+              }}
+            >
+              <Text text60L flex-1 style={{ fontFamily: "Jua-Regular" }}>
+                {item.swardspeak}
+              </Text>
+              <Dash vertical length={40} />
+              <Text
+                text60L
+                flex-1
+                style={{
+                  textAlign: "right",
+                  fontFamily: "Jua-Regular",
+                }}
+              >
+                {item.tagalog}
+              </Text>
             </View>
           )}
-        </View>
-      </ScrollView>
+          refreshControl={
+            <RefreshControl
+              refreshing={getAllTranslationHistoriesQuery.isLoading}
+              onRefresh={() => getAllTranslationHistoriesQuery.refetch()}
+            />
+          }
+          estimatedItemSize={100}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <Text center>No translation history found</Text>
+          )}
+          keyboardDismissMode="interactive"
+          contentContainerStyle={{ padding: 20 }}
+        />
+      )}
     </View>
   );
 }

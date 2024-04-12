@@ -29,7 +29,7 @@ export default function DrawerLayout() {
                 label="Log out"
                 onPress={async () => {
                   await supabase.auth.signOut();
-                  await utils.auth.isLoggedIn.refetch();
+                  await utils.invalidate();
                   navigation.dispatch(DrawerActions.closeDrawer());
                 }}
               />

@@ -91,7 +91,8 @@ export const mobileRouter = {
       await ctx.supabase
         .from("translation_histories")
         .select()
-        .eq("user_id", ctx.user.id);
+        .eq("user_id", ctx.user.id)
+        .order("created_at", { ascending: false });
 
     if (translation_histories_error)
       throw new TRPCError({
@@ -164,4 +165,29 @@ export const mobileRouter = {
 
     return favorites;
   }),
+  translate: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["swardspeak-to-tagalog", "tagalog-to-swardspeak"]),
+        input: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user) {
+        const { data, error } = await ctx.supabase
+          .from("translation_histories")
+          .insert({
+            user_id: ctx.user.id,
+            swardspeak:
+              input.type === "swardspeak-to-tagalog" ? input.input : undefined,
+            tagalog:
+              input.type === "tagalog-to-swardspeak" ? input.input : undefined,
+          });
+        if (error)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: error.message,
+          });
+      }
+    }),
 } satisfies TRPCRouterRecord;

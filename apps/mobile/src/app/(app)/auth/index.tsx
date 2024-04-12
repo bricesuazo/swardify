@@ -42,7 +42,7 @@ export default function AuthPage() {
 
       if (router.canGoBack()) router.back();
 
-      await utils.auth.isLoggedIn.refetch();
+      await utils.invalidate();
     } else if (type === "sign-up") {
       if (password !== repeatPassword) {
         setLoadings({ ...loadings, email: false });
