@@ -189,5 +189,65 @@ export const mobileRouter = {
             message: error.message,
           });
       }
+
+      const { data: words, error: words_error } = await ctx.supabase
+        .from("words")
+        .select();
+
+      if (words_error)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: words_error.message,
+        });
+
+      const test =
+        `You are a Swardspeak to Tagalog and vice versa translator.
+          Return only the translation.
+          Here are the words you need to know:
+          The structure of the words is: Swardspeak word: Tagalog word
+          ${words
+            .map(
+              (word) =>
+                `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
+                  ", ",
+                )}`,
+            )
+            .join("\n")}
+            
+            Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+        input.input;
+
+      console.log(test);
+
+      return test;
+
+      // const { response } = await ctx.ollama.generate({
+      //   model: "llama3",
+      //   system: `You are a Swardspeak to Tagalog and vice versa translator.
+      //     Return only the translation.
+      //     Here are the words you need to know:
+      //     The structure of the words is: Swardspeak word: Tagalog word
+      //     ${words
+      //       .map(
+      //         (word) =>
+      //           `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
+      //             ", ",
+      //           )}`,
+      //       )
+      //       .join("\n")}`,
+      //   prompt:
+      //     `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+      //     input.input,
+      //   stream: false,
+      //   options: {},
+      // });
+      // console.log("🚀 ~ .mutation ~ response:", response);
+      // const res =  ctx.openai.completions.create({
+      //   model: "gpt-3.5-turbo-instruct",
+      //   prompt:
+      //     "Translate the following Swardspeak word to Tagalog: " + input.input,
+      //   max_tokens: 60,
+      // });
+      // console.log("🚀 ~ .mutation ~ res:", res);
     }),
 } satisfies TRPCRouterRecord;

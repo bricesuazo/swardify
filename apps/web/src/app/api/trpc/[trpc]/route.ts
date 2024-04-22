@@ -4,7 +4,7 @@ import { appRouter, createTRPCContext } from "@swardify/api";
 
 import { createClient } from "~/supabase/admin";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 /**
  * Configure basic CORS headers

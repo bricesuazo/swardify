@@ -31,6 +31,7 @@ export default function Home() {
   const translateMutation = api.mobile.translate.useMutation({
     onSuccess: () => getAllTranslationHistoriesQuery.refetch(),
   });
+  console.log("🚀 ~ Home ~ translateMutation:", translateMutation);
 
   useInterval(
     () => {

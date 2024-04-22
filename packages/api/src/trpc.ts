@@ -1,9 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
+import ollama from "ollama";
+import OpenAI from "openai";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import type { Database } from "./../../../supabase/types";
+import { env } from "./env";
 
 export const createTRPCContext = async (opts: {
   headers: Headers;
@@ -21,9 +24,15 @@ export const createTRPCContext = async (opts: {
 
   console.log(">>> tRPC Request from", source, "by", user?.email);
 
+  const openai = new OpenAI({
+    apiKey: env.OPENAI_KEY,
+  });
+
   return {
     supabase: opts.supabase,
     user,
+    openai,
+    ollama,
   };
 };
 

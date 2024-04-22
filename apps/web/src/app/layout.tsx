@@ -3,8 +3,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 
-import { cn } from "@swardify/ui";
-
 import { TRPCReactProvider } from "~/trpc/client";
 
 const font = Poppins({
@@ -30,7 +28,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
         />
       </head>
-      <body className={cn("font-sans", font.className)}>
+      <body className={font.className}>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
