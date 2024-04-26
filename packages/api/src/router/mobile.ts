@@ -173,23 +173,6 @@ export const mobileRouter = {
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      if (ctx.user) {
-        const { data, error } = await ctx.supabase
-          .from("translation_histories")
-          .insert({
-            user_id: ctx.user.id,
-            swardspeak:
-              input.type === "swardspeak-to-tagalog" ? input.input : undefined,
-            tagalog:
-              input.type === "tagalog-to-swardspeak" ? input.input : undefined,
-          });
-        if (error)
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: error.message,
-          });
-      }
-
       const { data: words, error: words_error } = await ctx.supabase
         .from("words")
         .select();
@@ -200,26 +183,22 @@ export const mobileRouter = {
           message: words_error.message,
         });
 
-      const test =
-        `You are a Swardspeak to Tagalog and vice versa translator.
-          Return only the translation.
-          Here are the words you need to know:
-          The structure of the words is: Swardspeak word: Tagalog word
-          ${words
-            .map(
-              (word) =>
-                `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
-                  ", ",
-                )}`,
-            )
-            .join("\n")}
-            
-            Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
-        input.input;
+      // const test =
+      //   `You are a Swardspeak to Tagalog and vice versa translator.
+      //     Return only the translation.
+      //     Here are the words you need to know:
+      //     The structure of the words is: Swardspeak word: Tagalog word
+      //     ${words
+      //       .map(
+      //         (word) =>
+      //           `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
+      //             ", ",
+      //           )}`,
+      //       )
+      //       .join("\n")}
 
-      console.log(test);
-
-      return test;
+      //       Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+      //   input.input;
 
       // const { response } = await ctx.ollama.generate({
       //   model: "llama3",
@@ -242,12 +221,54 @@ export const mobileRouter = {
       //   options: {},
       // });
       // console.log("🚀 ~ .mutation ~ response:", response);
-      // const res =  ctx.openai.completions.create({
+
+      // const res = await ctx.openai.chat.completions.create({
       //   model: "gpt-3.5-turbo-instruct",
-      //   prompt:
-      //     "Translate the following Swardspeak word to Tagalog: " + input.input,
+
+      //   messages: [
+      //     "You are a Swardspeak to Tagalog and vice versa translator. Return only the translation.",
+      //     `Here are the words you need to know:
+      //     The structure of the words is: Swardspeak word: Tagalog word
+      //     ${words
+      //       .map(
+      //         (word) =>
+      //           `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
+      //             ", ",
+      //           )}`,
+      //       )
+      //       .join("\n")}`,
+      //     "Your output should be a just word, phrase, or sentence. Do not include any additional information.",
+      //     `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+      //       input.input,
+      //   ],
       //   max_tokens: 60,
+      //   user: ctx.user?.email,
+      //   stream: false,
+      //   response_format: { type: "json_object" },
       // });
       // console.log("🚀 ~ .mutation ~ res:", res);
+
+      // if (ctx.user) {
+      //   const { error } = await ctx.supabase
+      //     .from("translation_histories")
+      //     .insert({
+      //       user_id: ctx.user.id,
+      //       swardspeak:
+      //         input.type === "swardspeak-to-tagalog"
+      //           ? input.input
+      //           : res.choices[0]?.text,
+      //       tagalog:
+      //         input.type === "tagalog-to-swardspeak"
+      //           ? input.input
+      //           : res.choices[0]?.text,
+      //     });
+      //   if (error)
+      //     throw new TRPCError({
+      //       code: "BAD_REQUEST",
+      //       message: error.message,
+      //     });
+      // }
+
+      // return res.choices[0]?.text;
     }),
 } satisfies TRPCRouterRecord;

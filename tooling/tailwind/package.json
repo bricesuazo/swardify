@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@swardify/eslint-config": "workspace:*",
     "@swardify/prettier-config": "workspace:*",
     "@swardify/tsconfig": "workspace:*",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.1",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "prettier": "@swardify/prettier-config"
 }
