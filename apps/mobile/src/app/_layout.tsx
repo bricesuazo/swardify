@@ -7,7 +7,6 @@ import {
   ConnectionStatusBar,
   FloatingButton,
   LoaderScreen,
-  Text,
 } from "react-native-ui-lib";
 import * as Font from "expo-font";
 import { Slot, usePathname, useSegments } from "expo-router";
