@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@swardify/ui/button";
 import {
   Form,
@@ -12,8 +15,6 @@ import {
   FormMessage,
 } from "@swardify/ui/form";
 import { Input } from "@swardify/ui/input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { createClient } from "~/supabase/client";
 
@@ -40,6 +41,13 @@ export default function SignIn() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(async (values) => {
+              if (values.email !== "swardify@gmail.com") {
+                form.setError("email", {
+                  message: "Invalid email or password.",
+                });
+
+                return;
+              }
               const { data } = await supabase.auth.signInWithPassword({
                 email: values.email,
                 password: values.password,
