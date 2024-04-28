@@ -65,6 +65,9 @@ importers:
       expo:
         specifier: ~50.0.17
         version: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.74.81)
+      expo-clipboard:
+        specifier: ~5.0.1
+        version: 5.0.1(expo@50.0.17)
       expo-constants:
         specifier: ~15.4.6
         version: 15.4.6(expo@50.0.17)
@@ -7267,6 +7270,14 @@ packages:
     transitivePeerDependencies:
       - expo
       - supports-color
+    dev: false
+
+  /expo-clipboard@5.0.1(expo@50.0.17):
+    resolution: {integrity: sha512-JH853QJPr5W3h87If3aDTnMK+ESSIrwzU2TdfZrqZttVDY2pMIf/w37mVHHNYodXM4ATHXadtOkjKbAa0DWwUg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.74.81)
     dev: false
 
   /expo-constants@15.4.6(expo@50.0.17):

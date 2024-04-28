@@ -9,6 +9,7 @@ import {
   TextField,
   View,
 } from "react-native-ui-lib";
+import * as Clipboard from "expo-clipboard";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
@@ -110,7 +111,11 @@ export default function Home() {
                 ) : (
                   <Button
                     label={copied ? "Copied!" : "Copy"}
-                    onPress={() => setCopied(true)}
+                    onPress={async () => {
+                      setCopied(true);
+
+                      await Clipboard.setStringAsync(output);
+                    }}
                     size={Button.sizes.xSmall}
                     disabled={copied}
                   />
