@@ -30,7 +30,7 @@ export default function Home() {
     api.mobile.getAllTranslationHistories.useQuery();
   const translateMutation = api.mobile.translate.useMutation({
     onSuccess: async (res) => {
-      setOutput(res ?? "");
+      setOutput(res);
       await getAllTranslationHistoriesQuery.refetch();
     },
   });

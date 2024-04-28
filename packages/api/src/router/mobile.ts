@@ -222,53 +222,64 @@ export const mobileRouter = {
       // });
       // console.log("🚀 ~ .mutation ~ response:", response);
 
-      // const res = await ctx.openai.chat.completions.create({
-      //   model: "gpt-3.5-turbo-instruct",
+      const req = await ctx.openai.chat.completions.create({
+        model: "gpt-4-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a Swardspeak to Tagalog and vice versa translator." +
+              `Here are the words you need to know:
+          The structure of the words is: Swardspeak word: Tagalog word
+          ${words
+            .map(
+              (word) =>
+                `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
+                  ", ",
+                )}`,
+            )
+            .join("\n")}` +
+              'Your output should be a JSON object with a structure like this { "translation": "translated word" }. Do not include any additional information.',
+          },
+          {
+            role: "user",
+            content:
+              `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+              input.input,
+          },
+        ],
+        max_tokens: 60,
+        temperature: 0.2,
+        user: ctx.user?.email,
+        stream: false,
+        response_format: { type: "json_object" },
+      });
 
-      //   messages: [
-      //     "You are a Swardspeak to Tagalog and vice versa translator. Return only the translation.",
-      //     `Here are the words you need to know:
-      //     The structure of the words is: Swardspeak word: Tagalog word
-      //     ${words
-      //       .map(
-      //         (word) =>
-      //           `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
-      //             ", ",
-      //           )}`,
-      //       )
-      //       .join("\n")}`,
-      //     "Your output should be a just word, phrase, or sentence. Do not include any additional information.",
-      //     `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
-      //       input.input,
-      //   ],
-      //   max_tokens: 60,
-      //   user: ctx.user?.email,
-      //   stream: false,
-      //   response_format: { type: "json_object" },
-      // });
-      // console.log("🚀 ~ .mutation ~ res:", res);
+      const res = z
+        .object({ translation: z.string() })
+        .parse(JSON.parse(req.choices[0]?.message.content ?? ""));
 
-      // if (ctx.user) {
-      //   const { error } = await ctx.supabase
-      //     .from("translation_histories")
-      //     .insert({
-      //       user_id: ctx.user.id,
-      //       swardspeak:
-      //         input.type === "swardspeak-to-tagalog"
-      //           ? input.input
-      //           : res.choices[0]?.text,
-      //       tagalog:
-      //         input.type === "tagalog-to-swardspeak"
-      //           ? input.input
-      //           : res.choices[0]?.text,
-      //     });
-      //   if (error)
-      //     throw new TRPCError({
-      //       code: "BAD_REQUEST",
-      //       message: error.message,
-      //     });
-      // }
+      if (ctx.user) {
+        const { error } = await ctx.supabase
+          .from("translation_histories")
+          .insert({
+            user_id: ctx.user.id,
+            swardspeak:
+              input.type === "swardspeak-to-tagalog"
+                ? input.input
+                : res.translation,
+            tagalog:
+              input.type === "tagalog-to-swardspeak"
+                ? input.input
+                : res.translation,
+          });
+        if (error)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: error.message,
+          });
+      }
 
-      // return res.choices[0]?.text;
+      return res.translation;
     }),
 } satisfies TRPCRouterRecord;
