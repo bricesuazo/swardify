@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, RefreshControl } from "react-native";
+import { ActivityIndicator, Alert, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Button,
@@ -30,6 +30,9 @@ export default function Home() {
   const getAllTranslationHistoriesQuery =
     api.mobile.getAllTranslationHistories.useQuery();
   const translateMutation = api.mobile.translate.useMutation({
+    onError: (err) => {
+      Alert.alert("Error", err.message);
+    },
     onSuccess: async (res) => {
       setOutput(res);
       await getAllTranslationHistoriesQuery.refetch();

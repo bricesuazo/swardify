@@ -229,17 +229,16 @@ export const mobileRouter = {
             role: "system",
             content:
               "You are a Swardspeak to Tagalog and vice versa translator." +
-              `Here are the words you need to know:
-          The structure of the words is: Swardspeak word: Tagalog word
-          ${words
+              ` Here are the words you need to know:
+          The structure of the words is: Swardspeak word: Tagalog word ${words
             .map(
               (word) =>
-                `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(
-                  ", ",
-                )}`,
+                `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(", ")}`,
             )
             .join("\n")}` +
-              'Your output should be a JSON object with a structure like this { "translation": "translated word" }. Do not include any additional information.',
+              ' Your output should be a JSON object with a structured like this { success: true, "translation": "translated word" }. Do not include any additional information.' +
+              ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+              ' If there is an error, return { success: false, "error": <error message> }.',
           },
           {
             role: "user",
@@ -256,8 +255,16 @@ export const mobileRouter = {
       });
 
       const res = z
-        .object({ translation: z.string() })
+        .object({ success: z.literal(true), translation: z.string() })
+        .or(z.object({ success: z.literal(false), error: z.string() }))
         .parse(JSON.parse(req.choices[0]?.message.content ?? ""));
+
+      if (!res.success) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: res.error,
+        });
+      }
 
       if (ctx.user) {
         const { error } = await ctx.supabase
