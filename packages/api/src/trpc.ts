@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
+import Groq from "groq-sdk";
 import ollama from "ollama";
 import OpenAI from "openai";
 import superjson from "superjson";
@@ -24,15 +25,16 @@ export const createTRPCContext = async (opts: {
 
   console.log(">>> tRPC Request from", source, "by", user?.email);
 
-  const openai = new OpenAI({
-    apiKey: env.OPENAI_KEY,
-  });
-
   return {
     supabase: opts.supabase,
     user,
-    openai,
+    openai: new OpenAI({
+      apiKey: env.OPENAI_KEY,
+    }),
     ollama,
+    groq: new Groq({
+      apiKey: env.GROQ_API_KEY,
+    }),
   };
 };
 
