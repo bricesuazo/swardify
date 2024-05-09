@@ -17,7 +17,8 @@ export const mobileRouter = {
       const { data: words, error: words_error } = await ctx.supabase
         .from("words")
         .select()
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: true })
+        .is("deleted_at", null);
 
       if (words_error)
         throw new TRPCError({
@@ -156,7 +157,8 @@ export const mobileRouter = {
     const { data: favorites, error: favorites_error } = await ctx.supabase
       .from("favorites")
       .select("id, word_id, word:words(swardspeak_words, translated_words)")
-      .eq("user_id", ctx.user.id);
+      .eq("user_id", ctx.user.id)
+      .is("words.deleted_at", null);
 
     if (favorites_error)
       throw new TRPCError({

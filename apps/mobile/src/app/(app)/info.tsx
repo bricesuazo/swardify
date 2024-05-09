@@ -67,6 +67,9 @@ export default function InfoPage() {
             </Text>
           </View>
           <View style={{ gap: 20 }}>
+            <Text center text80>
+              **This application is for our undergraduate thesis.**
+            </Text>
             <Text center text80H>
               Meet the developers:
             </Text>

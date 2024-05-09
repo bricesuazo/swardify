@@ -9,7 +9,8 @@ export const webRouter = {
     const { data, error } = await ctx.supabase
       .from("words")
       .select("id, swardspeak_words, translated_words")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .is("deleted_at", null);
 
     if (error)
       throw new TRPCError({
@@ -66,7 +67,7 @@ export const webRouter = {
     .mutation(async ({ input, ctx }) => {
       const { error } = await ctx.supabase
         .from("words")
-        .delete()
+        .update({ deleted_at: new Date().toISOString() })
         .eq("id", input.id);
 
       if (error)
