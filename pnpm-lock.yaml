@@ -71,6 +71,9 @@ importers:
       expo-constants:
         specifier: ~15.4.6
         version: 15.4.6(expo@50.0.17)
+      expo-image:
+        specifier: ^1.10.6
+        version: 1.10.6(expo@50.0.17)
       expo-linking:
         specifier: ~6.2.2
         version: 6.2.2(expo@50.0.17)
@@ -7320,6 +7323,15 @@ packages:
     dependencies:
       expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.74.81)
       fontfaceobserver: 2.3.0
+    dev: false
+
+  /expo-image@1.10.6(expo@50.0.17):
+    resolution: {integrity: sha512-vcnAIym1eU8vQgV1re1E7rVQZStJimBa4aPDhjFfzMzbddAF7heJuagyewiUkTzbZUwYzPaZAie6VJPyWx9Ueg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@react-native/assets-registry': 0.73.1
+      expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.74.81)
     dev: false
 
   /expo-keep-awake@12.8.2(expo@50.0.17):
