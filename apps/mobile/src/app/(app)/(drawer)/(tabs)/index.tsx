@@ -111,7 +111,7 @@ export default function Home() {
                   <View paddingH-20 paddingV-4>
                     <ActivityIndicator />
                   </View>
-                ) : (
+                ) : output ? (
                   <Button
                     label={copied ? "Copied!" : "Copy"}
                     onPress={async () => {
@@ -122,7 +122,7 @@ export default function Home() {
                     size={Button.sizes.xSmall}
                     disabled={copied}
                   />
-                )}
+                ) : null}
               </View>
             </View>
           </View>

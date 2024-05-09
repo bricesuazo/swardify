@@ -5,7 +5,7 @@ export default function AppLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="[word_id]" />
       <Stack.Screen
-        name="favorites"
+        name="info"
         options={{
           presentation: "modal",
         }}

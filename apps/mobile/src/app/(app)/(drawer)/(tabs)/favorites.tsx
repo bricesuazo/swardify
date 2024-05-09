@@ -1,55 +1,17 @@
+import { ActivityIndicator, FlatList, RefreshControl } from "react-native";
 import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  RefreshControl,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button, Colors, Text, View } from "react-native-ui-lib";
-import { useRouter } from "expo-router";
-import { Feather } from "@expo/vector-icons";
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { Text, View } from "react-native-ui-lib";
 
 import { api } from "~/utils/api";
 
 export default function FavoritesPage() {
   const insets = useSafeAreaInsets();
-  const router = useRouter();
   const getAllFavoritesQuery = api.mobile.getAllFavorites.useQuery();
   return (
-    <View
-      flex-1
-      style={{ paddingTop: Platform.OS === "android" ? insets.top : 0 }}
-    >
-      <View
-        paddingV-8
-        style={{
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <View height={40} width={40} center>
-          {Platform.OS === "android" && (
-            <Button
-              link
-              onPress={() =>
-                router.canGoBack() ? router.back() : router.replace("/")
-              }
-              iconSource={() => (
-                <Feather
-                  name="chevron-left"
-                  size={24}
-                  color={Colors.$iconPrimary}
-                />
-              )}
-              round
-            />
-          )}
-        </View>
-        <Text text60>Favorites</Text>
-        <View height={40} width={40} center />
-      </View>
-
+    <SafeAreaView flex-1 style={{ paddingTop: insets.top }}>
       {!getAllFavoritesQuery.data || getAllFavoritesQuery.isLoading ? (
         <ActivityIndicator />
       ) : (
@@ -93,6 +55,6 @@ export default function FavoritesPage() {
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }

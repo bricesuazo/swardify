@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { AppState, Platform, StatusBar } from "react-native";
+import { AppState, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -41,21 +41,21 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    const theme = Colors.getScheme();
+    // const theme = Colors.getScheme();
 
-    if (pathname === "/favorites") {
-      if (Platform.OS === "ios") {
-        StatusBar.setBarStyle("light-content", true);
-        return;
-      }
+    // if (pathname === "/favorites") {
+    //   if (Platform.OS === "ios") {
+    //     StatusBar.setBarStyle("light-content", true);
+    //     return;
+    //   }
 
-      if (theme === "dark") {
-        StatusBar.setBarStyle("light-content", true);
-      } else {
-        StatusBar.setBarStyle("dark-content", true);
-      }
-      return;
-    }
+    //   if (theme === "dark") {
+    //     StatusBar.setBarStyle("light-content", true);
+    //   } else {
+    //     StatusBar.setBarStyle("dark-content", true);
+    //   }
+    //   return;
+    // }
 
     if (
       pathname === "/" ||

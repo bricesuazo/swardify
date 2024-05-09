@@ -185,20 +185,20 @@ export const mobileRouter = {
         });
 
       const response = await ctx.groq.chat.completions.create({
-        max_tokens: 60,
         model: "llama3-70b-8192",
         messages: [
           {
             role: "system",
             content:
               "You are a Swardspeak to Tagalog and vice versa translator." +
-              ` Here are the words you need to know:
-            The structure of the words is: Swardspeak word: Tagalog word ${words
-              .map(
-                (word) =>
-                  `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(", ")}`,
-              )
-              .join("\n")}` +
+              ' The structure of the words in my list: { swardspeak_words:["Swardspeak word 1", "Swardspeak word 2"], translated_words:["Tagalog word 1", "Tagalog word 2"]}[]' +
+              ` Here are the words you need to know: ${JSON.stringify(
+                words.map((word) => ({
+                  swardspeak_words: word.swardspeak_words,
+                  translated_words: word.translated_words,
+                })),
+              )}
+              }))}` +
               ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
               ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
               ' If there is an error, return { success: false, "error": <error message> }.',
@@ -212,7 +212,7 @@ export const mobileRouter = {
         ],
         stream: false,
         response_format: { type: "json_object" },
-        temperature: 0.2,
+        max_tokens: 120,
       });
       const res = z
         .object({ success: z.literal(true), translation: z.string() })

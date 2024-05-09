@@ -1,7 +1,12 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Colors, View } from "react-native-ui-lib";
 import { Link, Tabs, useNavigation } from "expo-router";
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Feather,
+  FontAwesome5,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { DrawerActions } from "@react-navigation/native";
 
 import { useStore } from "~/store";
@@ -11,7 +16,6 @@ export default function TabLayout() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const topbarStyle = useStore((state) => state.topbarStyle);
-  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
 
   return (
     <>
@@ -31,11 +35,33 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
+          name="favorites"
+          options={{
+            title: "Favorites",
+            tabBarIcon: ({ color, size }) => (
+              <Feather name="heart" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="index"
           options={{
             title: "Translate",
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="translate" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="contribute"
+          options={{
+            title: "Contribute",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome5
+                name="hand-holding-heart"
+                size={size}
+                color={color}
+              />
             ),
           }}
         />
@@ -84,15 +110,11 @@ export default function TabLayout() {
             color={topbarStyle === "light" ? "white" : Colors.$iconPrimary}
           />
 
-          <Link
-            href={isLoggedInQuery.data ? "/favorites" : "/(app)/auth"}
-            asChild
-            push
-          >
+          <Link href="/info" asChild push>
             <Button
               iconSource={() => (
                 <Feather
-                  name="heart"
+                  name="info"
                   size={24}
                   color={topbarStyle === "light" ? "white" : "black"}
                 />
