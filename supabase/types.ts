@@ -45,6 +45,97 @@ export type Database = {
           },
         ]
       }
+      phrase_contributions: {
+        Row: {
+          approved_at: string | null
+          created_at: string
+          deleted_at: string | null
+          id: string
+          swardspeak_phrase: string
+          translated_phrase: string
+          user_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_phrase: string
+          translated_phrase: string
+          user_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_phrase?: string
+          translated_phrase?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_phrase_contributions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      phrase_votes: {
+        Row: {
+          created_at: string
+          id: string
+          phrase_contribution_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          phrase_contribution_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          phrase_contribution_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_phrase_votes_phrase_contribution_id_fkey"
+            columns: ["phrase_contribution_id"]
+            isOneToOne: false
+            referencedRelation: "phrase_contributions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      phrases: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          swardspeak_phrase: string
+          translated_phrase: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_phrase: string
+          translated_phrase: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_phrase?: string
+          translated_phrase?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       translation_histories: {
         Row: {
           created_at: string
@@ -102,6 +193,70 @@ export type Database = {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      word_contributions: {
+        Row: {
+          approved_at: string | null
+          created_at: string
+          deleted_at: string | null
+          id: string
+          swardspeak_words: string[]
+          translated_words: string[]
+          user_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_words: string[]
+          translated_words: string[]
+          user_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          swardspeak_words?: string[]
+          translated_words?: string[]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_contributions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      word_votes: {
+        Row: {
+          created_at: string
+          id: string
+          word_contribution_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          word_contribution_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          word_contribution_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_votes_contribution_id_fkey"
+            columns: ["word_contribution_id"]
+            isOneToOne: false
+            referencedRelation: "word_contributions"
             referencedColumns: ["id"]
           },
         ]

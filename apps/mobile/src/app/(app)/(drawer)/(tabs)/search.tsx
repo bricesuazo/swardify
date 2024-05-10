@@ -103,22 +103,32 @@ export default function SearchPage() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View
-                style={{ flexDirection: "row" }}
+                style={{ gap: 16 }}
                 bg-$iconPrimary
                 paddingH-20
                 paddingV-24
                 br40
                 marginV-4
-                center
               >
-                <Text
-                  $textDefaultLight
-                  text50L
-                  flex-1
-                  style={{ fontFamily: "Jua-Regular" }}
-                >
-                  {item.swardspeak_words.join(" / ")}
-                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Text
+                    $textDefaultLight
+                    text50L
+                    flex-1
+                    style={{ fontFamily: "Jua-Regular" }}
+                  >
+                    {item.swardspeak_words.join(" / ")}
+                  </Text>
+
+                  <Text
+                    $textDefaultLight
+                    text50L
+                    flex-1
+                    style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
+                  >
+                    {item.translated_words.join(" / ")}
+                  </Text>
+                </View>
 
                 <View>
                   {isLoggedInQuery.data ? (
@@ -126,35 +136,42 @@ export default function SearchPage() {
                       iconSource={() => (
                         <AntDesign
                           name={item.is_favorite ? "heart" : "hearto"}
-                          size={20}
+                          size={16}
                           color="white"
+                          style={{ marginRight: 8 }}
                         />
                       )}
                       onPress={() =>
                         toggleFavoriteMutation.mutate({ id: item.id })
                       }
-                      round
+                      label={
+                        item.is_favorite
+                          ? "Remove to favorites"
+                          : "Add to favorites"
+                      }
+                      outline
+                      outlineColor={Colors.white}
+                      size="medium"
                     />
                   ) : (
                     <Link href="/(app)/auth" asChild>
                       <Button
                         iconSource={() => (
-                          <AntDesign name="hearto" size={20} color="white" />
+                          <AntDesign
+                            name="hearto"
+                            size={16}
+                            color="white"
+                            style={{ marginRight: 8 }}
+                          />
                         )}
-                        round
+                        label="Add to favorites"
+                        outline
+                        outlineColor={Colors.white}
+                        size="medium"
                       />
                     </Link>
                   )}
                 </View>
-
-                <Text
-                  $textDefaultLight
-                  text50L
-                  flex-1
-                  style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
-                >
-                  {item.translated_words.join(" / ")}
-                </Text>
               </View>
             )}
           />
