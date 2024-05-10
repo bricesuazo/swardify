@@ -1,9 +1,9 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
-import { Ollama } from "ollama";
+// import { Ollama } from "ollama";
 import { z } from "zod";
 
-import { Database } from "../../../../supabase/types";
+import type { Database } from "../../../../supabase/types";
 import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const mobileRouter = {
@@ -32,7 +32,7 @@ export const mobileRouter = {
         const { data, error } = await ctx.supabase
           .from("favorites")
           .select()
-          .eq("user_id", ctx.user?.id ?? "");
+          .eq("user_id", ctx.user.id);
 
         if (error)
           throw new TRPCError({

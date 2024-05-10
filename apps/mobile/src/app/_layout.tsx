@@ -70,6 +70,7 @@ export default function RootLayout() {
       StatusBar.setBarStyle("dark-content", true);
       setTopbarStyle("dark");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, segments]);
 
   const onLayoutRootView = useCallback(async () => {

@@ -53,7 +53,7 @@ export default function SignIn() {
                 password: values.password,
               });
 
-              if (data.session) router.refresh();
+              if (data.session) router.push("/dashboard");
             })}
             className="space-y-4"
           >

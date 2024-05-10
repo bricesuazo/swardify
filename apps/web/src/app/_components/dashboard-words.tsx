@@ -49,7 +49,7 @@ const FormSchema = z
     return false;
   });
 
-export default function SignedIn() {
+export default function DashboardWords() {
   const [search, setSearch] = useState("");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,13 +62,13 @@ export default function SignedIn() {
     },
   });
   const getAllWordsQuery = api.web.getAllWords.useQuery();
-  const createWordsMutation = api.web.createWords.useMutation({
+  const createWordMutation = api.web.createWord.useMutation({
     onSuccess: async () => {
       await getAllWordsQuery.refetch();
       form.reset();
     },
   });
-  const updateWordsMutation = api.web.updateWords.useMutation({
+  const updateWordMutation = api.web.updateWord.useMutation({
     onSuccess: async () => {
       await getAllWordsQuery.refetch();
       form.reset();
@@ -82,7 +82,7 @@ export default function SignedIn() {
           className="flex max-h-[50%] flex-1 flex-col space-y-5 rounded border md:max-h-none"
           onSubmit={form.handleSubmit((values) => {
             if (values.type === "create") {
-              createWordsMutation.mutate({
+              createWordMutation.mutate({
                 swardspeak_words:
                   values.swardspeak_word.length > 0
                     ? [...values.swardspeak_words, values.swardspeak_word]
@@ -95,7 +95,7 @@ export default function SignedIn() {
             }
 
             if (values.type === "update") {
-              updateWordsMutation.mutate({
+              updateWordMutation.mutate({
                 id: values.id,
                 swardspeak_words: values.swardspeak_words,
                 translated_words: values.translated_words,
@@ -305,13 +305,12 @@ export default function SignedIn() {
               type="submit"
               size="sm"
               disabled={
-                createWordsMutation.isPending ||
-                updateWordsMutation.isPending ||
+                createWordMutation.isPending ||
+                updateWordMutation.isPending ||
                 !form.formState.isValid
               }
             >
-              {createWordsMutation.isPending ||
-              updateWordsMutation.isPending ? (
+              {createWordMutation.isPending || updateWordMutation.isPending ? (
                 <Loader2 size="1rem" className="animate-spin" />
               ) : form.getValues("type") === "create" ? (
                 "Create"
@@ -413,7 +412,7 @@ function WordItem({
   isEditing: boolean;
 }) {
   const utils = api.useUtils();
-  const deleteWordsMutation = api.web.deleteWords.useMutation({
+  const deleteWordMutation = api.web.deleteWord.useMutation({
     onSuccess: async () => {
       await utils.web.getAllWords.refetch();
     },
@@ -463,10 +462,10 @@ function WordItem({
               <Button
                 variant="outline"
                 className="h-8 flex-1 text-destructive"
-                onClick={() => deleteWordsMutation.mutate({ id: word.id })}
-                disabled={deleteWordsMutation.isPending}
+                onClick={() => deleteWordMutation.mutate({ id: word.id })}
+                disabled={deleteWordMutation.isPending}
               >
-                {deleteWordsMutation.isPending ? (
+                {deleteWordMutation.isPending ? (
                   <Loader2 className="animate-spin" />
                 ) : (
                   "Delete"

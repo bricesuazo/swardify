@@ -5,6 +5,21 @@ import { z } from "zod";
 import { protectedProcedure } from "../trpc";
 
 export const webRouter = {
+  getAllPhrases: protectedProcedure.query(async ({ ctx }) => {
+    const { data, error } = await ctx.supabase
+      .from("phrases")
+      .select("id, swardspeak_phrase, translated_phrase")
+      .order("created_at", { ascending: false })
+      .is("deleted_at", null);
+
+    if (error)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to fetch phrases",
+      });
+
+    return data;
+  }),
   getAllWords: protectedProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
       .from("words")
@@ -20,7 +35,7 @@ export const webRouter = {
 
     return data;
   }),
-  createWords: protectedProcedure
+  createWord: protectedProcedure
     .input(
       z.object({
         swardspeak_words: z.array(z.string()).min(1),
@@ -36,10 +51,29 @@ export const webRouter = {
       if (error)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create words",
+          message: "Failed to create word",
         });
     }),
-  updateWords: protectedProcedure
+  createPhrase: protectedProcedure
+    .input(
+      z.object({
+        swardspeak_phrase: z.string().min(1),
+        translated_phrase: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase.from("phrases").insert({
+        swardspeak_phrase: input.swardspeak_phrase,
+        translated_phrase: input.translated_phrase,
+      });
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create phrase",
+        });
+    }),
+  updateWord: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -59,10 +93,33 @@ export const webRouter = {
       if (error)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to update words",
+          message: "Failed to update word",
         });
     }),
-  deleteWords: protectedProcedure
+  updatePhrase: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        swardspeak_phrase: z.string().min(1),
+        translated_phrase: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase
+        .from("phrases")
+        .update({
+          swardspeak_phrase: input.swardspeak_phrase,
+          translated_phrase: input.translated_phrase,
+        })
+        .eq("id", input.id);
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update word",
+        });
+    }),
+  deleteWord: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const { error } = await ctx.supabase
@@ -73,7 +130,21 @@ export const webRouter = {
       if (error)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to delete words",
+          message: "Failed to delete word",
+        });
+    }),
+  deletePhrase: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase
+        .from("phrases")
+        .update({ deleted_at: new Date().toISOString() })
+        .eq("id", input.id);
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to delete phrase",
         });
     }),
 } satisfies TRPCRouterRecord;
