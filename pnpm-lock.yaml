@@ -213,6 +213,9 @@ importers:
       geist:
         specifier: ^1.3.0
         version: 1.3.0(next@14.2.3)
+      lodash.debounce:
+        specifier: ^4.0.8
+        version: 4.0.8
       next:
         specifier: ^14.2.3
         version: 14.2.3(react-dom@18.2.0)(react@18.2.0)
@@ -222,6 +225,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      sonner:
+        specifier: ^1.4.41
+        version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -241,6 +247,9 @@ importers:
       '@swardify/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@types/lodash.debounce':
+        specifier: ^4.0.9
+        version: 4.0.9
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7

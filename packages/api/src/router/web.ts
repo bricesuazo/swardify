@@ -2,10 +2,10 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { protectedProcedure } from "../trpc";
+import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const webRouter = {
-  getAllPhrases: protectedProcedure.query(async ({ ctx }) => {
+  getAllPhrases: publicProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
       .from("phrases")
       .select("id, swardspeak_phrase, translated_phrase")
@@ -20,7 +20,7 @@ export const webRouter = {
 
     return data;
   }),
-  getAllWords: protectedProcedure.query(async ({ ctx }) => {
+  getAllWords: publicProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
       .from("words")
       .select("id, swardspeak_words, translated_words")

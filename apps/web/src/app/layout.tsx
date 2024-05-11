@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 
+import { Toaster } from "@swardify/ui/sonner";
+
 import { TRPCReactProvider } from "~/trpc/client";
 
 const font = Poppins({
@@ -12,7 +14,7 @@ const font = Poppins({
 
 export const metadata: Metadata = {
   title: "Swardify",
-  description: "Swardify",
+  description: "A Bidirectional Swardspeak and Tagalog Translator",
 };
 
 export default function RootLayout({
@@ -29,7 +31,10 @@ export default function RootLayout({
         />
       </head>
       <body className={font.className}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <Toaster />
+          {children}
+        </TRPCReactProvider>
       </body>
     </html>
   );
