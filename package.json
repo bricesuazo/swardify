@@ -16,6 +16,7 @@
     "db:reset": "supabase db reset --local",
     "db:dump": "supabase db dump -f supabase/schema.sql --local",
     "dev": "turbo dev --parallel",
+    "start": "pnpm --filter=web start",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
     "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",

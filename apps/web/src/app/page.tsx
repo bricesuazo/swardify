@@ -17,6 +17,8 @@ import { useDebounceValue } from "~/lib/useDebounceValue";
 import { useInterval } from "~/lib/useInterval";
 import { api } from "~/trpc/client";
 
+const ERROR_MESSAGE =
+  "Translation in web is currently unavailable. Please use the mobile application.";
 export default function Home() {
   const [search, setSearch] = useState("");
   const [phrase, setPhrase] = useState("");
@@ -40,9 +42,8 @@ export default function Home() {
 
   useEffect(() => {
     if (!debouncedInput || debouncedInput.length === 0) return;
-    toast(
-      "Translation in web is currently unavailable. Please use the mobile application.",
-    );
+    toast(ERROR_MESSAGE);
+    setOutput(ERROR_MESSAGE);
     // translateMutation.mutate({ type, input: debouncedInput });
   }, [debouncedInput]);
 
@@ -52,7 +53,7 @@ export default function Home() {
   return (
     <div className="space-y-10">
       <div className="bg-primary text-white">
-        <div className="container mx-auto max-w-screen-md space-y-8 p-4">
+        <div className="container mx-auto max-w-screen-md space-y-4 p-4">
           <header className="flex flex-col items-center">
             <Image
               src="/icon-foreground.png"
@@ -65,7 +66,6 @@ export default function Home() {
               A Bidirectional Swardspeak and Tagalog Translator
             </p>
           </header>
-
           <div className="relative mx-auto max-w-sm">
             <div className="rounded-t-lg border border-white p-4">
               <p className="text-xs text-muted">
@@ -114,6 +114,36 @@ export default function Home() {
               <ArrowDownUp />
             </Button>
           </div>
+          <div className="space-y-2">
+            <p className="text-center font-bold">Download Swardify App</p>
+            <div className="flex items-center justify-center gap-x-2">
+              <Link
+                href="#"
+                // target="_blank"
+              >
+                <Image
+                  src="/playstore-light.png"
+                  alt="Playstore"
+                  className="object-cover"
+                  width={120}
+                  height={40}
+                />
+              </Link>
+              <Link
+                href="#"
+                // target="_blank"
+              >
+                <Image
+                  src="/appstore-light.png"
+                  alt="Playstore"
+                  className="object-cover"
+                  width={120}
+                  height={40}
+                />
+              </Link>
+            </div>
+          </div>
+          <div />
         </div>
       </div>
 
