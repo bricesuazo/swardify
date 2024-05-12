@@ -16,7 +16,6 @@
   "dependencies": {
     "@swardify/api": "workspace:*",
     "@swardify/ui": "workspace:*",
-    "@swardify/validators": "workspace:*",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.42.7",
     "@t3-oss/env-nextjs": "^0.10.1",

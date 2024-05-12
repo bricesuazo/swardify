@@ -263,6 +263,15 @@ export default function DashboardPhrases() {
 
             <div className="flex items-center gap-x-2">
               <Button
+                type="button"
+                size="sm"
+                disabled={!form.formState.isDirty}
+                variant="link"
+                onClick={() => form.reset()}
+              >
+                Clear
+              </Button>
+              <Button
                 type="submit"
                 size="sm"
                 disabled={
@@ -279,15 +288,6 @@ export default function DashboardPhrases() {
                 ) : (
                   "Update"
                 )}
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                disabled={!form.formState.isDirty}
-                variant="link"
-                onClick={() => form.reset()}
-              >
-                Clear
               </Button>
             </div>
           </div>
