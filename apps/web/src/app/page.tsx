@@ -328,7 +328,7 @@ export default function Home() {
           ].map((developer) => (
             <div
               key={developer.id}
-              className="flex items-center gap-5 rounded-md border border-border p-4"
+              className="flex items-center gap-4 rounded-md border border-border p-4"
             >
               <Image
                 src={developer.imageUri}

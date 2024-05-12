@@ -10,7 +10,6 @@ import {
 import { DrawerActions } from "@react-navigation/native";
 
 import { useStore } from "~/store";
-import { api } from "~/utils/api";
 
 export default function TabLayout() {
   const navigation = useNavigation();
@@ -23,6 +22,7 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: Colors.$iconPrimary,
+          // tabBarStyle: { height: 60 },
         }}
       >
         <Tabs.Screen

@@ -6,10 +6,7 @@ import {
   RefreshControl,
   TextInput,
 } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Colors, Text, View } from "react-native-ui-lib";
 import { Link } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -52,7 +49,7 @@ export default function SearchPage() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: insets.top + 20 }}>
+    <View flex-1 style={{ paddingTop: insets.top + 60 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
@@ -177,6 +174,6 @@ export default function SearchPage() {
           />
         )}
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }

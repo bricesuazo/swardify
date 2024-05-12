@@ -30,7 +30,9 @@ export default function DrawerLayout() {
                 onPress={async () => {
                   await supabase.auth.signOut();
                   await utils.invalidate();
-                  navigation.dispatch(DrawerActions.closeDrawer());
+
+                  if (navigation.canGoBack())
+                    navigation.dispatch(DrawerActions.closeDrawer());
                 }}
               />
             ) : (

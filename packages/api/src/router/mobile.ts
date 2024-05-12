@@ -17,7 +17,7 @@ export const mobileRouter = {
       const { data: words, error: words_error } = await ctx.supabase
         .from("words")
         .select()
-        .order("created_at", { ascending: true })
+        .order("created_at", { ascending: false })
         .is("deleted_at", null);
 
       if (words_error)
@@ -314,5 +314,36 @@ export const mobileRouter = {
       }
 
       return res.translation;
+    }),
+  getAllContributions: publicProcedure.query(async ({ ctx }) => {
+    const { data: contributions, error: contributions_error } =
+      await ctx.supabase
+        .from("word_contributions")
+        .select()
+        .order("created_at", { ascending: false })
+        .is("deleted_at", null)
+        .is("approved_at", null);
+
+    if (contributions_error)
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: contributions_error.message,
+      });
+
+    return contributions;
+  }),
+  contribute: protectedProcedure
+    .input(
+      z.object({
+        swardspeak_words: z.string().array(),
+        translated_words: z.string().array(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.supabase.from("word_contributions").insert({
+        user_id: ctx.user.id,
+        swardspeak_words: input.swardspeak_words,
+        translated_words: input.translated_words,
+      });
     }),
 } satisfies TRPCRouterRecord;

@@ -16,6 +16,12 @@ export default function AppLayout() {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="contribute.new"
+        options={{
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 }

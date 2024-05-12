@@ -3,18 +3,40 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Text, View } from "react-native-ui-lib";
+import { Card, Text, View } from "react-native-ui-lib";
+import { router } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
 
 export default function FavoritesPage() {
   const insets = useSafeAreaInsets();
-  const getAllFavoritesQuery = api.mobile.getAllFavorites.useQuery();
+  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
+  const getAllFavoritesQuery = api.mobile.getAllFavorites.useQuery(undefined, {
+    enabled: isLoggedInQuery.data,
+  });
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: insets.top + 20 }}>
-      {!getAllFavoritesQuery.data || getAllFavoritesQuery.isLoading ? (
+      {isLoggedInQuery.isLoading || getAllFavoritesQuery.isLoading ? (
         <ActivityIndicator />
+      ) : !isLoggedInQuery.data ? (
+        <View padding-20>
+          <Text center text70 marginB-20>
+            You need to sign in to view your favorites.
+          </Text>
+          <Card
+            activeOpacity={1}
+            activeScale={0.96}
+            onPress={() => router.push("/(app)/auth")}
+          >
+            <Card.Section
+              bg-$backgroundElevated
+              padding-20
+              content={[{ text: "Sign In", text70: true, $textDefault: true }]}
+              contentStyle={{ alignItems: "center", margin: 0, padding: 0 }}
+            />
+          </Card>
+        </View>
       ) : (
         <FlashList
           data={getAllFavoritesQuery.data}

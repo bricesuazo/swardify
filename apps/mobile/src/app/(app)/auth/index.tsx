@@ -39,10 +39,9 @@ export default function AuthPage() {
         setLoadings({ ...loadings, email: false });
         return Alert.alert(error.message);
       }
+      await utils.invalidate();
 
       if (router.canGoBack()) router.back();
-
-      await utils.invalidate();
     } else if (type === "sign-up") {
       if (password !== repeatPassword) {
         setLoadings({ ...loadings, email: false });
@@ -81,35 +80,6 @@ export default function AuthPage() {
     >
       <ScrollView keyboardDismissMode="interactive">
         <View padding-20>
-          {/* <Button
-            iconSource={() =>
-              loadings.google ? (
-                <ActivityIndicator size={24} style={{ marginRight: 8 }} />
-              ) : (
-                <AntDesign
-                  name="google"
-                  color="white"
-                  size={24}
-                  style={{ marginRight: 8 }}
-                />
-              )
-            }
-            onPress={() => {
-              setLoadings({ ...loadings, google: true });
-              setTimeout(() => {
-                setLoadings({ ...loadings, google: false });
-              }, 2000);
-            }}
-            label={
-              {
-                "sign-in": "Sign in with Google",
-                "sign-up": "Create account with Google",
-              }[type]
-            }
-            disabled={loadings.google}
-            style={{ marginBottom: 20 }}
-          /> */}
-
           <TextField
             placeholder="Email address"
             keyboardType="email-address"
