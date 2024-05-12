@@ -32,7 +32,7 @@
     "expo-constants": "~15.4.6",
     "expo-image": "^1.10.6",
     "expo-linking": "~6.2.2",
-    "expo-router": "~3.4.9",
+    "expo-router": "~3.4.10",
     "expo-secure-store": "^12.8.1",
     "expo-splash-screen": "~0.26.5",
     "expo-status-bar": "~1.11.1",
@@ -63,7 +63,7 @@
     "@types/aes-js": "^3.1.4",
     "@types/babel__core": "^7.20.5",
     "@types/lodash.debounce": "^4.0.9",
-    "@types/react": "^18.3.0",
+    "@types/react": "^18.2.79",
     "eslint": "^9.1.1",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
