@@ -49,9 +49,7 @@ export default function InfoPage() {
           <View style={{ gap: 4 }}>
             <View center marginT-8 marginB-20>
               <Image
-                source={{
-                  uri: "https://raw.githubusercontent.com/bricesuazo/swardify/main/apps/mobile/assets/icon.png",
-                }}
+                source="https://raw.githubusercontent.com/bricesuazo/swardify/main/apps/mobile/assets/icon.png"
                 style={{
                   aspectRatio: 1,
                   width: 80,
@@ -118,7 +116,7 @@ export default function InfoPage() {
                   }}
                 >
                   <Image
-                    source={{ uri: developer.imageUri }}
+                    source={developer.imageUri}
                     style={{
                       aspectRatio: 1,
                       width: 60,
