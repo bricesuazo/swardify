@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Trash2 } from "lucide-react";
+import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -252,34 +253,43 @@ export default function DashboardPhrases() {
               </div>
             </div>
           </ScrollArea>
-          <div className="flex items-center gap-x-2 p-4 pt-0">
-            <Button
-              type="submit"
-              size="sm"
-              disabled={
-                createPhraseMutation.isPending ||
-                updatePhraseMutation.isPending ||
-                !form.formState.isValid
-              }
-            >
-              {createPhraseMutation.isPending ||
-              updatePhraseMutation.isPending ? (
-                <Loader2 size="1rem" className="animate-spin" />
-              ) : form.getValues("type") === "create" ? (
-                "Create"
-              ) : (
-                "Update"
-              )}
+          <div className="flex items-center justify-between gap-x-4 p-4 pt-0">
+            <Button asChild size="sm" variant="outline">
+              <Link href="/dashboard">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Dashboard
+              </Link>
             </Button>
-            <Button
-              type="button"
-              size="sm"
-              disabled={!form.formState.isDirty}
-              variant="link"
-              onClick={() => form.reset()}
-            >
-              Clear
-            </Button>
+
+            <div className="flex items-center gap-x-2">
+              <Button
+                type="submit"
+                size="sm"
+                disabled={
+                  createPhraseMutation.isPending ||
+                  updatePhraseMutation.isPending ||
+                  !form.formState.isValid
+                }
+              >
+                {createPhraseMutation.isPending ||
+                updatePhraseMutation.isPending ? (
+                  <Loader2 size="1rem" className="animate-spin" />
+                ) : form.getValues("type") === "create" ? (
+                  "Create"
+                ) : (
+                  "Update"
+                )}
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                disabled={!form.formState.isDirty}
+                variant="link"
+                onClick={() => form.reset()}
+              >
+                Clear
+              </Button>
+            </div>
           </div>
         </form>
       </Form>
