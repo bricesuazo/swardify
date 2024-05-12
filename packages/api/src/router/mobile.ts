@@ -1,6 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
-// import { Ollama } from "ollama";
 import { z } from "zod";
 
 import type { Database } from "../../../../supabase/types";
@@ -179,11 +178,20 @@ export const mobileRouter = {
       const { data: words, error: words_error } = await ctx.supabase
         .from("words")
         .select();
+      const { data: phrases, error: phrases_error } = await ctx.supabase
+        .from("phrases")
+        .select();
 
       if (words_error)
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: words_error.message,
+        });
+
+      if (phrases_error)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: phrases_error.message,
         });
 
       const response = await ctx.groq.chat.completions.create({
@@ -193,14 +201,18 @@ export const mobileRouter = {
             role: "system",
             content:
               "You are a Swardspeak to Tagalog and vice versa translator." +
-              ' The structure of the words in my list: { swardspeak_words:["Swardspeak word 1", "Swardspeak word 2"], translated_words:["Tagalog word 1", "Tagalog word 2"]}[]' +
               ` Here are the words you need to know: ${JSON.stringify(
                 words.map((word) => ({
                   swardspeak_words: word.swardspeak_words,
                   translated_words: word.translated_words,
                 })),
-              )}
-              }))}` +
+              )}` +
+              ` Here are the phrases you need to know: ${JSON.stringify(
+                phrases.map((phrase) => ({
+                  swardspeak_phrase: phrase.swardspeak_phrase,
+                  translated_phrase: phrase.translated_phrase,
+                })),
+              )}` +
               ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
               ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
               ' If there is an error, return { success: false, "error": <error message> }.',
