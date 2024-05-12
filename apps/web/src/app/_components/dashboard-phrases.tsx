@@ -26,19 +26,15 @@ import { api } from "~/trpc/client";
 const FormSchema = z
   .object({
     type: z.literal("create"),
-    swardspeak_phrases: z.string().array(),
-    translated_phrases: z.string().array(),
-    swardspeak_phrase: z.string(),
-    translated_phrase: z.string(),
+    swardspeak_phrase: z.string().min(1),
+    translated_phrase: z.string().min(1),
   })
   .or(
     z.object({
       type: z.literal("update"),
       id: z.string().uuid(),
-      swardspeak_phrases: z.string().array(),
-      translated_phrases: z.string().array(),
-      swardspeak_phrase: z.string(),
-      translated_phrase: z.string(),
+      swardspeak_phrase: z.string().min(1),
+      translated_phrase: z.string().min(1),
     }),
   );
 
@@ -48,8 +44,6 @@ export default function DashboardPhrases() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       type: "create",
-      swardspeak_phrases: [],
-      translated_phrases: [],
       swardspeak_phrase: "",
       translated_phrase: "",
     },
@@ -135,124 +129,6 @@ export default function DashboardPhrases() {
               )}
             />
           </div>
-          <ScrollArea>
-            <div className="flex flex-1 gap-4 p-4 pt-0">
-              <div className="flex-1 space-y-2">
-                {form.watch("swardspeak_phrases").map((_, index) => (
-                  <FormField
-                    key={index}
-                    control={form.control}
-                    name={`swardspeak_phrases.${index}`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="xs:flex-row flex flex-col gap-x-2 gap-y-1">
-                          <FormControl>
-                            <Input placeholder="Swardspeak Phrase" {...field} />
-                          </FormControl>
-                          <div>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              className="xs:flex hidden"
-                              onClick={() =>
-                                form.setValue(
-                                  "swardspeak_phrases",
-                                  form
-                                    .watch("swardspeak_phrases")
-                                    .filter((_, i) => i !== index),
-                                )
-                              }
-                            >
-                              <Trash2
-                                size="1.25rem"
-                                className="text-destructive"
-                              />
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              className="xs:hidden h-7 w-full text-destructive"
-                              onClick={() =>
-                                form.setValue(
-                                  "swardspeak_phrases",
-                                  form
-                                    .watch("swardspeak_phrases")
-                                    .filter((_, i) => i !== index),
-                                )
-                              }
-                            >
-                              <Trash2 size="1rem" className="mr-2" />
-                              Delete
-                            </Button>
-                          </div>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
-              <div className="flex-1 space-y-2">
-                {form.watch("translated_phrases").map((_, index) => (
-                  <FormField
-                    key={index}
-                    control={form.control}
-                    name={`translated_phrases.${index}`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="xs:flex-row flex flex-col gap-x-2 gap-y-1">
-                          <FormControl>
-                            <Input placeholder="Translated Phrase" {...field} />
-                          </FormControl>
-                          <div>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              className="xs:flex hidden"
-                              onClick={() =>
-                                form.setValue(
-                                  "translated_phrases",
-                                  form
-                                    .watch("translated_phrases")
-                                    .filter((_, i) => i !== index),
-                                )
-                              }
-                            >
-                              <Trash2
-                                size="1.25rem"
-                                className="text-destructive"
-                              />
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              className="xs:hidden h-7 w-full text-destructive"
-                              onClick={() =>
-                                form.setValue(
-                                  "translated_phrases",
-                                  form
-                                    .watch("translated_phrases")
-                                    .filter((_, i) => i !== index),
-                                )
-                              }
-                            >
-                              <Trash2 size="1rem" className="mr-2" />
-                              Delete
-                            </Button>
-                          </div>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
-            </div>
-          </ScrollArea>
           <div className="flex items-center justify-between gap-x-4 p-4 pt-0">
             <Button asChild size="sm" variant="outline">
               <Link href="/dashboard">
@@ -349,6 +225,7 @@ export default function DashboardPhrases() {
                         "translated_phrase",
                         phrase.translated_phrase,
                       );
+                      form.trigger();
                     }}
                     isEditing={
                       form.getValues("type") === "update" &&

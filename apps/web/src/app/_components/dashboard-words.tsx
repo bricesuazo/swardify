@@ -134,7 +134,7 @@ export default function DashboardWords() {
                               ...form.getValues("swardspeak_words"),
                               field.value,
                             ]);
-                            form.setValue("swardspeak_word", "");
+                            form.resetField("swardspeak_word");
                           }}
                         >
                           <Plus />
@@ -170,7 +170,7 @@ export default function DashboardWords() {
                               ...form.getValues("translated_words"),
                               field.value,
                             ]);
-                            form.setValue("translated_word", "");
+                            form.resetField("translated_word");
                           }}
                         >
                           <Plus />
@@ -396,6 +396,7 @@ export default function DashboardWords() {
                       form.setValue("translated_words", word.translated_words);
                       form.resetField("swardspeak_word");
                       form.resetField("translated_word");
+                      form.trigger();
                     }}
                     isEditing={
                       form.getValues("type") === "update" &&
