@@ -45,7 +45,7 @@ export default function SearchPage() {
         });
       });
     },
-    onSuccess: () => Promise.all([utils.mobile.getAllFavorites.refetch()]),
+    onSuccess: async () => await utils.mobile.getAllFavorites.refetch(),
   });
 
   return (

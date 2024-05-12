@@ -319,7 +319,9 @@ export const mobileRouter = {
     const { data: contributions, error: contributions_error } =
       await ctx.supabase
         .from("word_contributions")
-        .select()
+        .select(
+          "id, swardspeak_words, translated_words, user_id, word_votes(vote), vote: word_votes(user_id, vote), user:users(email)",
+        )
         .order("created_at", { ascending: false })
         .is("deleted_at", null)
         .is("approved_at", null);
@@ -330,7 +332,25 @@ export const mobileRouter = {
         message: contributions_error.message,
       });
 
-    return contributions;
+    return contributions
+      .map((contribution) => ({
+        ...contribution,
+        is_my_contributions: ctx.user
+          ? contribution.user_id === ctx.user.id
+          : false,
+        upvotes: contribution.word_votes.filter(
+          (vote) => vote.vote === "upvote",
+        ).length,
+        downvotes: contribution.word_votes.filter(
+          (vote) => vote.vote === "downvote",
+        ).length,
+        my_vote: contribution.vote.find((vote) => vote.user_id === ctx.user?.id)
+          ?.vote,
+        vote_count:
+          contribution.vote.filter((vote) => vote.vote === "upvote").length -
+          contribution.vote.filter((vote) => vote.vote === "downvote").length,
+      }))
+      .sort((a, b) => b.upvotes - b.downvotes - (a.upvotes - a.downvotes));
   }),
   contribute: protectedProcedure
     .input(
@@ -340,10 +360,105 @@ export const mobileRouter = {
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.supabase.from("word_contributions").insert({
+      const { data, error } = await ctx.supabase
+        .from("word_contributions")
+        .insert({
+          user_id: ctx.user.id,
+          swardspeak_words: input.swardspeak_words,
+          translated_words: input.translated_words,
+        })
+        .select()
+        .single();
+
+      if (error)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: error.message,
+        });
+
+      await ctx.supabase.from("word_votes").insert({
+        vote: "upvote",
+        word_contribution_id: data.id,
         user_id: ctx.user.id,
-        swardspeak_words: input.swardspeak_words,
-        translated_words: input.translated_words,
       });
+    }),
+  deleteMyContribution: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase
+        .from("word_contributions")
+        .select()
+        .eq("id", input.id)
+        .single();
+
+      if (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: error.message,
+        });
+      }
+
+      if (data.user_id !== ctx.user.id) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You can only delete your own contributions.",
+        });
+      }
+
+      await ctx.supabase
+        .from("word_contributions")
+        .update({
+          deleted_at: new Date().toISOString(),
+        })
+        .eq("id", input.id);
+    }),
+  vote: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        vote: z.enum(["upvote", "downvote"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase
+        .from("word_contributions")
+        .select()
+        .eq("id", input.id)
+        .single();
+
+      if (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: error.message,
+        });
+      }
+
+      const { data: vote } = await ctx.supabase
+        .from("word_votes")
+        .select()
+        .eq("word_contribution_id", data.id)
+        .eq("user_id", ctx.user.id)
+        .single();
+
+      if (vote) {
+        if (vote.vote === input.vote) {
+          await ctx.supabase.from("word_votes").delete().eq("id", vote.id);
+        } else {
+          await ctx.supabase
+            .from("word_votes")
+            .update({ vote: input.vote })
+            .eq("id", vote.id);
+        }
+      } else {
+        await ctx.supabase.from("word_votes").insert({
+          vote: input.vote,
+          word_contribution_id: data.id,
+          user_id: ctx.user.id,
+        });
+      }
     }),
 } satisfies TRPCRouterRecord;

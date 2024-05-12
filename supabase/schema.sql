@@ -35,6 +35,13 @@ CREATE TYPE "public"."sex" AS ENUM (
 
 ALTER TYPE "public"."sex" OWNER TO "postgres";
 
+CREATE TYPE "public"."vote" AS ENUM (
+    'upvote',
+    'downvote'
+);
+
+ALTER TYPE "public"."vote" OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
@@ -75,7 +82,9 @@ ALTER TABLE "public"."phrase_contributions" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."phrase_votes" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "phrase_contribution_id" "uuid" NOT NULL
+    "phrase_contribution_id" "uuid" NOT NULL,
+    "vote" "public"."vote" NOT NULL,
+    "user_id" "uuid" NOT NULL
 );
 
 ALTER TABLE "public"."phrase_votes" OWNER TO "postgres";
@@ -125,7 +134,9 @@ ALTER TABLE "public"."word_contributions" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."word_votes" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "word_contribution_id" "uuid" NOT NULL
+    "word_contribution_id" "uuid" NOT NULL,
+    "vote" "public"."vote" NOT NULL,
+    "user_id" "uuid" NOT NULL
 );
 
 ALTER TABLE "public"."word_votes" OWNER TO "postgres";
@@ -188,8 +199,14 @@ ALTER TABLE ONLY "public"."phrase_contributions"
 ALTER TABLE ONLY "public"."phrase_votes"
     ADD CONSTRAINT "public_phrase_votes_phrase_contribution_id_fkey" FOREIGN KEY ("phrase_contribution_id") REFERENCES "public"."phrase_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+ALTER TABLE ONLY "public"."phrase_votes"
+    ADD CONSTRAINT "public_phrase_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."phrase_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE ONLY "public"."word_votes"
     ADD CONSTRAINT "public_votes_contribution_id_fkey" FOREIGN KEY ("word_contribution_id") REFERENCES "public"."word_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."word_votes"
+    ADD CONSTRAINT "public_word_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."translation_histories"
     ADD CONSTRAINT "translation_histories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;

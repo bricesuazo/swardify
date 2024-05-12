@@ -88,21 +88,34 @@ export type Database = {
           created_at: string
           id: string
           phrase_contribution_id: string
+          user_id: string
+          vote: Database["public"]["Enums"]["vote"]
         }
         Insert: {
           created_at?: string
           id?: string
           phrase_contribution_id: string
+          user_id: string
+          vote: Database["public"]["Enums"]["vote"]
         }
         Update: {
           created_at?: string
           id?: string
           phrase_contribution_id?: string
+          user_id?: string
+          vote?: Database["public"]["Enums"]["vote"]
         }
         Relationships: [
           {
             foreignKeyName: "public_phrase_votes_phrase_contribution_id_fkey"
             columns: ["phrase_contribution_id"]
+            isOneToOne: false
+            referencedRelation: "phrase_contributions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_phrase_votes_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "phrase_contributions"
             referencedColumns: ["id"]
@@ -239,16 +252,22 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          user_id: string
+          vote: Database["public"]["Enums"]["vote"]
           word_contribution_id: string
         }
         Insert: {
           created_at?: string
           id?: string
+          user_id: string
+          vote: Database["public"]["Enums"]["vote"]
           word_contribution_id: string
         }
         Update: {
           created_at?: string
           id?: string
+          user_id?: string
+          vote?: Database["public"]["Enums"]["vote"]
           word_contribution_id?: string
         }
         Relationships: [
@@ -257,6 +276,13 @@ export type Database = {
             columns: ["word_contribution_id"]
             isOneToOne: false
             referencedRelation: "word_contributions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_word_votes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -297,6 +323,7 @@ export type Database = {
     }
     Enums: {
       sex: "m" | "f"
+      vote: "upvote" | "downvote"
     }
     CompositeTypes: {
       [_ in never]: never
