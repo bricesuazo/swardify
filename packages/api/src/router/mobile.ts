@@ -194,44 +194,76 @@ export const mobileRouter = {
           message: phrases_error.message,
         });
 
-      const response = await ctx.groq.chat.completions.create({
-        model: "llama3-70b-8192",
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a Swardspeak to Tagalog and vice versa translator." +
-              ` Here are the words you need to know: ${JSON.stringify(
-                words.map((word) => ({
-                  swardspeak_words: word.swardspeak_words,
-                  translated_words: word.translated_words,
-                })),
-              )}` +
-              ` Here are the phrases you need to know: ${JSON.stringify(
-                phrases.map((phrase) => ({
-                  swardspeak_phrase: phrase.swardspeak_phrase,
-                  translated_phrase: phrase.translated_phrase,
-                })),
-              )}` +
-              ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
-              ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
-              ' If there is an error, return { success: false, "error": <error message> }.',
-          },
-          {
-            role: "user",
-            content:
-              `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
-              input.input,
-          },
-        ],
-        stream: false,
-        response_format: { type: "json_object" },
-        max_tokens: 120,
-      });
-      const res = z
-        .object({ success: z.literal(true), translation: z.string() })
-        .or(z.object({ success: z.literal(false), error: z.string() }))
-        .parse(JSON.parse(response.choices[0]?.message.content ?? ""));
+      // const response = await fetch(
+      //   "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B-Instruct",
+      //   {
+      //     headers: { Authorization: `Bearer ${env.HUGGINGFACE_API_KEY}` },
+      //     method: "POST",
+      //     body: JSON.stringify({
+      //       inputs:
+      //         "You are a Swardspeak to Tagalog and vice versa translator." +
+      //         ` Here are the words you need to know: ${JSON.stringify(
+      //           words.map((word) => ({
+      //             swardspeak_words: word.swardspeak_words,
+      //             translated_words: word.translated_words,
+      //           })),
+      //         )}` +
+      //         ` Here are the phrases you need to know: ${JSON.stringify(
+      //           phrases.map((phrase) => ({
+      //             swardspeak_phrase: phrase.swardspeak_phrase,
+      //             translated_phrase: phrase.translated_phrase,
+      //           })),
+      //         )}` +
+      //         ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+      //         ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+      //         ' If there is an error, return { success: false, "error": <error message> }.' +
+      //         `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+      //         input.input,
+      //     }),
+      //   },
+      // );
+      // console.log("🚀 ~ .mutation ~ response:", response);
+      // const result = await response.json();
+      // console.log("🚀 ~ .mutation ~ result:", result);
+
+      // const response = await ctx.groq.chat.completions.create({
+      //   model: "llama3-70b-8192",
+      //   messages: [
+      //     {
+      //       role: "system",
+      //       content:
+      //         "You are a Swardspeak to Tagalog and vice versa translator." +
+      //         ` Here are the words you need to know: ${JSON.stringify(
+      //           words.map((word) => ({
+      //             swardspeak_words: word.swardspeak_words,
+      //             translated_words: word.translated_words,
+      //           })),
+      //         )}` +
+      //         ` Here are the phrases you need to know: ${JSON.stringify(
+      //           phrases.map((phrase) => ({
+      //             swardspeak_phrase: phrase.swardspeak_phrase,
+      //             translated_phrase: phrase.translated_phrase,
+      //           })),
+      //         )}` +
+      //         ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+      //         ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+      //         ' If there is an error, return { success: false, "error": <error message> }.',
+      //     },
+      //     {
+      //       role: "user",
+      //       content:
+      //         `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+      //         input.input,
+      //     },
+      //   ],
+      //   stream: false,
+      //   response_format: { type: "json_object" },
+      //   max_tokens: 120,
+      // });
+      // const res = z
+      //   .object({ success: z.literal(true), translation: z.string() })
+      //   .or(z.object({ success: z.literal(false), error: z.string() }))
+      //   .parse(JSON.parse(response.choices[0]?.message.content ?? ""));
 
       // const { response } = await ctx.ollama.generate({
       //   model: "mixtral",
@@ -261,41 +293,47 @@ export const mobileRouter = {
       //   .or(z.object({ success: z.literal(false), error: z.string() }))
       //   .parse(JSON.parse(response));
 
-      // const req = await ctx.openai.chat.completions.create({
-      //   model: "gpt-4-turbo",
-      //   messages: [
-      //     {
-      //       role: "system",
-      //       content:
-      //         "You are a Swardspeak to Tagalog and vice versa translator." +
-      //         ` Here are the words you need to know:
-      //     The structure of the words is: Swardspeak word: Tagalog word ${words
-      //       .map(
-      //         (word) =>
-      //           `${word.swardspeak_words.join(", ")}: ${word.translated_words.join(", ")}`,
-      //       )
-      //       .join("\n")}` +
-      //         ' Your output should be a JSON object with a structured like this { success: true, "translation": "translated word" }. Do not include any additional information.' +
-      //         ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
-      //         ' If there is an error, return { success: false, "error": <error message> }.',
-      //     },
-      //     {
-      //       role: "user",
-      //       content:
-      //         `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
-      //         input.input,
-      //     },
-      //   ],
-      //   max_tokens: 60,
-      //   temperature: 0.2,
-      //   user: ctx.user?.email,
-      //   stream: false,
-      //   response_format: { type: "json_object" },
-      // });
-      // const res = z
-      //   .object({ success: z.literal(true), translation: z.string() })
-      //   .or(z.object({ success: z.literal(false), error: z.string() }))
-      //   .parse(JSON.parse(req.choices[0]?.message.content ?? ""));
+      const req = await ctx.openai.chat.completions.create({
+        model: "gpt-4-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a Swardspeak to Tagalog and vice versa translator." +
+              ` Here are the words you need to know: ${JSON.stringify(
+                words.map((word) => ({
+                  swardspeak_words: word.swardspeak_words,
+                  translated_words: word.translated_words,
+                })),
+              )}` +
+              ` Here are the phrases you need to know: ${JSON.stringify(
+                phrases.map((phrase) => ({
+                  swardspeak_phrase: phrase.swardspeak_phrase,
+                  translated_phrase: phrase.translated_phrase,
+                })),
+              )}` +
+              ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+              ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+              ' If there is an error, return { success: false, "error": <error message> }.',
+          },
+          {
+            role: "user",
+            content:
+              `Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak word to Tagalog" : "Tagalog word to Swardspeak"}: ` +
+              input.input,
+          },
+        ],
+        max_tokens: 60,
+        temperature: 0.2,
+        user: ctx.user?.email,
+        stream: false,
+        response_format: { type: "json_object" },
+      });
+
+      const res = z
+        .object({ success: z.literal(true), translation: z.string() })
+        .or(z.object({ success: z.literal(false), error: z.string() }))
+        .parse(JSON.parse(req.choices[0]?.message.content ?? ""));
 
       if (!res.success) {
         throw new TRPCError({

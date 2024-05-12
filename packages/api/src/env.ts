@@ -1,10 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
-
-
-
-
 export const env = createEnv({
   shared: {
     NODE_ENV: z
@@ -15,6 +11,7 @@ export const env = createEnv({
     SUPABASE_SERVICE_ROLE_KEY: z.string(),
     OPENAI_KEY: z.string(),
     GROQ_API_KEY: z.string(),
+    HUGGINGFACE_API_KEY: z.string(),
   },
   client: {},
   experimental__runtimeEnv: {
