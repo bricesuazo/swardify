@@ -12,6 +12,7 @@ export const env = createEnv({
     OPENAI_KEY: z.string(),
     GROQ_API_KEY: z.string(),
     HUGGINGFACE_API_KEY: z.string(),
+    REPLICATE_API_TOKEN: z.string(),
   },
   client: {},
   experimental__runtimeEnv: {

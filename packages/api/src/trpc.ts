@@ -3,6 +3,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import Groq from "groq-sdk";
 import ollama from "ollama";
 import OpenAI from "openai";
+import Replicate from "replicate";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -35,6 +36,7 @@ export const createTRPCContext = async (opts: {
     groq: new Groq({
       apiKey: env.GROQ_API_KEY,
     }),
+    replicate: new Replicate({ auth: env.REPLICATE_API_TOKEN }),
   };
 };
 
