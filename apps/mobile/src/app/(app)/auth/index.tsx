@@ -60,14 +60,12 @@ export default function AuthPage() {
       }
 
       // data.session?.access_token is working or data.session
-      if (!data.session) {
+      if (!data.session?.access_token) {
         router.push(`/auth/verify/${data.user.email}`);
       } else {
-        if (router.canGoBack()) {
-          router.back();
-        } else {
-          await utils.auth.isLoggedIn.refetch();
-        }
+        if (router.canGoBack()) router.back();
+
+        await utils.auth.isLoggedIn.refetch();
       }
     }
     setLoadings({ ...loadings, email: false });

@@ -114,7 +114,8 @@ CREATE TABLE IF NOT EXISTS "public"."users" (
     "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "email" character varying NOT NULL,
-    "sex" "public"."sex"
+    "sex" "public"."sex",
+    "pronouns" "text"[] DEFAULT '{}'::"text"[] NOT NULL
 );
 
 ALTER TABLE "public"."users" OWNER TO "postgres";

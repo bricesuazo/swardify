@@ -48,50 +48,46 @@ export default function VerifyCode() {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View flex-1>
-        <ScrollView keyboardDismissMode="interactive">
-          <View flex-1 padding-20 gap-40>
-            <View center>
-              <View bg-$iconPrimary br100 center padding-16>
-                {loading ? (
-                  <ActivityIndicator size={24} color="white" />
-                ) : (
-                  <FontAwesome name="check" size={24} color="white" />
-                )}
-              </View>
-            </View>
-            <View>
-              <Text center text50>
-                We have sent a 6-digit code to{" "}
-                <Text color={Colors.$iconPrimary}>{email}</Text>
-              </Text>
-            </View>
-            <View paddingH-20>
-              <OtpInput
-                numberOfDigits={6}
-                focusColor={Colors.$iconPrimary}
-                focusStickBlinkingDuration={500}
-                autoFocus
-                onTextChange={setToken}
-                onFilled={onSubmit}
-              />
+      <ScrollView keyboardDismissMode="interactive">
+        <View flex-1 padding-20 gap-40>
+          <View center>
+            <View bg-$iconPrimary br100 center padding-16>
+              {loading ? (
+                <ActivityIndicator size={24} color="white" />
+              ) : (
+                <FontAwesome name="check" size={24} color="white" />
+              )}
             </View>
           </View>
-        </ScrollView>
-        <View padding-20>
-          <Button
-            label="Verify code"
-            disabled={loading}
-            iconSource={
-              loading
-                ? () => (
-                    <ActivityIndicator size={24} style={{ marginRight: 8 }} />
-                  )
-                : null
-            }
-            onPress={() => onSubmit(token)}
-          />
+          <View>
+            <Text center text50>
+              We have sent a 6-digit code to{" "}
+              <Text color={Colors.$iconPrimary}>{email}</Text>
+            </Text>
+          </View>
+          <View paddingH-20>
+            <OtpInput
+              numberOfDigits={6}
+              focusColor={Colors.$iconPrimary}
+              focusStickBlinkingDuration={500}
+              autoFocus
+              onTextChange={setToken}
+              onFilled={onSubmit}
+            />
+          </View>
         </View>
+      </ScrollView>
+      <View padding-20>
+        <Button
+          label="Verify code"
+          disabled={loading || token.length < 6}
+          iconSource={
+            loading
+              ? () => <ActivityIndicator size={24} style={{ marginRight: 8 }} />
+              : null
+          }
+          onPress={() => onSubmit(token)}
+        />
       </View>
     </KeyboardAvoidingView>
   );

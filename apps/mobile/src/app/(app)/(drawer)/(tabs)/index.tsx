@@ -19,7 +19,7 @@ import { api, RouterInputs } from "~/utils/api";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 1000);
+  const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 2000);
   const [output, setOutput] = useState("");
 
   const inset = useSafeAreaInsets();
@@ -107,12 +107,10 @@ export default function Home() {
               />
 
               <View style={{ position: "absolute", top: 16, right: 12 }}>
-                {translateMutation.isPending ? (
-                  <View paddingH-20 paddingV-4>
-                    <ActivityIndicator />
-                  </View>
-                ) : output ? (
+                {output.length > 0 && (
                   <Button
+                    activeOpacity={1}
+                    activeScale={0.75}
                     label={copied ? "Copied!" : "Copy"}
                     onPress={async () => {
                       setCopied(true);
@@ -122,20 +120,29 @@ export default function Home() {
                     size={Button.sizes.xSmall}
                     disabled={copied}
                   />
-                ) : null}
+                )}
               </View>
             </View>
           </View>
         </View>
+
         <Button
           round
-          iconSource={() => (
-            <Ionicons
-              name="swap-vertical"
-              size={24}
-              color={Colors.$iconPrimary}
-            />
-          )}
+          activeOpacity={1}
+          activeBackgroundColor={Colors.$backgroundGeneralMedium}
+          iconSource={() =>
+            translateMutation.isPending ? (
+              <ActivityIndicator />
+            ) : (
+              <Ionicons
+                name="swap-vertical"
+                size={24}
+                color={Colors.$iconPrimary}
+              />
+            )
+          }
+          disabled={translateMutation.isPending}
+          disabledBackgroundColor="white"
           bg-white
           style={{
             width: 52,

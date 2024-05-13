@@ -3,17 +3,34 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Card, Text, View } from "react-native-ui-lib";
+import { Button, Card, Colors, Text, View } from "react-native-ui-lib";
 import { router } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
 
 export default function FavoritesPage() {
   const insets = useSafeAreaInsets();
+  const utils = api.useUtils();
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
   const getAllFavoritesQuery = api.mobile.getAllFavorites.useQuery(undefined, {
     enabled: isLoggedInQuery.data,
+  });
+
+  const toggleFavoriteMutation = api.mobile.toggleFavorite.useMutation({
+    onMutate: ({ id }) => {
+      utils.mobile.getAllFavorites.setData(undefined, (words) => {
+        if (!words) return;
+
+        return words.filter((word) => word.word_id !== id);
+      });
+    },
+    onSuccess: () =>
+      Promise.all([
+        utils.mobile.getAllFavorites.invalidate(),
+        utils.mobile.getAll.invalidate(),
+      ]),
   });
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: insets.top + 20 }}>
@@ -61,33 +78,55 @@ export default function FavoritesPage() {
 
             return (
               <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
                 bg-$iconPrimary
                 paddingH-20
                 paddingV-24
                 br40
                 marginV-4
+                gap-20
               >
-                <Text
-                  $textDefaultLight
-                  text60L
-                  flex-1
-                  style={{ fontFamily: "Jua-Regular" }}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  {item.word.swardspeak_words.join(" / ")}
-                </Text>
-                <Text
-                  $textDefaultLight
-                  text
-                  text60L
-                  flex-1
-                  style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
-                >
-                  {item.word.translated_words.join(" / ")}
-                </Text>
+                  <Text
+                    $textDefaultLight
+                    text60L
+                    flex-1
+                    style={{ fontFamily: "Jua-Regular" }}
+                  >
+                    {item.word.swardspeak_words.join(" / ")}
+                  </Text>
+                  <Text
+                    $textDefaultLight
+                    text
+                    text60L
+                    flex-1
+                    style={{ fontFamily: "Jua-Regular", textAlign: "right" }}
+                  >
+                    {item.word.translated_words.join(" / ")}
+                  </Text>
+                </View>
+
+                <Button
+                  iconSource={() => (
+                    <AntDesign
+                      name="heart"
+                      size={16}
+                      color="white"
+                      style={{ marginRight: 8 }}
+                    />
+                  )}
+                  onPress={() =>
+                    toggleFavoriteMutation.mutate({ id: item.word_id })
+                  }
+                  label="Remove to favorites"
+                  outline
+                  outlineColor={Colors.white}
+                  size="medium"
+                />
               </View>
             );
           }}

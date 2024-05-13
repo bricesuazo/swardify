@@ -33,13 +33,7 @@ export default function ContributePage() {
   });
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: insets.top + 20,
-        position: "relative",
-      }}
-    >
+    <View flex-1 style={{ paddingTop: insets.top + 60, position: "relative" }}>
       {getContributionsQuery.isLoading || !getContributionsQuery.data ? (
         <View center padding-20>
           <ActivityIndicator />
@@ -221,6 +215,6 @@ export default function ContributePage() {
           contentContainerStyle={{ paddingHorizontal: 20 }}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }

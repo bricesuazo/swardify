@@ -123,7 +123,7 @@ export default function InfoPage() {
                       borderRadius: 100,
                     }}
                   />
-                  <View>
+                  <View flex-1>
                     <Text text70BL>{developer.name}</Text>
                     <TouchableOpacity
                       onPress={() =>
@@ -132,10 +132,12 @@ export default function InfoPage() {
                     >
                       <Text
                         text80L
+                        flex-1
                         style={{
                           color: Colors.$iconPrimary,
                           textDecorationLine: "underline",
                         }}
+                        numberOfLines={1}
                       >
                         {developer.email}
                       </Text>

@@ -186,18 +186,21 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          pronouns: string[]
           sex: Database["public"]["Enums"]["sex"] | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          pronouns?: string[]
           sex?: Database["public"]["Enums"]["sex"] | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          pronouns?: string[]
           sex?: Database["public"]["Enums"]["sex"] | null
         }
         Relationships: [
