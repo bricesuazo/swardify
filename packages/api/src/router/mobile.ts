@@ -359,7 +359,8 @@ export const mobileRouter = {
                 translated_phrase: phrase.translated_phrase,
               })),
             )}` +
-            ' Your output should be a JSON object with a structured like this { "translation": <translated_word> }. Do not include any additional information.' +
+            ' Your output should be a JSON object with a structure like this { "translation": "" }. Do not include any additional information.' +
+            " You can direct translate the word or phrase or you can use the words and phrases above as reference." +
             ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
             input.input,
         },
