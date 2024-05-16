@@ -342,10 +342,39 @@ export const mobileRouter = {
       //   });
       // }
 
+      //       const test_input = {
+      //         input: {
+      //           temperature: 0,
+      //           seed: 0,
+      //           prompt_template: `<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+      // ${
+      //   "You are a Swardspeak to Tagalog and vice versa translator." +
+      //   ` Here are the list of words: ${JSON.stringify(
+      //     words.map(
+      //       (word) =>
+      //         `${word.swardspeak_words.join(" or ")} = ${word.translated_words.join(" or ")}`,
+      //     ),
+      //   )}` +
+      //   ` Here are the list of phrases: ${JSON.stringify(
+      //     phrases.map(
+      //       (phrase) => `${phrase.swardspeak_phrase} = ${phrase.translated_phrase}`,
+      //     ),
+      //   )}` +
+      //   " Use the words directly to translate. Just use the phrases for reference."
+      // }<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+      // {prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
+      //           prompt:
+      //             ' Your output should be a JSON object with a structure like this { "translation": "" }. Do not include any additional information.' +
+      //             ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak to Tagalog" : "Tagalog to Swardspeak"}: ` +
+      //             input.input,
+      //         },
+      //       };
+
       const output = await ctx.replicate.run("meta/meta-llama-3-70b-instruct", {
         input: {
-          temperature: 0.2,
-          prompt:
+          system_prompt:
             "You are a Swardspeak to Tagalog and vice versa translator." +
             ` Here are the words you need to know: ${JSON.stringify(
               words.map((word) => ({
@@ -359,8 +388,10 @@ export const mobileRouter = {
                 translated_phrase: phrase.translated_phrase,
               })),
             )}` +
-            ' Your output should be a JSON object with a structure like this { "translation": "" }. Do not include any additional information.' +
-            " You can direct translate the word or phrase or you can use the words and phrases above as reference." +
+            ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+            ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+            ' If there is an error, return { success: false, "error": <error message> }.',
+          prompt:
             ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
             input.input,
         },
