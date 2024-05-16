@@ -344,6 +344,7 @@ export const mobileRouter = {
 
       const output = await ctx.replicate.run("meta/meta-llama-3-70b-instruct", {
         input: {
+          temperature: 0.2,
           prompt:
             "You are a Swardspeak to Tagalog and vice versa translator." +
             ` Here are the words you need to know: ${JSON.stringify(
@@ -359,22 +360,19 @@ export const mobileRouter = {
               })),
             )}` +
             ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
-            ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
-            ' If there is an error, return { success: false, "error": <error message> }.' +
             ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
             input.input,
         },
       });
 
       const res = z
-        .object({ success: z.literal(true), translation: z.string() })
-        .or(z.object({ success: z.literal(false), error: z.string() }))
-        .parse(JSON.parse((output as string[]).join("")));
+        .object({ translation: z.string() })
+        .safeParse(JSON.parse((output as string[]).join("")));
 
       if (!res.success) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: res.error,
+          code: "PARSE_ERROR",
+          message: "An error occurred while translating.",
         });
       }
 
@@ -386,20 +384,20 @@ export const mobileRouter = {
             swardspeak:
               input.type === "swardspeak-to-tagalog"
                 ? input.input
-                : res.translation,
+                : res.data.translation,
             tagalog:
               input.type === "tagalog-to-swardspeak"
                 ? input.input
-                : res.translation,
+                : res.data.translation,
           });
         if (error)
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: error.message,
+            message: "An error occurred while saving the translation.",
           });
       }
 
-      return res.translation;
+      return res.data.translation;
     }),
   getAllContributions: publicProcedure.query(async ({ ctx }) => {
     const { data: contributions, error: contributions_error } =
