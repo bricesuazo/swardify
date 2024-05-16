@@ -74,7 +74,8 @@ CREATE TABLE IF NOT EXISTS "public"."phrase_contributions" (
     "user_id" "uuid" NOT NULL,
     "swardspeak_phrase" "text" NOT NULL,
     "translated_phrase" "text" NOT NULL,
-    "approved_at" timestamp with time zone
+    "approved_at" timestamp with time zone,
+    "declined_at" timestamp with time zone
 );
 
 ALTER TABLE "public"."phrase_contributions" OWNER TO "postgres";
@@ -95,7 +96,8 @@ CREATE TABLE IF NOT EXISTS "public"."phrases" (
     "deleted_at" timestamp with time zone,
     "swardspeak_phrase" "text" NOT NULL,
     "translated_phrase" "text" NOT NULL,
-    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "phrase_contribution_id" "uuid"
 );
 
 ALTER TABLE "public"."phrases" OWNER TO "postgres";
@@ -127,7 +129,8 @@ CREATE TABLE IF NOT EXISTS "public"."word_contributions" (
     "deleted_at" timestamp with time zone,
     "user_id" "uuid" NOT NULL,
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "approved_at" timestamp with time zone
+    "approved_at" timestamp with time zone,
+    "declined_at" timestamp with time zone
 );
 
 ALTER TABLE "public"."word_contributions" OWNER TO "postgres";
@@ -148,7 +151,8 @@ CREATE TABLE IF NOT EXISTS "public"."words" (
     "swardspeak_words" character varying[] NOT NULL,
     "translated_words" character varying[] NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "deleted_at" timestamp with time zone
+    "deleted_at" timestamp with time zone,
+    "word_contribution_id" "uuid"
 );
 
 ALTER TABLE "public"."words" OWNER TO "postgres";
@@ -203,11 +207,17 @@ ALTER TABLE ONLY "public"."phrase_votes"
 ALTER TABLE ONLY "public"."phrase_votes"
     ADD CONSTRAINT "public_phrase_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."phrase_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+ALTER TABLE ONLY "public"."phrases"
+    ADD CONSTRAINT "public_phrases_phrase_contribution_id_fkey" FOREIGN KEY ("phrase_contribution_id") REFERENCES "public"."phrase_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE ONLY "public"."word_votes"
     ADD CONSTRAINT "public_votes_contribution_id_fkey" FOREIGN KEY ("word_contribution_id") REFERENCES "public"."word_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."word_votes"
     ADD CONSTRAINT "public_word_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."words"
+    ADD CONSTRAINT "public_words_word_contribution_id_fkey" FOREIGN KEY ("word_contribution_id") REFERENCES "public"."word_contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."translation_histories"
     ADD CONSTRAINT "translation_histories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;

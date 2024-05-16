@@ -65,3 +65,9 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: { user: ctx.user },
   });
 });
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.email !== "swardify@gmail.com") {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Admin only" });
+  }
+  return next({ ctx });
+});

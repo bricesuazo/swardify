@@ -1,18 +1,40 @@
-import { cache } from "react";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { experimental_nextCacheLink as nextCacheLink } from "@trpc/next/app-dir/links/nextCache";
+import { experimental_createTRPCNextAppDirServer as createTRPCNextAppDirServer } from "@trpc/next/app-dir/server";
+import superjson from "superjson";
 
-import { createCaller, createTRPCContext } from "@swardify/api";
+import type { AppRouter } from "@swardify/api";
+import { appRouter, createTRPCContext } from "@swardify/api";
 
-import { createClient } from "~/supabase/admin";
+import { createClient as createAdminClient } from "~/supabase/admin";
+import { createClient as createServerClient } from "~/supabase/server";
 
-const createContext = cache(async () => {
-  const heads = new Headers(headers());
-  heads.set("x-trpc-source", "rsc");
+export const api = createTRPCNextAppDirServer<AppRouter>({
+  config() {
+    return {
+      links: [
+        nextCacheLink({
+          transformer: superjson,
+          router: appRouter,
+          revalidate: false,
+          createContext: async () => {
+            const heads = new Headers(headers());
+            heads.set("x-trpc-source", "rsc");
 
-  return createTRPCContext({
-    headers: heads,
-    supabase: createClient(),
-  });
+            const serverClient = createServerClient();
+            const { data } = await serverClient.auth.getSession();
+
+            if (data?.session?.access_token)
+              heads.set("authorization", data.session.access_token);
+            heads.set("cookies", cookies().toString());
+
+            return createTRPCContext({
+              headers: heads,
+              supabase: createAdminClient(),
+            });
+          },
+        }),
+      ],
+    };
+  },
 });
-
-export const api = createCaller(createContext);

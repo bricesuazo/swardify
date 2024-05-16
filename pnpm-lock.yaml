@@ -201,6 +201,9 @@ importers:
       '@trpc/client':
         specifier: 11.0.0-next.320
         version: 11.0.0-next.320(@trpc/server@11.0.0-next.320)
+      '@trpc/next':
+        specifier: 11.0.0-next.320
+        version: 11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/react-query@11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/server@11.0.0-next.320)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/server@11.0.0-next.320)(next@14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@trpc/react-query':
         specifier: 11.0.0-next.320
         version: 11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/server@11.0.0-next.320)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -2581,6 +2584,22 @@ packages:
     resolution: {integrity: sha512-6VuHBXOLpVYflC75ktgMDexq6RkCNkHmPUWxdpi85O+zEk3miCJMYdlFNRO40d78HC0pTmoyuiQzyAX8J4+m3w==}
     peerDependencies:
       '@trpc/server': 11.0.0-next.320+f3a237ccb
+
+  '@trpc/next@11.0.0-next.320':
+    resolution: {integrity: sha512-xQWaVbfTvW6j3cWNC7PfO6pRkaFkLbrEoVUM2f3qt95FGtMFgZe5pFc/Bd+AHUiwgaozcxhvqJmzbhYkmbMXMA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.25.0
+      '@trpc/client': 11.0.0-next.320+f3a237ccb
+      '@trpc/react-query': 11.0.0-next.320+f3a237ccb
+      '@trpc/server': 11.0.0-next.320+f3a237ccb
+      next: '*'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    peerDependenciesMeta:
+      '@tanstack/react-query':
+        optional: true
+      '@trpc/react-query':
+        optional: true
 
   '@trpc/react-query@11.0.0-next.320':
     resolution: {integrity: sha512-r7yECFJm7U+2Wcm/KgzNUEB0BSajJnjEcZZctXlbvvVUTVrYMyEjCh5cjJDoZfRuvrwLmJbhFSg+ytzXXJkTLw==}
@@ -9880,6 +9899,17 @@ snapshots:
   '@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320)':
     dependencies:
       '@trpc/server': 11.0.0-next.320
+
+  '@trpc/next@11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/react-query@11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/server@11.0.0-next.320)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/server@11.0.0-next.320)(next@14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@trpc/client': 11.0.0-next.320(@trpc/server@11.0.0-next.320)
+      '@trpc/server': 11.0.0-next.320
+      next: 14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    optionalDependencies:
+      '@tanstack/react-query': 5.32.0(react@18.2.0)
+      '@trpc/react-query': 11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/server@11.0.0-next.320)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
 
   '@trpc/react-query@11.0.0-next.320(@tanstack/react-query@5.32.0(react@18.2.0))(@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320))(@trpc/server@11.0.0-next.320)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:

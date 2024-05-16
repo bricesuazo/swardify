@@ -49,6 +49,7 @@ export type Database = {
         Row: {
           approved_at: string | null
           created_at: string
+          declined_at: string | null
           deleted_at: string | null
           id: string
           swardspeak_phrase: string
@@ -58,6 +59,7 @@ export type Database = {
         Insert: {
           approved_at?: string | null
           created_at?: string
+          declined_at?: string | null
           deleted_at?: string | null
           id?: string
           swardspeak_phrase: string
@@ -67,6 +69,7 @@ export type Database = {
         Update: {
           approved_at?: string | null
           created_at?: string
+          declined_at?: string | null
           deleted_at?: string | null
           id?: string
           swardspeak_phrase?: string
@@ -127,6 +130,7 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: string
+          phrase_contribution_id: string | null
           swardspeak_phrase: string
           translated_phrase: string
           updated_at: string
@@ -135,6 +139,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: string
+          phrase_contribution_id?: string | null
           swardspeak_phrase: string
           translated_phrase: string
           updated_at?: string
@@ -143,11 +148,20 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: string
+          phrase_contribution_id?: string | null
           swardspeak_phrase?: string
           translated_phrase?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_phrases_phrase_contribution_id_fkey"
+            columns: ["phrase_contribution_id"]
+            isOneToOne: false
+            referencedRelation: "phrase_contributions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       translation_histories: {
         Row: {
@@ -217,6 +231,7 @@ export type Database = {
         Row: {
           approved_at: string | null
           created_at: string
+          declined_at: string | null
           deleted_at: string | null
           id: string
           swardspeak_words: string[]
@@ -226,6 +241,7 @@ export type Database = {
         Insert: {
           approved_at?: string | null
           created_at?: string
+          declined_at?: string | null
           deleted_at?: string | null
           id?: string
           swardspeak_words: string[]
@@ -235,6 +251,7 @@ export type Database = {
         Update: {
           approved_at?: string | null
           created_at?: string
+          declined_at?: string | null
           deleted_at?: string | null
           id?: string
           swardspeak_words?: string[]
@@ -298,6 +315,7 @@ export type Database = {
           swardspeak_words: string[]
           translated_words: string[]
           updated_at: string
+          word_contribution_id: string | null
         }
         Insert: {
           created_at?: string
@@ -306,6 +324,7 @@ export type Database = {
           swardspeak_words: string[]
           translated_words: string[]
           updated_at?: string
+          word_contribution_id?: string | null
         }
         Update: {
           created_at?: string
@@ -314,8 +333,17 @@ export type Database = {
           swardspeak_words?: string[]
           translated_words?: string[]
           updated_at?: string
+          word_contribution_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_words_word_contribution_id_fkey"
+            columns: ["word_contribution_id"]
+            isOneToOne: false
+            referencedRelation: "word_contributions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

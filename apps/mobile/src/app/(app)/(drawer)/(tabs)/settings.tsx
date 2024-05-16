@@ -24,7 +24,9 @@ export default function SettingsPage() {
   const utils = api.useUtils();
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
   const getSessionQuery = api.auth.getSession.useQuery();
-  const getUserQuery = api.auth.getUser.useQuery();
+  const getUserQuery = api.auth.getUser.useQuery(undefined, {
+    enabled: isLoggedInQuery.data,
+  });
   const changeSexMutation = api.auth.changeSex.useMutation({
     onMutate: ({ sex }) =>
       utils.auth.getUser.setData(undefined, (user) => {
@@ -94,16 +96,11 @@ export default function SettingsPage() {
                   label="Sex"
                   placeholder="Select your sex"
                   value={getUserQuery.data?.sex ?? ""}
-                  onChange={(sex) => {
-                    if (
-                      !sex ||
-                      !(sex === "m" || sex === "f") ||
-                      sex === getUserQuery.data?.sex
-                    )
-                      return;
-
-                    changeSexMutation.mutate({ sex });
-                  }}
+                  onChange={(sex) =>
+                    changeSexMutation.mutate({
+                      sex: !sex ? "m" : (sex as "m" | "f"),
+                    })
+                  }
                   useWheelPicker
                   topBarProps={{
                     doneLabel: "Done",

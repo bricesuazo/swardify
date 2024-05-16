@@ -359,7 +359,7 @@ export const mobileRouter = {
                 translated_phrase: phrase.translated_phrase,
               })),
             )}` +
-            ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+            ' Your output should be a JSON object with a structured like this { "translation": <translated_word> }. Do not include any additional information.' +
             ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
             input.input,
         },
@@ -404,10 +404,11 @@ export const mobileRouter = {
       await ctx.supabase
         .from("word_contributions")
         .select(
-          "id, swardspeak_words, translated_words, user_id, word_votes(vote), vote: word_votes(user_id, vote), user:users(email)",
+          "id, swardspeak_words, translated_words, user_id, vote: word_votes(user_id, vote), user:users(email)",
         )
         .order("created_at", { ascending: false })
         .is("deleted_at", null)
+        .is("declined_at", null)
         .is("approved_at", null);
 
     if (contributions_error)
@@ -422,12 +423,10 @@ export const mobileRouter = {
         is_my_contributions: ctx.user
           ? contribution.user_id === ctx.user.id
           : false,
-        upvotes: contribution.word_votes.filter(
-          (vote) => vote.vote === "upvote",
-        ).length,
-        downvotes: contribution.word_votes.filter(
-          (vote) => vote.vote === "downvote",
-        ).length,
+        upvotes: contribution.vote.filter((vote) => vote.vote === "upvote")
+          .length,
+        downvotes: contribution.vote.filter((vote) => vote.vote === "downvote")
+          .length,
         my_vote: contribution.vote.find((vote) => vote.user_id === ctx.user?.id)
           ?.vote,
         vote_count:
