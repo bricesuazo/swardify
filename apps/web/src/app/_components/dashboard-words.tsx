@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import type { RouterOutputs } from "@swardify/api";
+import { Badge } from "@swardify/ui/badge";
 import { Button } from "@swardify/ui/button";
 import {
   Form,
@@ -60,7 +61,6 @@ const MainFormSchema = z
       translated_words: z.string().array(),
       swardspeak_word: z.string(),
       translated_word: z.string(),
-      part_of_speech: z.string(),
     }),
   )
   .refine((data) => {
@@ -74,7 +74,6 @@ const MainFormSchema = z
 
 export default function DashboardWords() {
   const [search, setSearch] = useState("");
-  const [POS, setPOS] = useState<string | null>(null);
   const form = useForm<z.infer<typeof MainFormSchema>>({
     resolver: zodResolver(MainFormSchema),
     defaultValues: {
@@ -87,12 +86,6 @@ export default function DashboardWords() {
   });
   const getAllWordsQuery = api.web.getAllWords.useQuery();
   const createWordMutation = api.web.createWord.useMutation({
-    onSuccess: async () => {
-      await getAllWordsQuery.refetch();
-      form.reset();
-    },
-  });
-  const updateWordPOSMutation = api.web.updateWordPOS.useMutation({
     onSuccess: async () => {
       await getAllWordsQuery.refetch();
       form.reset();
@@ -330,38 +323,13 @@ export default function DashboardWords() {
             </div>
           </ScrollArea>
           <div className="flex flex-col justify-between gap-4 p-4 pt-0 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-x-2">
-              <Button asChild size="sm" variant="outline">
-                <Link href="/dashboard">
-                  <ChevronLeft className="mr-2 h-4 w-4" />
-                  Dashboard
-                </Link>
-              </Button>
-              {form.getValues("type") === "update" && (
-                <Select
-                  onValueChange={(value) => {
-                    setPOS(value);
-                    updateWordPOSMutation.mutate({
-                      id: form.getValues("id"),
-                      part_of_speech: value,
-                    });
-                  }}
-                  disabled={updateWordPOSMutation.isPending}
-                  value={POS ?? undefined}
-                >
-                  <SelectTrigger className="w-40">
-                    <SelectValue placeholder="Part of speech" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PART_OF_SPEECH.map((pos) => (
-                      <SelectItem key={pos} value={pos}>
-                        {pos.charAt(0).toUpperCase() + pos.slice(1)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            </div>
+            <Button asChild size="sm" variant="outline">
+              <Link href="/dashboard">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Dashboard
+              </Link>
+            </Button>
+
             <div className="flex items-center justify-end gap-x-2">
               <Button
                 type="button"
@@ -484,9 +452,47 @@ function WordItem({
       await utils.web.getAllWords.refetch();
     },
   });
+  const [POS, setPOS] = useState<string | null>(word.part_of_speech);
+  const updateWordPOSMutation = api.web.updateWordPOS.useMutation({
+    onSuccess: async () => {
+      await utils.web.getAllWords.refetch();
+    },
+  });
   return (
     <>
       <div className="space-y-2 rounded border p-4">
+        <div className="flex justify-between gap-x-4">
+          <div>
+            {word.part_of_speech && (
+              <Badge>
+                {word.part_of_speech.charAt(0).toUpperCase() +
+                  word.part_of_speech.slice(1)}
+              </Badge>
+            )}
+          </div>
+          <Select
+            onValueChange={(value) => {
+              setPOS(value);
+              updateWordPOSMutation.mutate({
+                id: word.id,
+                part_of_speech: value,
+              });
+            }}
+            disabled={updateWordPOSMutation.isPending}
+            value={POS ?? undefined}
+          >
+            <SelectTrigger className="h-auto w-40 px-2 py-1">
+              <SelectValue placeholder="Part of speech" />
+            </SelectTrigger>
+            <SelectContent>
+              {PART_OF_SPEECH.map((pos) => (
+                <SelectItem key={pos} value={pos}>
+                  {pos.charAt(0).toUpperCase() + pos.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="flex gap-4">
           <div className="xs:flex-row flex flex-1 flex-col justify-between gap-4">
             <div className="flex-1">
