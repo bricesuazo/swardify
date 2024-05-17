@@ -12,17 +12,27 @@
     "development": {
       "extends": "base",
       "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "extends": "base",
-      "developmentClient": false,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
       },
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "aaaaaa",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "aaaaaa"
+      }
+    },
+    "preview": {
+      "extends": "base",
+      "developmentClient": false,
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "aaaaaa",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "aaaaaa"
       }
     },
     "production": {
