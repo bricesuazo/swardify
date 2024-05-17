@@ -310,8 +310,11 @@ export type Database = {
       words: {
         Row: {
           created_at: string
+          definition: string | null
           deleted_at: string | null
+          examples: string[] | null
           id: string
+          part_of_speech: Database["public"]["Enums"]["part_of_speech"] | null
           swardspeak_words: string[]
           translated_words: string[]
           updated_at: string
@@ -319,8 +322,11 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          definition?: string | null
           deleted_at?: string | null
+          examples?: string[] | null
           id?: string
+          part_of_speech?: Database["public"]["Enums"]["part_of_speech"] | null
           swardspeak_words: string[]
           translated_words: string[]
           updated_at?: string
@@ -328,8 +334,11 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          definition?: string | null
           deleted_at?: string | null
+          examples?: string[] | null
           id?: string
+          part_of_speech?: Database["public"]["Enums"]["part_of_speech"] | null
           swardspeak_words?: string[]
           translated_words?: string[]
           updated_at?: string
@@ -353,6 +362,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      part_of_speech:
+        | "noun"
+        | "pronoun"
+        | "verb"
+        | "adjective"
+        | "adverb"
+        | "preposition"
+        | "conjunction"
+        | "interjection"
       sex: "m" | "f"
       vote: "upvote" | "downvote"
     }

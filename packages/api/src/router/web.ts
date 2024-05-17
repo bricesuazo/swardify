@@ -2,7 +2,8 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { adminProcedure, protectedProcedure, publicProcedure } from "../trpc";
+import { Database } from "../../../../supabase/types";
+import { adminProcedure, publicProcedure } from "../trpc";
 
 export const webRouter = {
   getAllPhrases: publicProcedure.query(async ({ ctx }) => {
@@ -23,7 +24,9 @@ export const webRouter = {
   getAllWords: publicProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
       .from("words")
-      .select("id, swardspeak_words, translated_words")
+      .select(
+        "id, definition, examples, part_of_speech, swardspeak_words, translated_words",
+      )
       .order("created_at", { ascending: false })
       .is("deleted_at", null);
 
@@ -230,5 +233,69 @@ export const webRouter = {
               : null,
         })
         .eq("id", input.id);
+    }),
+  updateWordDefinition: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        definition: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase
+        .from("words")
+        .update({
+          definition: input.definition,
+        })
+        .eq("id", input.id);
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update word definition",
+        });
+    }),
+  updateWordExamples: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        examples: z.string().array(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase
+        .from("words")
+        .update({
+          examples: input.examples,
+        })
+        .eq("id", input.id);
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update word examples",
+        });
+    }),
+  updateWordPOS: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        part_of_speech: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { error } = await ctx.supabase
+        .from("words")
+        .update({
+          part_of_speech:
+            input.part_of_speech as Database["public"]["Enums"]["part_of_speech"],
+        })
+        .eq("id", input.id);
+
+      if (error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update word examples",
+        });
     }),
 } satisfies TRPCRouterRecord;

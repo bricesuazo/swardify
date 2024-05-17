@@ -20,10 +20,31 @@ import {
 import { Input } from "@swardify/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@swardify/ui/popover";
 import { ScrollArea } from "@swardify/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@swardify/ui/select";
+import { Textarea } from "@swardify/ui/textarea";
 
 import { api } from "~/trpc/client";
+import { Database } from "../../../../../supabase/types";
+import DrawerDialog from "./drawer-dialog";
 
-const FormSchema = z
+const PART_OF_SPEECH: Database["public"]["Enums"]["part_of_speech"][] = [
+  "noun",
+  "pronoun",
+  "verb",
+  "adjective",
+  "adverb",
+  "preposition",
+  "conjunction",
+  "interjection",
+];
+
+const MainFormSchema = z
   .object({
     type: z.literal("create"),
     swardspeak_words: z.string().array(),
@@ -39,6 +60,7 @@ const FormSchema = z
       translated_words: z.string().array(),
       swardspeak_word: z.string(),
       translated_word: z.string(),
+      part_of_speech: z.string(),
     }),
   )
   .refine((data) => {
@@ -52,8 +74,9 @@ const FormSchema = z
 
 export default function DashboardWords() {
   const [search, setSearch] = useState("");
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const [POS, setPOS] = useState(null);
+  const form = useForm<z.infer<typeof MainFormSchema>>({
+    resolver: zodResolver(MainFormSchema),
     defaultValues: {
       type: "create",
       swardspeak_words: [],
@@ -64,6 +87,12 @@ export default function DashboardWords() {
   });
   const getAllWordsQuery = api.web.getAllWords.useQuery();
   const createWordMutation = api.web.createWord.useMutation({
+    onSuccess: async () => {
+      await getAllWordsQuery.refetch();
+      form.reset();
+    },
+  });
+  const updateWordPOSMutation = api.web.updateWordPOS.useMutation({
     onSuccess: async () => {
       await getAllWordsQuery.refetch();
       form.reset();
@@ -80,7 +109,7 @@ export default function DashboardWords() {
     <div className="flex h-full flex-col gap-4 p-4 md:flex-row">
       <Form {...form}>
         <form
-          className="flex max-h-[50%] flex-1 flex-col space-y-5 rounded border md:max-h-none"
+          className="flex h-1/2 flex-1 flex-col space-y-5 rounded border md:h-auto"
           onSubmit={form.handleSubmit((values) => {
             if (values.type === "create") {
               createWordMutation.mutate({
@@ -109,7 +138,6 @@ export default function DashboardWords() {
               ? "Create Words"
               : "Update Words"}
           </h2>
-
           <div className="flex flex-row gap-x-4 gap-y-2 px-4">
             <FormField
               control={form.control}
@@ -301,14 +329,40 @@ export default function DashboardWords() {
               </div>
             </div>
           </ScrollArea>
-          <div className="flex items-center justify-between gap-x-4 p-4 pt-0">
-            <Button asChild size="sm" variant="outline">
-              <Link href="/dashboard">
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                Dashboard
-              </Link>
-            </Button>
+          <div className="flex flex-col justify-between gap-4 p-4 pt-0 sm:flex-row sm:items-center">
             <div className="flex items-center gap-x-2">
+              <Button asChild size="sm" variant="outline">
+                <Link href="/dashboard">
+                  <ChevronLeft className="mr-2 h-4 w-4" />
+                  Dashboard
+                </Link>
+              </Button>
+              {form.getValues("type") === "update" && (
+                <Select
+                  onValueChange={(value) => {
+                    setPOS(value);
+                    updateWordPOSMutation.mutate({
+                      id: form.getValues("id"),
+                      part_of_speech: value,
+                    });
+                  }}
+                  disabled={updateWordPOSMutation.isPending}
+                  value={POS}
+                >
+                  <SelectTrigger className="w-40">
+                    <SelectValue placeholder="Part of speech" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PART_OF_SPEECH.map((pos) => (
+                      <SelectItem key={pos} value={pos}>
+                        {pos.charAt(0).toUpperCase() + pos.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+            <div className="flex items-center justify-end gap-x-2">
               <Button
                 type="button"
                 size="sm"
@@ -340,7 +394,7 @@ export default function DashboardWords() {
           </div>
         </form>
       </Form>
-      <div className="flex max-h-[50%] flex-1 flex-col gap-y-4 rounded border md:max-h-none">
+      <div className="flex h-1/2 flex-1 flex-col gap-y-4 rounded border md:h-auto">
         <div className="flex items-center gap-x-2 p-4 pb-0">
           <Input
             placeholder="Search word"
@@ -422,6 +476,8 @@ function WordItem({
   onEditClick: () => void;
   isEditing: boolean;
 }) {
+  const [openDefinition, setOpenDefinition] = useState(false);
+  const [openExamples, setOpenExamples] = useState(false);
   const utils = api.useUtils();
   const deleteWordMutation = api.web.deleteWord.useMutation({
     onSuccess: async () => {
@@ -429,63 +485,311 @@ function WordItem({
     },
   });
   return (
-    <div className="space-y-2 rounded border p-4">
-      <div className="xs:flex-row flex flex-col justify-between gap-4">
-        <div className="flex-1">
-          <p className="text-sm font-medium">Swardspeak Word</p>
-          {word.swardspeak_words.map((swardspeak_word, index) => (
-            <p key={index} className="break-words">
-              - {swardspeak_word}
-            </p>
-          ))}
+    <>
+      <div className="space-y-2 rounded border p-4">
+        <div className="flex gap-4">
+          <div className="xs:flex-row flex flex-1 flex-col justify-between gap-4">
+            <div className="flex-1">
+              <p className="text-sm font-medium">Swardspeak Word</p>
+              {word.swardspeak_words.map((swardspeak_word, index) => (
+                <p key={index} className="break-words">
+                  - {swardspeak_word}
+                </p>
+              ))}
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium">Translated Word</p>
+              {word.translated_words.map((translated_word, index) => (
+                <p key={index} className="break-words">
+                  - {translated_word}
+                </p>
+              ))}
+            </div>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium">Definition</p>
+            <p>{word.definition}</p>
+          </div>
         </div>
-        <div className="flex-1">
-          <p className="text-sm font-medium">Translated Word</p>
-          {word.translated_words.map((translated_word, index) => (
-            <p key={index} className="break-words">
-              - {translated_word}
-            </p>
-          ))}
+        <div className="">
+          <p className="text-sm font-medium">Examples</p>
+          {word.examples?.length === 0 ? (
+            <p className="break-words">- No examples</p>
+          ) : (
+            word.examples?.map((example, index) => (
+              <p key={index} className="break-words">
+                - {example}
+              </p>
+            ))
+          )}
+        </div>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <Button
+            variant="outline"
+            disabled={isEditing}
+            className="h-8 flex-1"
+            onClick={onEditClick}
+          >
+            Edit{isEditing ? "ing..." : ""}
+          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="h-8 flex-1 text-destructive">
+                Delete
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="max-w-60 space-y-2">
+              <p>Are you sure you want to delete this word?</p>
+              <div className="flex gap-2">
+                <Button variant="outline" className="h-8 flex-1">
+                  Cancel
+                </Button>
+                <Button
+                  variant="outline"
+                  className="h-8 flex-1 text-destructive"
+                  onClick={() => deleteWordMutation.mutate({ id: word.id })}
+                  disabled={deleteWordMutation.isPending}
+                >
+                  {deleteWordMutation.isPending ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Delete"
+                  )}
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Button
+            onClick={() => setOpenDefinition(true)}
+            size="sm"
+            variant="outline"
+          >
+            Edit Definition
+          </Button>
+          <Button
+            onClick={() => setOpenExamples(true)}
+            size="sm"
+            variant="outline"
+          >
+            Edit Examples
+          </Button>
         </div>
       </div>
+      <DrawerDialog
+        title="Edit definition"
+        open={openDefinition}
+        setOpen={setOpenDefinition}
+      >
+        <DefinitionForm
+          id={word.id}
+          setOpen={setOpenDefinition}
+          defaultValues={{
+            definition: word.definition ?? undefined,
+          }}
+        />
+      </DrawerDialog>
+      <DrawerDialog
+        title="Edit examples"
+        open={openExamples}
+        setOpen={setOpenExamples}
+      >
+        <ExamplesForm
+          id={word.id}
+          setOpen={setOpenExamples}
+          defaultValues={{
+            example: "",
+            examples: word.examples ?? [],
+          }}
+        />
+      </DrawerDialog>
+    </>
+  );
+}
 
-      <div className="flex flex-col gap-2 sm:flex-row">
+const DefinitionFormSchema = z.object({
+  definition: z.string().optional(),
+});
+
+function DefinitionForm({
+  id,
+  defaultValues,
+  setOpen,
+}: {
+  id: string;
+  defaultValues?: z.infer<typeof DefinitionFormSchema>;
+  setOpen: (open: boolean) => void;
+}) {
+  const utils = api.useUtils();
+  const form = useForm<z.infer<typeof DefinitionFormSchema>>({
+    resolver: zodResolver(DefinitionFormSchema),
+    defaultValues,
+  });
+  const updateWordDefinitionMutation = api.web.updateWordDefinition.useMutation(
+    {
+      onSuccess: async () => {
+        await utils.web.getAllWords.refetch();
+        setOpen(false);
+      },
+    },
+  );
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit((values) => {
+          if (!values.definition) {
+            form.setError("definition", {
+              message: "Definition is required.",
+            });
+            return;
+          }
+          updateWordDefinitionMutation.mutate({
+            id,
+            definition: values.definition,
+          });
+        })}
+        className="space-y-6"
+      >
+        <FormField
+          control={form.control}
+          name="definition"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Definition</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Definition" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
-          variant="outline"
-          disabled={isEditing}
-          className="h-8 flex-1"
-          onClick={onEditClick}
+          disabled={updateWordDefinitionMutation.isPending}
+          type="submit"
+          className="w-full"
         >
-          Edit{isEditing ? "ing..." : ""}
+          {updateWordDefinitionMutation.isPending ? "Saving..." : "Save"}
         </Button>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="h-8 flex-1 text-destructive">
-              Delete
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="max-w-60 space-y-2">
-            <p>Are you sure you want to delete this word?</p>
-            <div className="flex gap-2">
-              <Button variant="outline" className="h-8 flex-1">
-                Cancel
-              </Button>
+      </form>
+    </Form>
+  );
+}
+const ExamplesFormSchema = z.object({
+  example: z.string(),
+  examples: z.string().array().optional(),
+});
+
+function ExamplesForm({
+  id,
+  defaultValues,
+  setOpen,
+}: {
+  id: string;
+  defaultValues?: z.infer<typeof ExamplesFormSchema>;
+  setOpen: (open: boolean) => void;
+}) {
+  const utils = api.useUtils();
+  const form = useForm<z.infer<typeof ExamplesFormSchema>>({
+    resolver: zodResolver(ExamplesFormSchema),
+    defaultValues,
+  });
+  const updateWordExamplesMutation = api.web.updateWordExamples.useMutation({
+    onSuccess: async () => {
+      await utils.web.getAllWords.refetch();
+      setOpen(false);
+    },
+  });
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit((values) => {
+          if (!values.examples) {
+            form.setError("examples", {
+              message: "Examples is required.",
+            });
+            return;
+          }
+          updateWordExamplesMutation.mutate({
+            id,
+            examples:
+              values.example.length > 0
+                ? [...values.examples, values.example]
+                : values.examples,
+          });
+        })}
+        className="space-y-4"
+      >
+        <div className="flex items-end gap-x-2">
+          <FormField
+            control={form.control}
+            name="example"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Example</FormLabel>
+                <FormControl>
+                  <Input placeholder="Example" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            type="button"
+            disabled={!form.formState}
+            onClick={() => {
+              form.setValue("examples", [
+                ...(form.getValues("examples") ?? []),
+                form.getValues("example"),
+              ]);
+              form.resetField("example");
+            }}
+          >
+            <Plus className="h-5 w-5" />
+          </Button>
+        </div>
+        <div className="space-y-2">
+          {form.watch("examples")?.map((_, index) => (
+            <div key={index} className="flex items-end gap-x-2">
+              <FormField
+                control={form.control}
+                name={`examples.${index}`}
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormControl>
+                      <Input placeholder="Example" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 variant="outline"
-                className="h-8 flex-1 text-destructive"
-                onClick={() => deleteWordMutation.mutate({ id: word.id })}
-                disabled={deleteWordMutation.isPending}
+                size="icon"
+                type="button"
+                disabled={!form.formState}
+                onClick={() => {
+                  form.setValue(
+                    "examples",
+                    (form.getValues("examples") ?? []).filter(
+                      (_, i) => i !== index,
+                    ),
+                  );
+                }}
               >
-                {deleteWordMutation.isPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Delete"
-                )}
+                <Trash2 className="h-4 w-4 text-destructive" />
               </Button>
             </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </div>
+          ))}
+        </div>
+        <Button
+          disabled={updateWordExamplesMutation.isPending}
+          type="submit"
+          className="w-full"
+        >
+          {updateWordExamplesMutation.isPending ? "Saving..." : "Save"}
+        </Button>
+      </form>
+    </Form>
   );
 }

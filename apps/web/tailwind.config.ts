@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
+
 import baseConfig from "@swardify/tailwind-config/web";
-import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   // We need to append the path to the UI package to the content array so that
@@ -9,9 +10,13 @@ export default {
   presets: [baseConfig],
   theme: {
     extend: {
+      screens: {
+        xs: "475px",
+        ...defaultTheme.screens,
+      },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
       },
     },
   },

@@ -28,6 +28,19 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE TYPE "public"."part_of_speech" AS ENUM (
+    'noun',
+    'pronoun',
+    'verb',
+    'adjective',
+    'adverb',
+    'preposition',
+    'conjunction',
+    'interjection'
+);
+
+ALTER TYPE "public"."part_of_speech" OWNER TO "postgres";
+
 CREATE TYPE "public"."sex" AS ENUM (
     'm',
     'f'
@@ -152,7 +165,10 @@ CREATE TABLE IF NOT EXISTS "public"."words" (
     "translated_words" character varying[] NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "deleted_at" timestamp with time zone,
-    "word_contribution_id" "uuid"
+    "word_contribution_id" "uuid",
+    "part_of_speech" "public"."part_of_speech",
+    "definition" "text",
+    "examples" "text"[] DEFAULT '{}'::"text"[]
 );
 
 ALTER TABLE "public"."words" OWNER TO "postgres";
