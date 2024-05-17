@@ -74,7 +74,7 @@ const MainFormSchema = z
 
 export default function DashboardWords() {
   const [search, setSearch] = useState("");
-  const [POS, setPOS] = useState(null);
+  const [POS, setPOS] = useState<string | null>(null);
   const form = useForm<z.infer<typeof MainFormSchema>>({
     resolver: zodResolver(MainFormSchema),
     defaultValues: {
@@ -347,7 +347,7 @@ export default function DashboardWords() {
                     });
                   }}
                   disabled={updateWordPOSMutation.isPending}
-                  value={POS}
+                  value={POS ?? undefined}
                 >
                   <SelectTrigger className="w-40">
                     <SelectValue placeholder="Part of speech" />
