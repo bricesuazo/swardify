@@ -514,7 +514,7 @@ function WordItem({
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium">Definition</p>
-            <p>{word.definition}</p>
+            <p>{word.definition ?? "No definition"}</p>
           </div>
         </div>
         <div className="">

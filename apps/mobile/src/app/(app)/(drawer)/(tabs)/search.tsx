@@ -9,7 +9,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Colors, Text, View } from "react-native-ui-lib";
 import { Link } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
 import { useDebounceValue } from "~/lib/useDebounceValue";
@@ -127,7 +127,7 @@ export default function SearchPage() {
                   </Text>
                 </View>
 
-                <View>
+                <View row gap-8>
                   {isLoggedInQuery.data ? (
                     <Button
                       iconSource={() => (
@@ -149,6 +149,7 @@ export default function SearchPage() {
                       outline
                       outlineColor={Colors.white}
                       size="medium"
+                      flex-1
                     />
                   ) : (
                     <Link href="/(app)/auth" asChild>
@@ -165,9 +166,27 @@ export default function SearchPage() {
                         outline
                         outlineColor={Colors.white}
                         size="medium"
+                        flex-1
                       />
                     </Link>
                   )}
+                  <Link href={`/(app)/${item.id}`} asChild>
+                    <Button
+                      iconOnRight
+                      iconSource={() => (
+                        <FontAwesome5
+                          name="arrow-right"
+                          size={16}
+                          color="white"
+                          style={{ marginLeft: 8 }}
+                        />
+                      )}
+                      label="View word"
+                      outline
+                      outlineColor={Colors.white}
+                      size="medium"
+                    />
+                  </Link>
                 </View>
               </View>
             )}

@@ -4,8 +4,8 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Button, Card, Colors, Text, View } from "react-native-ui-lib";
-import { router } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
+import { Link, router } from "expo-router";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
@@ -110,23 +110,43 @@ export default function FavoritesPage() {
                   </Text>
                 </View>
 
-                <Button
-                  iconSource={() => (
-                    <AntDesign
-                      name="heart"
-                      size={16}
-                      color="white"
-                      style={{ marginRight: 8 }}
+                <View row gap-8 flex-1>
+                  <Button
+                    iconSource={() => (
+                      <AntDesign
+                        name="heart"
+                        size={16}
+                        color="white"
+                        style={{ marginRight: 8 }}
+                      />
+                    )}
+                    onPress={() =>
+                      toggleFavoriteMutation.mutate({ id: item.word_id })
+                    }
+                    label="Remove to favorites"
+                    outline
+                    outlineColor={Colors.white}
+                    size="medium"
+                    flex-1
+                  />
+                  <Link href={`/(app)/${item.word_id}`} asChild>
+                    <Button
+                      iconOnRight
+                      iconSource={() => (
+                        <FontAwesome5
+                          name="arrow-right"
+                          size={16}
+                          color="white"
+                          style={{ marginLeft: 8 }}
+                        />
+                      )}
+                      label="View word"
+                      outline
+                      outlineColor={Colors.white}
+                      size="medium"
                     />
-                  )}
-                  onPress={() =>
-                    toggleFavoriteMutation.mutate({ id: item.word_id })
-                  }
-                  label="Remove to favorites"
-                  outline
-                  outlineColor={Colors.white}
-                  size="medium"
-                />
+                  </Link>
+                </View>
               </View>
             );
           }}
