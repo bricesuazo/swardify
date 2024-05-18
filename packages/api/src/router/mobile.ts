@@ -399,39 +399,39 @@ export const mobileRouter = {
         },
       });
 
-      const res = z
-        .object({ translation: z.string() })
-        .safeParse(JSON.parse((output as string[]).join("")));
+      try {
+        const res = z
+          .object({ translation: z.string() })
+          .parse(JSON.parse((output as string[]).join("")));
 
-      if (!res.success) {
+        if (ctx.user) {
+          const { error } = await ctx.supabase
+            .from("translation_histories")
+            .insert({
+              user_id: ctx.user.id,
+              swardspeak:
+                input.type === "swardspeak-to-tagalog"
+                  ? input.input
+                  : res.translation,
+              tagalog:
+                input.type === "tagalog-to-swardspeak"
+                  ? input.input
+                  : res.translation,
+            });
+          if (error)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "An error occurred while saving the translation.",
+            });
+
+          return res.translation;
+        }
+      } catch (e) {
         throw new TRPCError({
-          code: "PARSE_ERROR",
+          code: "BAD_REQUEST",
           message: "An error occurred while translating.",
         });
       }
-
-      if (ctx.user) {
-        const { error } = await ctx.supabase
-          .from("translation_histories")
-          .insert({
-            user_id: ctx.user.id,
-            swardspeak:
-              input.type === "swardspeak-to-tagalog"
-                ? input.input
-                : res.data.translation,
-            tagalog:
-              input.type === "tagalog-to-swardspeak"
-                ? input.input
-                : res.data.translation,
-          });
-        if (error)
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "An error occurred while saving the translation.",
-          });
-      }
-
-      return res.data.translation;
     }),
   getAllContributions: publicProcedure.query(async ({ ctx }) => {
     const { data: contributions, error: contributions_error } =
