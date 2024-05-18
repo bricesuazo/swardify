@@ -182,8 +182,8 @@ export const mobileRouter = {
       const { data: phrases, error: phrases_error } = await ctx.supabase
         .from("phrases")
         .select()
-        .is("deleted_at", null)
-        .lte("created_at", "2024-05-17T00:00:00.000Z");
+        .is("deleted_at", null);
+      // .lte("created_at", "2024-05-17T00:00:00.000Z");
 
       if (words_error)
         throw new TRPCError({

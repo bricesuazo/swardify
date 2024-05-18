@@ -169,7 +169,7 @@ export const webRouter = {
           contribution.vote.filter((vote) => vote.vote === "upvote").length -
           contribution.vote.filter((vote) => vote.vote === "downvote").length,
       }))
-      .sort((a) => a.vote_count);
+      .sort((a, b) => b.vote_count - a.vote_count);
   }),
   toggleDeleteWordContribution: adminProcedure
     .input(z.object({ id: z.string() }))
