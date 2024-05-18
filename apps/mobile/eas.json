@@ -1,13 +1,19 @@
 {
   "cli": {
-    "version": ">= 7.8.0"
+    "version": ">= 7.8.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "base": {
       "node": "18.16.1",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://tpnvxkhrqpspsawssdit.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwbnZ4a2hycXBzcHNhd3NzZGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MTI0NzYsImV4cCI6MjAyNTM4ODQ3Nn0.rBZ27tkAVERoM7ZOYtzeS0ChaDigcKyJfLQcDRyi-PM"
+      },
       "ios": {
         "resourceClass": "m-medium"
-      }
+      },
+      "autoIncrement": true
     },
     "development": {
       "extends": "base",
@@ -18,10 +24,6 @@
       },
       "ios": {
         "simulator": true
-      },
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "aaaaaa",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "aaaaaa"
       }
     },
     "preview": {
@@ -29,10 +31,6 @@
       "developmentClient": false,
       "android": {
         "buildType": "app-bundle"
-      },
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "https://tpnvxkhrqpspsawssdit.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwbnZ4a2hycXBzcHNhd3NzZGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MTI0NzYsImV4cCI6MjAyNTM4ODQ3Nn0.rBZ27tkAVERoM7ZOYtzeS0ChaDigcKyJfLQcDRyi-PM"
       }
     },
     "production": {

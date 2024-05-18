@@ -5,7 +5,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Swardify",
   slug: "swardify",
   scheme: "com.bricesuazo.swardify",
-  version: "0.0.2",
+  version: "0.0.1",
   orientation: "portrait",
   primaryColor: "#D300CB",
   userInterfaceStyle: "automatic",
@@ -24,7 +24,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: "com.bricesuazo.swardify",
-    versionCode: 2,
     adaptiveIcon: {
       backgroundColor: "#D300CB",
       foregroundImage: "./assets/icon-foreground.png",
