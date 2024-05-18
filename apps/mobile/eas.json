@@ -6,6 +6,7 @@
   "build": {
     "base": {
       "node": "18.16.1",
+      "developmentClient": false,
       "env": {
         "EXPO_PUBLIC_SUPABASE_URL": "https://tpnvxkhrqpspsawssdit.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwbnZ4a2hycXBzcHNhd3NzZGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MTI0NzYsImV4cCI6MjAyNTM4ODQ3Nn0.rBZ27tkAVERoM7ZOYtzeS0ChaDigcKyJfLQcDRyi-PM"
@@ -17,8 +18,7 @@
     },
     "development": {
       "extends": "base",
-      "developmentClient": false,
-      "distribution": "internal",
+      "developmentClient": true,
       "android": {
         "buildType": "apk"
       },
@@ -28,13 +28,16 @@
     },
     "preview": {
       "extends": "base",
-      "developmentClient": false,
+      "distribution": "internal",
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "apk"
       }
     },
     "production": {
-      "extends": "base"
+      "extends": "base",
+      "android": {
+        "buildType": "app-bundle"
+      }
     }
   },
   "submit": {

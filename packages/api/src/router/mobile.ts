@@ -177,10 +177,12 @@ export const mobileRouter = {
     .mutation(async ({ input, ctx }) => {
       const { data: words, error: words_error } = await ctx.supabase
         .from("words")
-        .select();
+        .select()
+        .is("deleted_at", null);
       const { data: phrases, error: phrases_error } = await ctx.supabase
         .from("phrases")
-        .select();
+        .select()
+        .is("deleted_at", null);
 
       if (words_error)
         throw new TRPCError({
