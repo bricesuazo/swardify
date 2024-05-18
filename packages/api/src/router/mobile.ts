@@ -182,7 +182,8 @@ export const mobileRouter = {
       const { data: phrases, error: phrases_error } = await ctx.supabase
         .from("phrases")
         .select()
-        .is("deleted_at", null);
+        .is("deleted_at", null)
+        .lte("created_at", "2024-05-17T00:00:00.000Z");
 
       if (words_error)
         throw new TRPCError({
@@ -374,32 +375,34 @@ export const mobileRouter = {
       //         },
       //       };
 
-      const output = await ctx.replicate.run("meta/meta-llama-3-70b-instruct", {
-        input: {
-          system_prompt:
-            "You are a Swardspeak to Tagalog and vice versa translator." +
-            ` Here are the words you need to know: ${JSON.stringify(
-              words.map((word) => ({
-                swardspeak_words: word.swardspeak_words,
-                translated_words: word.translated_words,
-              })),
-            )}` +
-            ` Here are the phrases you need to know: ${JSON.stringify(
-              phrases.map((phrase) => ({
-                swardspeak_phrase: phrase.swardspeak_phrase,
-                translated_phrase: phrase.translated_phrase,
-              })),
-            )}` +
-            ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
-            ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
-            ' If there is an error, return { success: false, "error": <error message> }.',
-          prompt:
-            ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
-            input.input,
-        },
-      });
-
       try {
+        const output = await ctx.replicate.run(
+          "meta/meta-llama-3-70b-instruct",
+          {
+            input: {
+              system_prompt:
+                "You are a Swardspeak to Tagalog and vice versa translator." +
+                ` Here are the words you need to know: ${JSON.stringify(
+                  words.map((word) => ({
+                    swardspeak_words: word.swardspeak_words,
+                    translated_words: word.translated_words,
+                  })),
+                )}` +
+                ` Here are the phrases you need to know: ${JSON.stringify(
+                  phrases.map((phrase) => ({
+                    swardspeak_phrase: phrase.swardspeak_phrase,
+                    translated_phrase: phrase.translated_phrase,
+                  })),
+                )}` +
+                ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
+                ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+                ' If there is an error, return { success: false, "error": <error message> }.',
+              prompt:
+                ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
+                input.input,
+            },
+          },
+        );
         const res = z
           .object({ translation: z.string() })
           .parse(JSON.parse((output as string[]).join("")));

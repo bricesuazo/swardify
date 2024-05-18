@@ -162,12 +162,14 @@ export const webRouter = {
         message: "Failed to fetch contributions",
       });
 
-    return data.map((contribution) => ({
-      ...contribution,
-      vote_count:
-        contribution.vote.filter((vote) => vote.vote === "upvote").length -
-        contribution.vote.filter((vote) => vote.vote === "downvote").length,
-    }));
+    return data
+      .map((contribution) => ({
+        ...contribution,
+        vote_count:
+          contribution.vote.filter((vote) => vote.vote === "upvote").length -
+          contribution.vote.filter((vote) => vote.vote === "downvote").length,
+      }))
+      .sort((a) => a.vote_count);
   }),
   toggleDeleteWordContribution: adminProcedure
     .input(z.object({ id: z.string() }))
