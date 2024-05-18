@@ -17,7 +17,7 @@
     },
     "development": {
       "extends": "base",
-      "developmentClient": true,
+      "developmentClient": false,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
@@ -38,6 +38,10 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "track": "internal"
+      }
+    }
   }
 }
