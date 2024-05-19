@@ -426,9 +426,9 @@ export const mobileRouter = {
               code: "BAD_REQUEST",
               message: "An error occurred while saving the translation.",
             });
-
-          return res.translation;
         }
+
+        return res.translation;
       } catch (e) {
         throw new TRPCError({
           code: "BAD_REQUEST",
