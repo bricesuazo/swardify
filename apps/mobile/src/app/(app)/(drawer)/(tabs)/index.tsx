@@ -34,7 +34,7 @@ export default function Home() {
       Alert.alert("Error", err.message);
     },
     onSuccess: async (res) => {
-      setOutput(res);
+      setOutput(res ?? "");
       await getAllTranslationHistoriesQuery.refetch();
     },
   });

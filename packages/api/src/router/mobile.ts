@@ -381,7 +381,7 @@ export const mobileRouter = {
           {
             input: {
               system_prompt:
-                "You are a Swardspeak to Tagalog and vice versa translator." +
+                "You are a Swardspeak amd Tagalog translator." +
                 ` Here are the words you need to know: ${JSON.stringify(
                   words.map((word) => ({
                     swardspeak_words: word.swardspeak_words,
