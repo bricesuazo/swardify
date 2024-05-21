@@ -381,7 +381,7 @@ export const mobileRouter = {
           {
             input: {
               system_prompt:
-                "You are a Swardspeak amd Tagalog translator." +
+                "You are a Swardspeak and Tagalog translator." +
                 ` Here are the words you need to know: ${JSON.stringify(
                   words.map((word) => ({
                     swardspeak_words: word.swardspeak_words,
@@ -404,8 +404,15 @@ export const mobileRouter = {
           },
         );
         const res = z
-          .object({ translation: z.string() })
-          .parse(JSON.parse((output as string[]).join("")));
+          .object({ success: z.literal(true), translation: z.string() })
+          .or(z.object({ success: z.literal(false), error: z.string() }))
+          .safeParse(JSON.parse((output as string[]).join("")));
+
+        if (!res.data?.success)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: res.data?.error ?? "An error occurred while translating.",
+          });
 
         if (ctx.user) {
           const { error } = await ctx.supabase
@@ -415,11 +422,11 @@ export const mobileRouter = {
               swardspeak:
                 input.type === "swardspeak-to-tagalog"
                   ? input.input
-                  : res.translation,
+                  : res.data.translation,
               tagalog:
                 input.type === "tagalog-to-swardspeak"
                   ? input.input
-                  : res.translation,
+                  : res.data.translation,
             });
           if (error)
             throw new TRPCError({
@@ -428,7 +435,7 @@ export const mobileRouter = {
             });
         }
 
-        return res.translation;
+        return res.data.translation;
       } catch (e) {
         throw new TRPCError({
           code: "BAD_REQUEST",
