@@ -99,30 +99,24 @@ export default function ContributePage() {
                   </Text>
                 </View>
                 <View flex-1 style={{ alignItems: "flex-end" }}>
-                  {isLoggedInQuery.data ? (
-                    item.is_my_contributions && (
-                      <Button
-                        label={
-                          !deleteMyContributionMutation.isPending
-                            ? "Delete"
-                            : "Deleting..."
-                        }
-                        size={Button.sizes.xSmall}
-                        outline
-                        color={Colors.$iconDanger}
-                        outlineColor={Colors.$iconDanger}
-                        onPress={() => {
-                          if (!item.is_my_contributions) return;
+                  {isLoggedInQuery.data && item.is_my_contributions && (
+                    <Button
+                      label={
+                        !deleteMyContributionMutation.isPending
+                          ? "Delete"
+                          : "Deleting..."
+                      }
+                      size={Button.sizes.xSmall}
+                      outline
+                      color={Colors.$iconDanger}
+                      outlineColor={Colors.$iconDanger}
+                      onPress={() => {
+                        if (!item.is_my_contributions) return;
 
-                          deleteMyContributionMutation.mutate({ id: item.id });
-                        }}
-                        disabled={deleteMyContributionMutation.isPending}
-                      />
-                    )
-                  ) : (
-                    <Text text80BL $iconDanger>
-                      Signed out
-                    </Text>
+                        deleteMyContributionMutation.mutate({ id: item.id });
+                      }}
+                      disabled={deleteMyContributionMutation.isPending}
+                    />
                   )}
                 </View>
               </View>

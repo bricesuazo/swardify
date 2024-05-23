@@ -5,6 +5,8 @@ interface StoreState {
   setTopbarStyle: (theme: StoreState["topbarStyle"]) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
+  isKeyboardVisible: boolean;
+  setKeyboardVisible: (isKeyboardVisible: boolean) => void;
 }
 
 export const useStore = create<StoreState>()((set) => ({
@@ -12,4 +14,6 @@ export const useStore = create<StoreState>()((set) => ({
   setTopbarStyle: (theme) => set(() => ({ topbarStyle: theme })),
   isConnected: true,
   setIsConnected: (isConnected) => set(() => ({ isConnected })),
+  isKeyboardVisible: false,
+  setKeyboardVisible: (isKeyboardVisible) => set(() => ({ isKeyboardVisible })),
 }));

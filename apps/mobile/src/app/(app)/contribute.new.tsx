@@ -29,7 +29,10 @@ export default function CreateContribution() {
       Alert.alert("Error", err.message);
     },
     onSuccess: async () => {
-      await utils.mobile.getAllContributions.invalidate();
+      await Promise.all([
+        utils.mobile.getContributionsCount.invalidate(),
+        utils.mobile.getAllContributions.invalidate(),
+      ]);
 
       if (router.canGoBack()) {
         router.back();

@@ -588,4 +588,19 @@ export const mobileRouter = {
         });
       }
     }),
+  getContributionsCount: protectedProcedure.query(async ({ ctx }) => {
+    const { data: contributions, error } = await ctx.supabase
+      .from("word_contributions")
+      .select()
+      .eq("user_id", ctx.user.id);
+
+    if (error) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: error.message,
+      });
+    }
+
+    return contributions.length;
+  }),
 } satisfies TRPCRouterRecord;

@@ -110,8 +110,8 @@ export default function SettingsPage() {
                   }}
                   trailingAccessory={<Feather name="chevron-down" size={20} />}
                 >
-                  <Picker.Item value="m" label="Male" />
                   <Picker.Item value="f" label="Female" />
+                  <Picker.Item value="m" label="Male" />
                 </Picker>
               </View>
               <View>
@@ -157,6 +157,7 @@ export default function SettingsPage() {
                     "zir",
                     "zirs",
                     "zirself",
+                    "mx",
                   ].map((pronoun, index) => (
                     <Picker.Item
                       key={index}

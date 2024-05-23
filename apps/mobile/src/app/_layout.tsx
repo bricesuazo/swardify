@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { AppState, StatusBar } from "react-native";
+import { AppState, Keyboard, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -34,6 +34,7 @@ export default function RootLayout() {
   const segments = useSegments();
   const setTopbarStyle = useStore((state) => state.setTopbarStyle);
   const setIsConnected = useStore((state) => state.setIsConnected);
+  const setKeyboardVisible = useStore((state) => state.setKeyboardVisible);
   const isConnected = useStore((state) => state.isConnected);
 
   const [fontLoaded] = Font.useFonts({
@@ -72,6 +73,26 @@ export default function RootLayout() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, segments]);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontLoaded) {

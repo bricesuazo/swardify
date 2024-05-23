@@ -15,6 +15,7 @@ export default function TabLayout() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const topbarStyle = useStore((state) => state.topbarStyle);
+  const isKeyboardVisible = useStore((state) => state.isKeyboardVisible);
 
   return (
     <>
@@ -50,6 +51,9 @@ export default function TabLayout() {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="translate" size={size} color={color} />
             ),
+            tabBarStyle: {
+              display: isKeyboardVisible ? "none" : "flex",
+            },
           }}
         />
         <Tabs.Screen
