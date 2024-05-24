@@ -403,6 +403,7 @@ export const mobileRouter = {
             },
           },
         );
+
         const res = z
           .object({ success: z.literal(true), translation: z.string() })
           .or(z.object({ success: z.literal(false), error: z.string() }))
@@ -415,24 +416,17 @@ export const mobileRouter = {
           });
 
         if (ctx.user) {
-          const { error } = await ctx.supabase
-            .from("translation_histories")
-            .insert({
-              user_id: ctx.user.id,
-              swardspeak:
-                input.type === "swardspeak-to-tagalog"
-                  ? input.input
-                  : res.data.translation,
-              tagalog:
-                input.type === "tagalog-to-swardspeak"
-                  ? input.input
-                  : res.data.translation,
-            });
-          if (error)
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: "An error occurred while saving the translation.",
-            });
+          await ctx.supabase.from("translation_histories").insert({
+            user_id: ctx.user.id,
+            swardspeak:
+              input.type === "swardspeak-to-tagalog"
+                ? input.input
+                : res.data.translation,
+            tagalog:
+              input.type === "tagalog-to-swardspeak"
+                ? input.input
+                : res.data.translation,
+          });
         }
 
         return res.data.translation;

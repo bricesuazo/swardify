@@ -14,7 +14,7 @@ export default function DrawerLayout() {
   const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
   const getContributionsCountQuery = api.mobile.getContributionsCount.useQuery(
     undefined,
-    { enabled: isLoggedInQuery.data },
+    { enabled: !!isLoggedInQuery.data },
   );
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();

@@ -142,8 +142,8 @@ export default function WordPage() {
                 {getWordQuery.data.examples.length === 0 ? (
                   <Text text70BL>No examples yet...</Text>
                 ) : (
-                  getWordQuery.data.examples.map((example) => (
-                    <Text text70BL>- {example}</Text>
+                  getWordQuery.data.examples.map((example, index) => (
+                    <Text key={index} text70BL>- {example}</Text>
                   ))
                 )}
               </View>

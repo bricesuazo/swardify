@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Keyboard,
-  RefreshControl,
-} from "react-native";
+import { ActivityIndicator, Alert, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Button,
@@ -32,8 +27,11 @@ export default function Home() {
     "swardspeak-to-tagalog",
   );
   const [copied, setCopied] = useState(false);
+  const isLoggedInQuery = api.auth.isLoggedIn.useQuery();
   const getAllTranslationHistoriesQuery =
-    api.mobile.getAllTranslationHistories.useQuery();
+    api.mobile.getAllTranslationHistories.useQuery(undefined, {
+      enabled: isLoggedInQuery.data,
+    });
   const translateMutation = api.mobile.translate.useMutation({
     onError: (err) => {
       Alert.alert("Error", err.message);
