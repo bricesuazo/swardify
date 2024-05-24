@@ -51,9 +51,9 @@ export default function TabLayout() {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="translate" size={size} color={color} />
             ),
-            tabBarStyle: {
-              display: isKeyboardVisible ? "none" : "flex",
-            },
+            // tabBarStyle: {
+            //   display: isKeyboardVisible ? "none" : "flex",
+            // },
           }}
         />
         <Tabs.Screen

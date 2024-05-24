@@ -65,7 +65,18 @@ export const mobileRouter = {
                   ),
               )
             : true,
-        );
+        )
+        .sort((a, b) => {
+          if (!a.swardspeak_words[0] || !b.swardspeak_words[0]) return -1;
+
+          if (a.swardspeak_words[0] < b.swardspeak_words[0]) {
+            return -1;
+          }
+          if (a.swardspeak_words[0] > b.swardspeak_words[0]) {
+            return 1;
+          }
+          return 0;
+        });
     }),
   get: publicProcedure
     .input(z.object({ id: z.string().uuid() }))
