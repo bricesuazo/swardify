@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowDownUp } from "lucide-react";
 import { toast } from "sonner";
 
 import type { RouterInputs } from "@swardify/api";
+import { Badge } from "@swardify/ui/badge";
 import { Button } from "@swardify/ui/button";
 import { Input } from "@swardify/ui/input";
 import { ScrollArea } from "@swardify/ui/scroll-area";
 import { Separator } from "@swardify/ui/separator";
 import { Skeleton } from "@swardify/ui/skeleton";
 
-import { useDebounceValue } from "~/lib/useDebounceValue";
 import { useInterval } from "~/lib/useInterval";
 import { api } from "~/trpc/client";
 
@@ -25,7 +25,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
-  const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 1000);
+  // const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 1000);
   const [type, setType] = useState<RouterInputs["mobile"]["translate"]["type"]>(
     "swardspeak-to-tagalog",
   );
@@ -40,16 +40,16 @@ export default function Home() {
     copied ? 2000 : null,
   );
 
-  useEffect(() => {
-    if (!debouncedInput || debouncedInput.length === 0) return;
-    toast(ERROR_MESSAGE);
-    setOutput(ERROR_MESSAGE);
-    // translateMutation.mutate({ type, input: debouncedInput });
-  }, [debouncedInput]);
+  // useEffect(() => {
+  //   if (!debouncedInput || debouncedInput.length === 0) return;
+  //   toast(ERROR_MESSAGE);
+  //   setOutput(ERROR_MESSAGE);
+  //   // translateMutation.mutate({ type, input: debouncedInput });
+  // }, [debouncedInput]);
 
-  useEffect(() => {
-    setDebouncedInput(input);
-  }, [input]);
+  // useEffect(() => {
+  //   setDebouncedInput(input);
+  // }, [input]);
   return (
     <div className="space-y-10">
       <div className="bg-primary text-white">
@@ -98,21 +98,33 @@ export default function Home() {
                 onChange={(e) => setOutput(e.target.value)}
               />
             </div>
-            <Button
-              size="icon"
-              className="absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-white hover:bg-primary"
-              onClick={() => {
-                setInput("");
-                setOutput("");
-                setType(
-                  type === "swardspeak-to-tagalog"
-                    ? "tagalog-to-swardspeak"
-                    : "swardspeak-to-tagalog",
-                );
-              }}
-            >
-              <ArrowDownUp />
-            </Button>
+            <div className="absolute top-1/2 flex w-full -translate-y-1/2 justify-center gap-x-2">
+              <Button
+                className="h-12 rounded-full border-4 border-white !opacity-100 hover:bg-primary active:bg-blue-500 disabled:bg-muted-foreground"
+                disabled={!input.length}
+                onClick={() => {
+                  toast(ERROR_MESSAGE);
+                  setOutput(ERROR_MESSAGE);
+                }}
+              >
+                Translate
+              </Button>
+              <Button
+                size="icon"
+                className="h-12 w-12 rounded-full border-4 border-white hover:bg-primary active:bg-blue-500"
+                onClick={() => {
+                  setInput("");
+                  setOutput("");
+                  setType(
+                    type === "swardspeak-to-tagalog"
+                      ? "tagalog-to-swardspeak"
+                      : "swardspeak-to-tagalog",
+                  );
+                }}
+              >
+                <ArrowDownUp size="1.25rem" />
+              </Button>
+            </div>
           </div>
           <div className="space-y-2">
             <p className="text-center font-bold">Download Swardify App</p>
@@ -153,11 +165,16 @@ export default function Home() {
         </h3>
         <div className="flex flex-col gap-4 gap-y-4 p-0 sm:flex-row">
           <div className="flex-1 space-y-2">
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search words"
-            />
+            <div className="flex items-center gap-x-2">
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search words"
+              />
+              <Badge variant="outline">
+                {getAllWordsQuery.data?.length ?? 0}
+              </Badge>
+            </div>
 
             <ScrollArea className="flex-1" viewportClassName="h-96">
               <div className="space-y-2">
@@ -219,11 +236,16 @@ export default function Home() {
             </ScrollArea>
           </div>
           <div className="flex-1 space-y-2">
-            <Input
-              value={phrase}
-              onChange={(e) => setPhrase(e.target.value)}
-              placeholder="Search phrases"
-            />
+            <div className="flex items-center gap-x-2">
+              <Input
+                value={phrase}
+                onChange={(e) => setPhrase(e.target.value)}
+                placeholder="Search phrases"
+              />
+              <Badge variant="outline">
+                {getAllPhrasesQuery.data?.length ?? 0}
+              </Badge>
+            </div>
 
             <ScrollArea className="flex-1" viewportClassName="h-96">
               <div className="space-y-2">
@@ -339,7 +361,10 @@ export default function Home() {
               />
               <div>
                 <h5 className="text-sm font-medium">{developer.name}</h5>
-                <Link href={`mailto:${developer.email}`} className="text-xs">
+                <Link
+                  href={`mailto:${developer.email}`}
+                  className="text-xs text-primary underline"
+                >
                   {developer.email}
                 </Link>
               </div>

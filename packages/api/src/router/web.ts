@@ -19,7 +19,12 @@ export const webRouter = {
         message: "Failed to fetch phrases",
       });
 
-    return data;
+    return data.sort((a, b) => {
+      if (!a.swardspeak_phrase || !b.swardspeak_phrase) return 0;
+      if (a.swardspeak_phrase < b.swardspeak_phrase) return -1;
+      if (a.swardspeak_phrase > b.swardspeak_phrase) return 1;
+      return 0;
+    });
   }),
   getAllWords: publicProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
@@ -36,7 +41,12 @@ export const webRouter = {
         message: "Failed to fetch words",
       });
 
-    return data;
+    return data.sort((a, b) => {
+      if (!a.swardspeak_words[0] || !b.swardspeak_words[0]) return 0;
+      if (a.swardspeak_words[0] < b.swardspeak_words[0]) return -1;
+      if (a.swardspeak_words[0] > b.swardspeak_words[0]) return 1;
+      return 0;
+    });
   }),
   createWord: adminProcedure
     .input(

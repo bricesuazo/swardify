@@ -68,13 +68,9 @@ export const mobileRouter = {
         )
         .sort((a, b) => {
           if (!a.swardspeak_words[0] || !b.swardspeak_words[0]) return -1;
+          if (a.swardspeak_words[0] < b.swardspeak_words[0]) return -1;
+          if (a.swardspeak_words[0] > b.swardspeak_words[0]) return 1;
 
-          if (a.swardspeak_words[0] < b.swardspeak_words[0]) {
-            return -1;
-          }
-          if (a.swardspeak_words[0] > b.swardspeak_words[0]) {
-            return 1;
-          }
           return 0;
         });
     }),
@@ -176,7 +172,14 @@ export const mobileRouter = {
         message: favorites_error.message,
       });
 
-    return favorites;
+    return favorites.sort((a, b) => {
+      if (!a.word?.swardspeak_words[0] || !b.word?.swardspeak_words[0])
+        return -1;
+      if (a.word.swardspeak_words[0] < b.word.swardspeak_words[0]) return -1;
+      if (a.word.swardspeak_words[0] > b.word.swardspeak_words[0]) return 1;
+
+      return 0;
+    });
   }),
   translate: publicProcedure
     .input(
