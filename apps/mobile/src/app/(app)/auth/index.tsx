@@ -1,14 +1,21 @@
-import { createRef, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   ScrollView,
 } from "react-native";
-import { Button, TextField, TextFieldRef, View } from "react-native-ui-lib";
+import {
+  Button,
+  Text,
+  TextField,
+  TextFieldRef,
+  TouchableOpacity,
+  View,
+} from "react-native-ui-lib";
 import { useRouter } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
 
 import { api } from "~/utils/api";
 import { supabase } from "~/utils/supabase";
@@ -70,6 +77,12 @@ export default function AuthPage() {
     }
     setLoadings({ ...loadings, email: false });
   }
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setRepeatPassword("");
+  }, [type]);
 
   return (
     <KeyboardAvoidingView
@@ -176,7 +189,25 @@ export default function AuthPage() {
           </View>
         </View>
       </ScrollView>
-      <View padding-20>
+      <View padding-20 gap-20>
+        <View
+          center
+          paddingH-20
+          style={{ flexDirection: "row", flexWrap: "wrap" }}
+        >
+          <Text $textNeutral>By using SWARDify, you agree to our </Text>
+          <TouchableOpacity
+            onPress={() => Linking.openURL("https://swardify.kabsu.me/terms")}
+          >
+            <Text $textGeneral>Terms & Conditions</Text>
+          </TouchableOpacity>
+          <Text $textNeutral> and </Text>
+          <TouchableOpacity
+            onPress={() => Linking.openURL("https://swardify.kabsu.me/privacy")}
+          >
+            <Text $textGeneral>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
         <Button
           iconSource={
             loadings.email
