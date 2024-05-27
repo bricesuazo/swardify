@@ -68,7 +68,7 @@ export default function DrawerLayout() {
                 <Text center text60BO>
                   Please sign in to see your contributions.
                 </Text>
-              ) : !getContributionsCountQuery.data ? (
+              ) : getContributionsCountQuery.data === undefined ? (
                 <ActivityIndicator />
               ) : (
                 <>

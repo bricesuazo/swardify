@@ -660,8 +660,8 @@ export const mobileRouter = {
     const { data: contributions, error } = await ctx.supabase
       .from("word_contributions")
       .select()
-      .eq("user_id", ctx.user.id);
-
+      .eq("user_id", ctx.user.id)
+      .is("deleted_at", null);
     if (error) {
       throw new TRPCError({
         code: "BAD_REQUEST",
