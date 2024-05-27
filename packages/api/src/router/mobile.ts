@@ -490,11 +490,71 @@ export const mobileRouter = {
   contribute: protectedProcedure
     .input(
       z.object({
-        swardspeak_words: z.string().array(),
-        translated_words: z.string().array(),
+        swardspeak_words: z.string().min(1).array().min(1),
+        translated_words: z.string().min(1).array().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      await Promise.all([
+        ctx.supabase
+          .from("words")
+          .select()
+          .is("deleted_at", null)
+          .then(({ data, error }) => {
+            if (error)
+              throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: error.message,
+              });
+
+            if (
+              data
+                .map((word) => word.swardspeak_words)
+                .flat()
+                .map((word) => word.toLowerCase())
+                .some((word) =>
+                  input.swardspeak_words
+                    .map((word) => word.toLowerCase())
+                    .includes(word),
+                )
+            )
+              throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "Swardspeak words already exist in the list.",
+              });
+          }),
+        ctx.supabase
+          .from("word_contributions")
+          .select()
+          .is("deleted_at", null)
+          .is("declined_at", null)
+          .is("approved_at", null)
+          .then(({ data, error }) => {
+            if (error)
+              throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: error.message,
+              });
+
+            if (
+              data
+                .map((word) => word.swardspeak_words)
+                .flat()
+                .map((word) => word.toLowerCase())
+                .some((word) =>
+                  input.swardspeak_words
+                    .map((word) => word.toLowerCase())
+                    .includes(word),
+                )
+            )
+              throw new TRPCError({
+                code: "BAD_REQUEST",
+                message:
+                  "Swardspeak words already exist in the contributions list.",
+              });
+          }),
+      ]);
+
       const { data, error } = await ctx.supabase
         .from("word_contributions")
         .insert({
