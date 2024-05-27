@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -10,12 +10,14 @@ import {
   View,
 } from "react-native-ui-lib";
 import * as Clipboard from "expo-clipboard";
+import { usePathname } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 
 import { api, RouterInputs } from "~/utils/api";
 
 export default function Home() {
+  const pathname = usePathname();
   const [input, setInput] = useState("");
   // const [debouncedInput, setDebouncedInput] = useDebounceValue(input, 2000);
   const [output, setOutput] = useState("");
@@ -41,6 +43,14 @@ export default function Home() {
       await getAllTranslationHistoriesQuery.refetch();
     },
   });
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setInput("");
+      setOutput("");
+      setType("swardspeak-to-tagalog");
+    }
+  }, [pathname]);
 
   // useInterval(
   //   () => {
