@@ -1,0 +1,1307 @@
+[
+ {
+  "input": "Tibo",
+  "output": "Portuguesa",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "boogie wonderland",
+  "output": "bugbog",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Anakis, magayos ka ng kalachuchi dyan sa sala. Parating na ang Pudra mo",
+  "output": "Anak, magayos ka ng kalat dyan sa sala. Parating na ang tatay mo.",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Jotis",
+  "output": "Munti",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Tsugi",
+  "output": "Patay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bus",
+  "output": "busabos",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Tibo",
+  "output": "Shibuli",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "patuloy",
+  "output": "atak",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Ces Drilon",
+  "output": "Stress",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ang anak ni aling beth, tumae sa shorts!",
+  "output": "ang junakis ni aling beth, umerna sa shorts!",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Pumutok",
+  "output": "Jumutok",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Hindi",
+  "output": "Wit",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Grabe ate",
+  "output": "Gravity",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Pudang",
+  "output": "Tatay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Mudrabels",
+  "output": "Ina",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "masyosyonda",
+  "output": "matanda",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pocahontas",
+  "output": "hindi sinipot",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "na-boogie wonderland sya",
+  "output": "nabugbog sya",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nabugbog ang sekyung malaki ang katawan ng mga magnanakaw!",
+  "output": "Na-boogie wonderland ang bortang ermingarde ng mga magna cum laude!",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Mahabang mukha",
+  "output": "Havana",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "kuda",
+  "output": "magaling magsalita",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "sigarilyo",
+  "output": "yosi",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Balaj",
+  "output": "Balahura",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nakasakay na 'ko sa jeep",
+  "output": "Nakasakay na 'ko sa jipamy",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Bigay",
+  "output": "Gibsung",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Ako",
+  "output": "Aketch",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Shabu",
+  "output": "Oishi",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Waley",
+  "output": "Wala",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": " matagal",
+  "output": "ms portugal",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "chaka",
+  "output": "pangit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "inay",
+  "output": "mudrang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "chiquito",
+  "output": "munti",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Ang tsismis ay itong kasambahay ng kapitbahay ay dinukot ang alahas ng kanilang amo",
+  "output": "Ang chika ay itech na Chiminey Cricket ng kapitbahay ay Jinaneth Napoles ang alahas ng kanilang amo",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "aida",
+  "output": "a.i.d.s.",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bahay",
+  "output": "johaybels",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maraming sinasabi",
+  "output": "Hanash",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Gutom",
+  "output": "Krang-krang",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Sino ito? Umutot tapos lumabas ang almuranas",
+  "output": "Sinetch itey? Nagcareless whisper tapos lumabas ang Alma Moreno?",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "chismaks",
+  "output": "tsismis",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "hello",
+  "output": "heller",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "kaeklabuhan",
+  "output": "kaartehan",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ang daming kalat",
+  "output": "ang daming kalachuchi",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Baha",
+  "output": "Bahamas",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Tatay",
+  "output": "Pudra",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "egyptian airlines",
+  "output": "jeep",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "taray",
+  "output": "taroosh",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "dumukot",
+  "output": "janeth napoles",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Paminta",
+  "output": "Hindi pa lantad na bading",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Chisay",
+  "output": "Maliit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Paaralan",
+  "output": "Skulembang",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Sino yung kausap mo?",
+  "output": "Cynthia yung kausap mo?",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Singkamas",
+  "output": "Nyongkamas",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "umiiyak",
+  "output": "crayola",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bading",
+  "output": "X-Men",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "babush",
+  "output": "paalam",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "otoko",
+  "output": "lalaki",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "baliw",
+  "output": "lucresia kasilag",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "almuranas",
+  "output": "alma moreno",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nyubuyak",
+  "output": "Sibuyas",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "baklush",
+  "output": "bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "sekyu",
+  "output": "gardini",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maliit",
+  "output": "Chiquito",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "freestyle",
+  "output": "mabagal makaintindi",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "shokla",
+  "output": "bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Traydor kang hayop ka! Umalis ka sa harapan ko",
+  "output": "Anaconda kang nyoyop ka! Cheverlu ka sa harapan ko",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Thunderlu",
+  "output": "Pangit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bading",
+  "output": "jokla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "itay",
+  "output": "pudang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pudrabels",
+  "output": "tatay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": " Chakarina Sanchez",
+  "output": "Pangit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "krung-krung",
+  "output": "baliw",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pranella",
+  "output": "praning",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Korique",
+  "output": "Tama",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Paalam",
+  "output": "Babush",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "booking",
+  "output": "may service",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bataan",
+  "output": "bata",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "dyosa ka nga shongit naman ugali mo",
+  "output": "maganda ka nga panget naman ugali mo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "praning",
+  "output": "pranella",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Alis",
+  "output": "Cheverlu",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "bago",
+  "output": "kyogo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "anekwaboom",
+  "output": "ano",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nakasakay na 'ko sa bus",
+  "output": "Nakasakay na 'ko sa buselya",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Bigay",
+  "output": "Givenchy",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Chocolate",
+  "output": "Maitim ang balat",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "taroosh",
+  "output": "taray",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "mudrang",
+  "output": "ina",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Kuda",
+  "output": "Magaling Magsalita",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Peslock",
+  "output": "Mukha",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "uso ang amoy putok ngayong panahon ng tag-init",
+  "output": "uso ang ismelanie marques na putok ngayong panahon ng sandara park",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Lalake",
+  "output": "Boylet",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Shuyang",
+  "output": "Sayang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nagkasakit ng A.I.DS",
+  "output": "Nagkasakit ng Anita Linda",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "duty free",
+  "output": "munti",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "matalik na kaibigan",
+  "output": "besi",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Duty Free",
+  "output": "Munti",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "johaybels",
+  "output": "bahay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Petiks",
+  "output": "Kampante",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Taong may gusto sa babae at lalake",
+  "output": "Malunggay",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "malakas ang boses",
+  "output": "lapel",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "malandi",
+  "output": "katrina",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ate",
+  "output": "ateng",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "sosyal",
+  "output": "taray",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "sex",
+  "output": "kangkang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "regal drama hour na sa aming nomo, shenglot na ang aking mga repapipz",
+  "output": "nakakaiyak na kwentuhan na sa aming inuman, lasing na ang aking mga kaibigan",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maganda ang katawan pero pangit",
+  "output": "Hipon",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "jipamy",
+  "output": "jeepney",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Pudrabels",
+  "output": "Itay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Klassmarurut",
+  "output": "Classmate",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Carosa",
+  "output": "Kotse",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Papable",
+  "output": "Gwapo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Perla",
+  "output": "Maputing Balat",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Dyosa ka nga shongit naman ugali mo",
+  "output": "Maganda ka nga panget naman ugali mo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Dookit",
+  "output": "Sex",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Baliw",
+  "output": "Kukuro",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "thundercat",
+  "output": "matanda",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "kapat\u00edd",
+  "output": "shupatembang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "jeepney",
+  "output": "egyptian airlines",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bakla",
+  "output": "shokla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "yayo aguila",
+  "output": "mahiyain",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "jokla",
+  "output": "bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "insekyora",
+  "output": "insecure",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Daks",
+  "output": "Malaki",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bugbog",
+  "output": "Boogie Wonderland",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "natitipuhan",
+  "output": "fillet o' fish",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Egyptian Airlines",
+  "output": "Jeepney",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "wala",
+  "output": "zirowena",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "get luck",
+  "output": "kunin",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "paminta",
+  "output": "hindi pa lantad na bading",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pangit",
+  "output": "chaka",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "maganda ka nga panget naman ugali mo",
+  "output": "dyosa ka nga shongit naman ugali mo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "churchchill",
+  "output": "sosyal",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "rusty lopez ang mga jotabelz papasok sa skulembang",
+  "output": "nagmamadali ang mga bata papasok sa paaralan",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pinkalou",
+  "output": "pink",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ari ng babae",
+  "output": "kiffy",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maarte",
+  "output": "Performance Artist",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "chibog",
+  "output": "kain",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "walkstra",
+  "output": "gala",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Asawa",
+  "output": "Joanna Paras",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "mahabang mukha",
+  "output": "havana",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "anong pangalan mo?",
+  "output": "anetchawang namesung mo?",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "napaka-ate chona ni ate",
+  "output": "napaka-attitude ni ate",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Lobing",
+  "output": "Lobo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "cheverlu",
+  "output": "umalis",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "umihi",
+  "output": "jumingle",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Flylalou",
+  "output": "Lumipad",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "biro",
+  "output": "echos",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Security Guard",
+  "output": "Ermingarde",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Nomo",
+  "output": "inuman",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Ate Shawie",
+  "output": "Shabu",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Jupiter",
+  "output": "Kapat\u00edd",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "gutom",
+  "output": "krang-krang",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Mudrang",
+  "output": "Ina",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "baliw",
+  "output": "lukaret",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "krang-krang",
+  "output": "gutom",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Akiz",
+  "output": "Ako",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Kaibigan",
+  "output": "Dabarkadz",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Ko",
+  "output": "Kes",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Mudrang",
+  "output": "Inay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bading",
+  "output": "bayot",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Churchchill",
+  "output": "Sosyal",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nandito ako sa gilid, Gellie De Belen",
+  "output": "Nandito ako sa gilid, nagseselos",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Holcim",
+  "output": "Bisexual",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "nakakaiyak na kwento",
+  "output": "maalaala mo kaya",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Pabaya",
+  "output": "Balaj",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Patay ka sa nanay mo!",
+  "output": "Tegibolz ka sa Mudrabels mo!",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "kaya",
+  "output": "keri",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Chonabels",
+  "output": "Maattitude",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ate chona",
+  "output": "maattitude",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Kaliwete",
+  "output": "Wakalipektus",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Planggana",
+  "output": "Tanga",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Antibiotic",
+  "output": "Antipatika",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maraming maskulado sa gym",
+  "output": "Maraming borta sa gym",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "buntis",
+  "output": "jontis",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Boogie Wonderland",
+  "output": "Bugbog",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Nyey",
+  "output": "Nyo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "jinit",
+  "output": "mainit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Libre ",
+  "output": "Statue of Liberty",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Shokot",
+  "output": "Takot",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bagelya",
+  "output": "Bag",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "peslock",
+  "output": "mukha",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Zirowena akiz maigigibsung sayong Anjo Purdoy",
+  "output": "Wala ako maibibigay sayong pera",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Dede",
+  "output": "Wersu",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "wit makalusong sa bahamas ang jipamy",
+  "output": "hindi makalusong sa baha ang jeep",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Karelasyon",
+  "output": "Jowa",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Huwag pansinin",
+  "output": "Dedma",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "warla",
+  "output": "gulo-gulo",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bading",
+  "output": "Bayot",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "anakis",
+  "output": "anak",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "may chiminey cricket sila",
+  "output": "may kasambahay sila",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Krang-krang",
+  "output": "Gutom",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Joyong",
+  "output": "Payong",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "juty fry",
+  "output": "maliit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Buntis",
+  "output": "Preggie",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Uranus",
+  "output": "Puwet",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "boylet",
+  "output": "lalake",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "mudrakels",
+  "output": "ina",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "ari ng lalaki",
+  "output": "nota",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "juding",
+  "output": "bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "mabaho",
+  "output": "kyoho",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Juding",
+  "output": "Bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Jinojomit",
+  "output": "Ginagamit",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "nagkasakit ng anita linda",
+  "output": "nagkasakit ng a.i.ds",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "kaibigang babae",
+  "output": "kumare",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "malunggay",
+  "output": "taong may gusto sa babae at lalake",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Dedma ang mga badessa!",
+  "output": "Huwag pansinin ang mga bakla na umaastang parang prinsesa!",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Shulubi",
+  "output": "Pulubi",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Julamantrax",
+  "output": "Halaman",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Suntukin",
+  "output": "Jumbag",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "munti",
+  "output": "jutay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "coffeemate",
+  "output": "magising sa katotohanan",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Beklabu",
+  "output": "Bading",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Hola",
+  "output": "Hello",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "pera",
+  "output": "anjo purdoy",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Suba",
+  "output": "Cigarette",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "crayola",
+  "output": "cry",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "biro",
+  "output": "charot",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Jokla",
+  "output": "Bading",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Jebs",
+  "output": "Tae",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bading",
+  "output": "Baklush",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "inom",
+  "output": "shugug",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "malaki",
+  "output": "dako",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Hindi",
+  "output": "Witchibeng",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "lumayo ka na sa cynthia luster na iyan, baka majombag ka",
+  "output": "lumayo ka na sa hindi kilalang tao na iyan, baka masuntok ka",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "magaling magsalita",
+  "output": "kuda",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "gastador ka kasi, walang pera na tuloy ang tao",
+  "output": "gastador ka kasi, purita kalaw na tuloy ang ferson",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "huwag pansinin ang mga bakla na umaastang parang prinsesa!",
+  "output": "dedma ang mga badessa!",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "nomo",
+  "output": "inuman",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "takot",
+  "output": "bokot",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Bata",
+  "output": "Bagets",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "sino",
+  "output": "sinetchelz",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bahay",
+  "output": "johay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "taralets",
+  "output": "alis",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Ginagamit",
+  "output": "Jinojomit",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Ari ng lalaki",
+  "output": "Nota",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Kaysa Wala",
+  "output": "Compared to Lugaw",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "May emingarde sila",
+  "output": "May guard sila",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "cynthia luster",
+  "output": "hindi kilalang tao",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "luyaks",
+  "output": "luya",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Gala",
+  "output": "Walkstra",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "karir",
+  "output": "sineryoso ang isang bagay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Dede",
+  "output": "Dyoga",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "pagod na",
+  "output": "hagardo bersoza",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Maliit",
+  "output": "Juty Fry",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Kapat\u00edd",
+  "output": "Shupatembang",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "bugbog",
+  "output": "boogie wonderland",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Hagardo Bersoza",
+  "output": "Pagod na",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Baklush",
+  "output": "Bading",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "tom jones na aketch, gusto ko na lumafang",
+  "output": "gutom na ako, gusto ko na kumain",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Janno Gibbs",
+  "output": "Bigay",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Haller",
+  "output": "Hello",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "jipamy",
+  "output": "jeep",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Coffeemate",
+  "output": "Magising sa Katotohanan",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Malaki",
+  "output": "Dako",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Lobo",
+  "output": "Lobing",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "maattitude",
+  "output": "chonabels",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Kaibigang babae",
+  "output": "Mars",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "dookit",
+  "output": "sex",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "inilaska",
+  "output": "asarin",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "bayot",
+  "output": "bakla",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ },
+ {
+  "input": "Hindi makalusong sa baha ang jeep",
+  "output": "Wit makalusong sa Bahamas ang Jipamy",
+  "instruction": "Translate the following words or phrases from Tagalog to Swardspeak:"
+ },
+ {
+  "input": "Dakota",
+  "output": "Malaki",
+  "instruction": "Translate the following words or phrases from Swardspeak to Tagalog:"
+ }
+]
