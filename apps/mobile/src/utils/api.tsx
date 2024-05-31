@@ -17,7 +17,9 @@ const getBaseUrl = () => {
   const localhost = debuggerHost?.split(":")[0];
 
   if (!localhost) {
-    return "https://swardify.vercel.app";
+    if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
+
+    return "https://swardify.kabsu.me";
   }
   return `http://${localhost}:3000`;
 };
