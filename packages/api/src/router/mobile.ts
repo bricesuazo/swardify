@@ -421,7 +421,7 @@ export const mobileRouter = {
         const res = z
           .object({ success: z.literal(true), translation: z.string() })
           .or(z.object({ success: z.literal(false), error: z.string() }))
-          .safeParse(JSON.parse((output as string[]).join("")));
+          .safeParse(JSON.parse(JSON.parse(JSON.stringify(output)).join("")));
 
         if (!res.data?.success)
           throw new TRPCError({
