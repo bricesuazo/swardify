@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { Database } from "../../../../supabase/types";
+import { env } from "../env";
 import { adminProcedure, publicProcedure } from "../trpc";
 
 export const webRouter = {
@@ -310,4 +311,25 @@ export const webRouter = {
           message: "Failed to update word examples",
         });
     }),
+  addEmailToTesting: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+      }),
+    )
+    .mutation(({ input }) =>
+      fetch(`${env.DISCORD_WEBHOOK_URL}?wait=true`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          embeds: [
+            {
+              title: "📩 New message from SWARDify",
+              description: `>>> Email: ${input.email}`,
+              color: 5759645,
+            },
+          ],
+        }),
+      }),
+    ),
 } satisfies TRPCRouterRecord;

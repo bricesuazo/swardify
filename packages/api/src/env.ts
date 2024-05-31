@@ -13,6 +13,7 @@ export const env = createEnv({
     GROQ_API_KEY: z.string(),
     HUGGINGFACE_API_KEY: z.string(),
     REPLICATE_API_TOKEN: z.string(),
+    DISCORD_WEBHOOK_URL: z.string(),
   },
   client: {},
   experimental__runtimeEnv: {
