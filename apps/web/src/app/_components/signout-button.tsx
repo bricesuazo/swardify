@@ -1,16 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Button } from "@swardify/ui/button";
 
 import { createClient } from "~/supabase/client";
 
 export default function SignOutButton() {
   const supabaseClient = createClient();
+  const router = useRouter();
   return (
     <Button
-      type="submit"
       size="sm"
-      onClick={() => supabaseClient.auth.signOut()}
+      onClick={async () => {
+        await supabaseClient.auth.signOut();
+        router.push("/login");
+      }}
     >
       Sign out
     </Button>

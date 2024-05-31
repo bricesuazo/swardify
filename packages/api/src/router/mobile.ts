@@ -429,7 +429,7 @@ export const mobileRouter = {
             message: res.data?.error ?? "An error occurred while translating.",
           });
 
-        if (ctx.user) {
+        if (ctx.user)
           await ctx.supabase.from("translation_histories").insert({
             user_id: ctx.user.id,
             swardspeak:
@@ -441,7 +441,6 @@ export const mobileRouter = {
                 ? input.input
                 : res.data.translation,
           });
-        }
 
         return res.data.translation;
       } catch (e) {
