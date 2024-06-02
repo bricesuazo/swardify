@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, RefreshControl } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  RefreshControl,
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Button,
@@ -68,173 +74,222 @@ export default function Home() {
   //   setDebouncedInput(input);
   // }, [input]);
 
+  const suggestions =
+    type === "swardspeak-to-tagalog"
+      ? [
+          "Sinetch ang nag-careless whisper?",
+          "Alona Alegre lang chiminey cricket sa balu",
+          "Gumora ka na bago pa dumating ang julanis",
+          "Ate Chona si Ateng",
+          "Wititit pwede mawala ang Egyptian Airline",
+        ]
+      : [
+          "Ano yang niluluto mo?",
+          "Nakakastress naman ito",
+          "Mahiyain nga ako, ano ba?!",
+          "Tulog na ang mga bata",
+          "Suntukin kaya kita?",
+        ];
+
   return (
     <>
       <View flex-1>
-        <View
-          bg-$iconPrimary
-          style={{
-            // height: isKeyboardVisible ? "100%" : "auto",
-            position: "relative",
-            paddingTop: inset.top + 20,
-          }}
-        >
-          <View paddingH-20 paddingV-40>
-            <View
-              br40
-              style={{
-                borderColor: "white",
-                borderWidth: 2,
-                overflow: "hidden",
-              }}
-            >
-              <View paddingH-16 paddingV-20 style={{ position: "relative" }}>
-                <Text white style={{ fontFamily: "Jua-Regular" }}>
-                  {type === "swardspeak-to-tagalog" ? "Swardspeak" : "Tagalog"}
-                </Text>
-                <TextField
-                  white
-                  text50
-                  placeholder={`Type ${
-                    type === "swardspeak-to-tagalog" ? "swardspeak" : "tagalog"
-                  } sentence`}
-                  placeholderTextColor={Colors.$iconPrimaryLight}
-                  fieldStyle={{ height: 60 }}
-                  value={input}
-                  onChangeText={setInput}
-                />
-                {input.length > 0 && (
-                  <Button
-                    label="Clear"
-                    size={Button.sizes.xSmall}
-                    bg-$iconPrimaryLight
-                    style={{
-                      position: "absolute",
-                      top: 16,
-                      right: 16,
-                    }}
-                    onPress={() => {
-                      setInput("");
-
-                      if (output.length > 0) {
-                        setOutput("");
-                      }
-                    }}
-                  />
-                )}
-              </View>
+        <View bg-$iconPrimary>
+          <View
+            style={{
+              // height: isKeyboardVisible ? "100%" : "auto",
+              position: "relative",
+              paddingTop: inset.top + 20,
+            }}
+          >
+            <View paddingH-20 paddingB-0 paddingV-40>
               <View
-                paddingH-16
-                paddingV-20
-                bg-white
-                style={{ position: "relative" }}
+                br40
+                style={{
+                  borderColor: "white",
+                  borderWidth: 2,
+                  overflow: "hidden",
+                }}
               >
-                <Text style={{ fontFamily: "Jua-Regular" }}>
-                  {type === "swardspeak-to-tagalog" ? "Tagalog" : "Swardspeak"}
-                </Text>
-
-                <TextField
-                  text50
-                  readOnly
-                  value={output}
-                  placeholder={
-                    type === "swardspeak-to-tagalog"
-                      ? "Tagalog translation"
-                      : "Swardspeak translation"
-                  }
-                  placeholderTextColor={Colors.$iconDisabled}
-                  fieldStyle={{ height: 60 }}
-                  onChangeText={setOutput}
-                />
-
-                <View style={{ position: "absolute", top: 16, right: 12 }}>
-                  {output.length > 0 && (
+                <View paddingH-16 paddingV-20 style={{ position: "relative" }}>
+                  <Text white style={{ fontFamily: "Jua-Regular" }}>
+                    {type === "swardspeak-to-tagalog"
+                      ? "Swardspeak"
+                      : "Tagalog"}
+                  </Text>
+                  <TextField
+                    white
+                    text50
+                    placeholder={`Type ${
+                      type === "swardspeak-to-tagalog"
+                        ? "swardspeak"
+                        : "tagalog"
+                    } sentence`}
+                    placeholderTextColor={Colors.$iconPrimaryLight}
+                    fieldStyle={{ height: 60 }}
+                    value={input}
+                    onChangeText={setInput}
+                    numberOfLines={1}
+                  />
+                  {input.length > 0 && (
                     <Button
-                      activeOpacity={1}
-                      activeScale={0.75}
-                      label={copied ? "Copied!" : "Copy"}
-                      onPress={async () => {
-                        setCopied(true);
-
-                        await Clipboard.setStringAsync(output);
-                      }}
+                      label="Clear"
                       size={Button.sizes.xSmall}
-                      disabled={copied}
+                      bg-$iconPrimaryLight
+                      style={{
+                        position: "absolute",
+                        top: 16,
+                        right: 16,
+                      }}
+                      onPress={() => {
+                        setInput("");
+
+                        if (output.length > 0) {
+                          setOutput("");
+                        }
+                      }}
                     />
                   )}
                 </View>
+                <View
+                  paddingH-16
+                  paddingV-20
+                  bg-white
+                  style={{ position: "relative" }}
+                >
+                  <Text style={{ fontFamily: "Jua-Regular" }}>
+                    {type === "swardspeak-to-tagalog"
+                      ? "Tagalog"
+                      : "Swardspeak"}
+                  </Text>
+
+                  <TextField
+                    text50
+                    readOnly
+                    value={output}
+                    placeholder={
+                      type === "swardspeak-to-tagalog"
+                        ? "Tagalog translation"
+                        : "Swardspeak translation"
+                    }
+                    placeholderTextColor={Colors.$iconDisabled}
+                    fieldStyle={{ height: 60 }}
+                    onChangeText={setOutput}
+                    numberOfLines={1}
+                  />
+
+                  <View style={{ position: "absolute", top: 16, right: 12 }}>
+                    {output.length > 0 && (
+                      <Button
+                        activeOpacity={1}
+                        activeScale={0.75}
+                        label={copied ? "Copied!" : "Copy"}
+                        onPress={async () => {
+                          setCopied(true);
+
+                          await Clipboard.setStringAsync(output);
+                        }}
+                        size={Button.sizes.xSmall}
+                        disabled={copied}
+                      />
+                    )}
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
 
-          <View
-            center
-            row
-            gap-8
-            paddingH-20
-            style={{
-              position: "absolute",
-              top: "50%",
-              flex: 1,
-              width: "100%",
-              transform: [{ translateY: 32 }],
-            }}
-          >
-            <Button
-              label={
-                translateMutation.isPending ? "Translating..." : "Translate"
-              }
-              labelStyle={{
-                color: Colors.$iconPrimary,
-                opacity:
-                  translateMutation.isPending || input.length === 0 ? 0.25 : 1,
-              }}
-              activeOpacity={1}
-              size={Button.sizes.large}
-              activeBackgroundColor={Colors.$backgroundGeneralMedium}
-              disabled={translateMutation.isPending || input.length === 0}
-              disabledBackgroundColor="white"
-              bg-white
+            <View
+              center
+              row
+              gap-8
+              paddingH-20
               style={{
-                borderWidth: 3,
-                borderColor: Colors.$iconPrimary,
+                position: "absolute",
+                top: "50%",
+                flex: 1,
+                width: "100%",
+                transform: [
+                  { translateY: Platform.OS === "android" ? 52 : 56 },
+                ],
               }}
-              onPress={() => translateMutation.mutate({ type, input })}
-            />
-            <Button
-              round
-              activeOpacity={1}
-              activeBackgroundColor={Colors.$backgroundGeneralMedium}
-              iconSource={() =>
-                translateMutation.isPending ? (
-                  <ActivityIndicator />
-                ) : (
-                  <Ionicons
-                    name="swap-vertical"
-                    size={20}
-                    color={Colors.$iconPrimary}
-                  />
-                )
-              }
-              size={Button.sizes.large}
-              disabled={translateMutation.isPending}
-              disabledBackgroundColor="white"
-              bg-white
-              style={{
-                borderWidth: 3,
-                borderColor: Colors.$iconPrimary,
-              }}
-              onPress={() => {
-                setInput("");
-                setOutput("");
-                setType(
-                  type === "swardspeak-to-tagalog"
-                    ? "tagalog-to-swardspeak"
-                    : "swardspeak-to-tagalog",
-                );
-              }}
-            />
+            >
+              <Button
+                label={
+                  translateMutation.isPending ? "Translating..." : "Translate"
+                }
+                labelStyle={{
+                  color: Colors.$iconPrimary,
+                  opacity:
+                    translateMutation.isPending || input.length === 0
+                      ? 0.25
+                      : 1,
+                }}
+                activeOpacity={1}
+                size={Button.sizes.large}
+                activeBackgroundColor={Colors.$backgroundGeneralMedium}
+                disabled={translateMutation.isPending || input.length === 0}
+                disabledBackgroundColor="white"
+                bg-white
+                style={{
+                  borderWidth: 3,
+                  borderColor: Colors.$iconPrimary,
+                }}
+                onPress={() => translateMutation.mutate({ type, input })}
+              />
+              <Button
+                round
+                activeOpacity={1}
+                activeBackgroundColor={Colors.$backgroundGeneralMedium}
+                iconSource={() =>
+                  translateMutation.isPending ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Ionicons
+                      name="swap-vertical"
+                      size={20}
+                      color={Colors.$iconPrimary}
+                    />
+                  )
+                }
+                size={Button.sizes.large}
+                disabled={translateMutation.isPending}
+                disabledBackgroundColor="white"
+                bg-white
+                style={{
+                  borderWidth: 3,
+                  borderColor: Colors.$iconPrimary,
+                }}
+                onPress={() => {
+                  setInput("");
+                  setOutput("");
+                  setType(
+                    type === "swardspeak-to-tagalog"
+                      ? "tagalog-to-swardspeak"
+                      : "swardspeak-to-tagalog",
+                  );
+                }}
+              />
+            </View>
           </View>
+          <ScrollView horizontal style={{ paddingVertical: 20 }}>
+            <View row gap-8>
+              {suggestions.map((suggestion, index) => (
+                <Button
+                  key={index}
+                  label={suggestion}
+                  size={Button.sizes.small}
+                  marginL-20={index === 0}
+                  marginR-20={index === suggestions.length - 1}
+                  outline
+                  outlineColor={Colors.white}
+                  onPress={() => {
+                    setInput(suggestion);
+                    setOutput("");
+                  }}
+                />
+              ))}
+            </View>
+          </ScrollView>
         </View>
 
         {getAllTranslationHistoriesQuery.isLoading ||

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { AppState, Keyboard, StatusBar } from "react-native";
+import { AppState, Keyboard, Platform, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -68,6 +68,8 @@ export default function RootLayout() {
       StatusBar.setBarStyle("light-content", true);
       setTopbarStyle("light");
     } else {
+      if (pathname === "/info" && Platform.OS !== "android") return;
+
       StatusBar.setBarStyle("dark-content", true);
       setTopbarStyle("dark");
     }
