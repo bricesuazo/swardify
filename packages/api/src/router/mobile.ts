@@ -408,12 +408,13 @@ export const mobileRouter = {
                     translated_phrase: phrase.translated_phrase,
                   })),
                 )}` +
-                ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information.' +
-                ' If the word is not in the list, just return { success: false, "error": "Word not found."}.' +
+                ' Your output should be a JSON object with a structured like this { success: true, "translation": <translated_word> }. Do not include any additional information or breakdown.' +
+                ' If the word is not in the list, return { success: false, "error": "Word not found."}.' +
                 ' If there is an error, return { success: false, "error": <error message> }.',
               prompt:
                 ` Translate the following ${input.type === "swardspeak-to-tagalog" ? "Swardspeak words or phrases to Tagalog" : "Tagalog words or phrases to Swardspeak"}: ` +
                 input.input,
+              temperature: 0.2,
             },
           },
         );
