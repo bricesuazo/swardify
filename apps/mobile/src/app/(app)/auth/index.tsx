@@ -36,6 +36,14 @@ export default function AuthPage() {
 
   async function onSubmit() {
     setLoadings({ ...loadings, email: true });
+
+    if (!(email === "swardify@gmail.com" || email.endsWith("@cvsu.edu.ph"))) {
+      setLoadings({ ...loadings, email: false });
+      return Alert.alert(
+        "You must use your CVSU email address to sign in or sign up.",
+      );
+    }
+
     if (type === "sign-in") {
       const { error } = await supabase.auth.signInWithPassword({
         email,

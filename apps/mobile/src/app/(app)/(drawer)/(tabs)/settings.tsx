@@ -79,7 +79,7 @@ export default function SettingsPage() {
                 </Text>
                 <TextField
                   readOnly
-                  value={getSessionQuery.data?.email ?? "asdasd"}
+                  value={getSessionQuery.data?.email ?? "None"}
                   fieldStyle={{
                     borderColor: Colors.$iconDisabled,
                     borderWidth: 2,
